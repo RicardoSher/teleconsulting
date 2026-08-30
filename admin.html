@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-900">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroTeleConsult | Secretariat Admin Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="h-full font-sans text-slate-100 antialiased flex flex-col selection:bg-brand-500 selection:text-white">
+
+    <header class="bg-slate-950 border-b border-slate-800 px-6 py-4 flex items-center justify-between shrink-0">
+        <div class="flex items-center space-x-3">
+            <div class="p-2 bg-brand-600 rounded-xl text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"></path>
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-base font-bold text-white tracking-tight">Secretariat Operations Console</h1>
+                <p class="text-[11px] text-slate-400 font-mono">CA & KCAA Licensing Management</p>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <button id="refreshBtn"
+                class="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                    </path>
+                </svg>
+                Refresh Data
+            </button>
+            <span id="connectionStatus"
+                class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                ● Connected: Live Database
+            </span>
+        </div>
+    </header>
+
+    <main class="flex-1 p-6 overflow-y-auto max-w-7xl mx-auto w-full space-y-6">
+
+        <!-- Stat Summary Widgets -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4">
+                <span class="text-xs font-medium text-slate-400 uppercase tracking-wider block mb-1">Total
+                    Applications</span>
+                <span id="statTotal" class="text-2xl font-bold font-mono text-white">0</span>
+            </div>
+            <div class="bg-slate-800/60 border border-amber-500/30 rounded-2xl p-4">
+                <span class="text-xs font-medium text-amber-400 uppercase tracking-wider block mb-1">Under Review</span>
+                <span id="statReview" class="text-2xl font-bold font-mono text-amber-300">0</span>
+            </div>
+            <div class="bg-slate-800/60 border border-blue-500/30 rounded-2xl p-4">
+                <span class="text-xs font-medium text-blue-400 uppercase tracking-wider block mb-1">In Processing</span>
+                <span id="statProcessing" class="text-2xl font-bold font-mono text-blue-300">0</span>
+            </div>
+            <div class="bg-slate-800/60 border border-rose-500/30 rounded-2xl p-4">
+                <span class="text-xs font-medium text-rose-400 uppercase tracking-wider block mb-1">Action
+                    Required</span>
+                <span id="statAction" class="text-2xl font-bold font-mono text-rose-300">0</span>
+            </div>
+        </div>
+
+        <!-- Search and Filter Controls -->
+        <div
+            class="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-4 flex flex-col md:flex-row gap-4 justify-between items-center">
+            <div class="relative w-full md:w-80">
+                <input type="text" id="searchInput" placeholder="Search ticket or company..."
+                    class="w-full pl-9 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500 font-mono">
+                <svg class="w-4 h-4 text-slate-500 absolute left-3 top-2.5" fill="none" stroke="currentColor"
+                    stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
+                </svg>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                <select id="filterSector"
+                    class="bg-slate-900 border border-slate-700 text-slate-300 text-xs rounded-xl px-3 py-2 outline-none focus:border-brand-500">
+                    <option value="all">All Sectors</option>
+                    <option value="aviation">Aviation Track</option>
+                    <option value="telecom">Telecom Track</option>
+                    <option value="radionet">Private Radio</option>
+                    <option value="amateur">Amateur Permit</option>
+                </select>
+
+                <select id="filterStatus"
+                    class="bg-slate-900 border border-slate-700 text-slate-300 text-xs rounded-xl px-3 py-2 outline-none focus:border-brand-500">
+                    <option value="all">All Statuses</option>
+                    <option value="under_review">Under Review</option>
+                    <option value="processing">In Processing</option>
+                    <option value="approved">Approved</option>
+                    <option value="action_required">Action Required</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="bg-slate-800/40 border border-slate-700/60 rounded-2xl overflow-hidden shadow-xl">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-300">
+                    <thead class="bg-slate-950/80 text-slate-400 font-semibold border-b border-slate-700/60">
+                        <tr>
+                            <th class="px-5 py-3.5">Ticket</th>
+                            <th class="px-5 py-3.5">Organization & Contact</th>
+                            <th class="px-5 py-3.5">Sector Track</th>
+                            <th class="px-5 py-3.5">Submitted</th>
+                            <th class="px-5 py-3.5">Status</th>
+                            <th class="px-5 py-3.5 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" class="divide-y divide-slate-800/60">
+                        <tr>
+                            <td colspan="6" class="px-5 py-8 text-center text-slate-500 font-mono">
+                                Loading live applications...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Status Update Modal -->
+    <div id="updateModal"
+        class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-6">
+            <div class="flex justify-between items-start border-b border-slate-800 pb-4">
+                <div>
+                    <h3 class="text-base font-bold text-white">Update Secretariat Evaluation</h3>
+                    <p id="modalTicketCode" class="text-xs font-mono text-amber-400 mt-0.5"></p>
+                </div>
+                <button id="closeModalBtn" type="button" class="text-slate-400 hover:text-white p-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="updateForm" class="space-y-4">
+                <input type="hidden" id="modalRecordId">
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Applicant
+                        Entity</label>
+                    <div id="modalCompanyName"
+                        class="text-sm font-semibold text-slate-200 bg-slate-800/60 p-3 rounded-xl border border-slate-700/50">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">New
+                        Compliance Status</label>
+                    <select id="modalStatusSelect" required
+                        class="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-xs text-slate-200 outline-none focus:border-brand-500">
+                        <option value="under_review">Under Review (Initial Assessment)</option>
+                        <option value="processing">In Processing (CA/KCAA Board Desk)</option>
+                        <option value="action_required">Action Required (Docs Outstanding)</option>
+                        <option value="approved">Approved (Permit Issued)</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Secretarial
+                        Notes / Public Remark</label>
+                    <textarea id="modalNotesInput" rows="4"
+                        placeholder="Enter notes visible to applicant when checking status..."
+                        class="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-brand-500"></textarea>
+                    <span class="text-[10px] text-slate-500 mt-1 block">This note is displayed on the client-facing
+                        tracking portal.</span>
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="button" id="cancelModalBtn"
+                        class="w-1/2 py-2.5 text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 rounded-xl transition">
+                        Cancel
+                    </button>
+                    <button type="submit" id="saveModalBtn"
+                        class="w-1/2 py-2.5 text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition">
+                        Save Status Update
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Data Controller -->
+    <script>
+        const CONFIG = {
+            SUPABASE_URL: window.ENV_SUPABASE_URL || "https://tfetuykairghymxmknxc.supabase.co",
+            SUPABASE_KEY: window.ENV_SUPABASE_ANON_KEY || "sb_publishable_9ITJB3dba8vSDsZzcF3psw_YPIdstSx"
+        };
+
+        const supabase = (window.supabase && CONFIG.SUPABASE_URL.indexOf("YOUR_SUPABASE") === -1)
+            ? window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY)
+            : null;
+
+        let applicationsData = [];
+
+        // DOM Elements
+        const tableBody = document.getElementById('tableBody');
+        const searchInput = document.getElementById('searchInput');
+        const filterSector = document.getElementById('filterSector');
+        const filterStatus = document.getElementById('filterStatus');
+        const refreshBtn = document.getElementById('refreshBtn');
+
+        // Modal Elements
+        const updateModal = document.getElementById('updateModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const cancelModalBtn = document.getElementById('cancelModalBtn');
+        const updateForm = document.getElementById('updateForm');
+        const modalRecordId = document.getElementById('modalRecordId');
+        const modalTicketCode = document.getElementById('modalTicketCode');
+        const modalCompanyName = document.getElementById('modalCompanyName');
+        const modalStatusSelect = document.getElementById('modalStatusSelect');
+        const modalNotesInput = document.getElementById('modalNotesInput');
+        const saveModalBtn = document.getElementById('saveModalBtn');
+
+        // Status Badge Helper
+        function renderStatusBadge(status) {
+            const badges = {
+                under_review: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/20">Under Review</span>',
+                processing: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-500/10 text-blue-400 border border-blue-500/20">In Processing</span>',
+                approved: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Approved</span>',
+                action_required: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-400 border border-rose-500/20">Action Required</span>',
+                rejected: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-500/10 text-slate-400 border border-slate-500/20">Rejected</span>'
+            };
+            return badges[status] || `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-slate-800 text-slate-400">${status}</span>`;
+        }
+
+        // Fetch Live Applications from Supabase
+        async function fetchApplications() {
+            if (!supabase) {
+                tableBody.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-rose-400 font-mono">Supabase client initialization error. Check API keys.</td></tr>`;
+                return;
+            }
+
+            tableBody.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-slate-500 font-mono">Loading live records...</td></tr>`;
+
+            try {
+                const { data, error } = await supabase
+                    .from('intake_submissions')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                applicationsData = data || [];
+                updateStatsCounters();
+                renderTable();
+            } catch (err) {
+                console.error(err);
+                tableBody.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-rose-400 font-mono">Error fetching data: ${err.message}</td></tr>`;
+            }
+        }
+
+        // Stats Counters Update
+        function updateStatsCounters() {
+            document.getElementById('statTotal').innerText = applicationsData.length;
+            document.getElementById('statReview').innerText = applicationsData.filter(a => (a.status || 'under_review') === 'under_review').length;
+            document.getElementById('statProcessing').innerText = applicationsData.filter(a => a.status === 'processing').length;
+            document.getElementById('statAction').innerText = applicationsData.filter(a => a.status === 'action_required').length;
+        }
+
+        // Filter & Render Table Data
+        function renderTable() {
+            const query = searchInput.value.toLowerCase().trim();
+            const sector = filterSector.value;
+            const status = filterStatus.value;
+
+            const filtered = applicationsData.filter(item => {
+                const itemStatus = item.status || 'under_review';
+                const matchesQuery = !query ||
+                    (item.tracking_ticket && item.tracking_ticket.toLowerCase().includes(query)) ||
+                    (item.company_name && item.company_name.toLowerCase().includes(query)) ||
+                    (item.contact_name && item.contact_name.toLowerCase().includes(query));
+
+                const matchesSector = sector === 'all' || item.sector_track === sector;
+                const matchesStatus = status === 'all' || itemStatus === status;
+
+                return matchesQuery && matchesSector && matchesStatus;
+            });
+
+            if (filtered.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-slate-500">No applications match the active filters.</td></tr>`;
+                return;
+            }
+
+            tableBody.innerHTML = filtered.map(item => `
+                <tr class="hover:bg-slate-800/30 transition">
+                    <td class="px-5 py-3.5 font-mono text-amber-400 font-bold">${item.tracking_ticket || 'N/A'}</td>
+                    <td class="px-5 py-3.5">
+                        <div class="font-semibold text-slate-100">${item.company_name}</div>
+                        <div class="text-[11px] text-slate-400">${item.contact_name} (${item.email})</div>
+                    </td>
+                    <td class="px-5 py-3.5 text-slate-300 capitalize font-medium">${item.sector_track} Track</td>
+                    <td class="px-5 py-3.5 font-mono text-slate-400">${new Date(item.created_at).toLocaleDateString()}</td>
+                    <td class="px-5 py-3.5">${renderStatusBadge(item.status || 'under_review')}</td>
+                    <td class="px-5 py-3.5 text-right">
+                        <button onclick="openUpdateModal('${item.id}')" class="px-3 py-1 bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white border border-brand-500/30 rounded-lg text-xs font-semibold transition">
+                            Manage
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Open Modal Handler
+        window.openUpdateModal = function (id) {
+            const record = applicationsData.find(a => a.id === id);
+            if (!record) return;
+
+            modalRecordId.value = record.id;
+            modalTicketCode.innerText = record.tracking_ticket || 'N/A';
+            modalCompanyName.innerText = `${record.company_name} (${record.contact_name})`;
+            modalStatusSelect.value = record.status || 'under_review';
+            modalNotesInput.value = record.status_notes || '';
+
+            updateModal.classList.remove('hidden');
+        };
+
+        // Close Modal Handler
+        function closeModal() {
+            updateModal.classList.add('hidden');
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        cancelModalBtn.addEventListener('click', closeModal);
+
+        // Save Status Update to Supabase
+        updateForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            saveModalBtn.disabled = true;
+            saveModalBtn.innerText = 'Saving...';
+
+            const id = modalRecordId.value;
+            const newStatus = modalStatusSelect.value;
+            const newNotes = modalNotesInput.value.trim();
+
+            try {
+                const { error } = await supabase
+                    .from('intake_submissions')
+                    .update({
+                        status: newStatus,
+                        status_notes: newNotes,
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                closeModal();
+                await fetchApplications();
+            } catch (err) {
+                alert('Failed to update record: ' + err.message);
+            } finally {
+                saveModalBtn.disabled = false;
+                saveModalBtn.innerText = 'Save Status Update';
+            }
+        });
+
+        // Event Listeners
+        searchInput.addEventListener('input', renderTable);
+        filterSector.addEventListener('change', renderTable);
+        filterStatus.addEventListener('change', renderTable);
+        refreshBtn.addEventListener('click', fetchApplications);
+
+        // Initial Fetch
+        fetchApplications();
+    </script>
+</body>
+
+</html>

@@ -1,597 +1,899 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regulatory Frequency & Telecom Licensing Kenya | CA & KCAA Compliance</title>
+
+    <!-- Meta & Open Graph Tags for Production SEO -->
+    <meta name="description"
+        content="Expedited aeronautical, spectrum frequency allocation, and telecom licensing services in Kenya. CA and KCAA regulatory compliance engineering secretariat.">
+    <meta property="og:title" content="Regulatory Frequency & Telecom Licensing Kenya | CA & KCAA Compliance">
+    <meta property="og:description"
+        content="Direct CA & KCAA Engineering Compliance Secretariat for private charter fleets, enterprise networks, and satellite operators.">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='22' r='3' fill='%232563eb'/%3E%3Cpath d='M16 6C10.5 6 6 10.5 6 16M26 16C26 10.5 21.5 6 16 6' stroke='%231d4ed8' stroke-width='2.5' stroke-linecap='round' fill='none'/%3E%3Cpath d='M16 11C13.2 11 11 13.2 11 16M21 16C21 13.2 18.8 11 16 11' stroke='%230ea5e9' stroke-width='2.5' stroke-linecap='round' fill='none'/%3E%3Cpath d='M10 24l6-6 6 6z' fill='%231e3a8a'/%3E%3C/svg%3E">
+
+    <!-- Production Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS Engine -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- High-Quality Inline SVG Favicon: Combines Radio Waves and an Aero Wing Pattern -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='22' r='3' fill='%232563eb'/%3E%3Cpath d='M16 6C10.5 6 6 10.5 6 16M26 16C26 10.5 21.5 6 16 6' stroke='%231d4ed8' stroke-width='2.5' stroke-linecap='round' fill='none'/%3E%3Cpath d='M16 11C13.2 11 11 13.2 11 16M21 16C21 13.2 18.8 11 16 11' stroke='%230ea5e9' stroke-width='2.5' stroke-linecap='round' fill='none'/%3E%3Cpath d='M10 24l6-6 6 6z' fill='%231e3a8a'/%3E%3C/svg%3E">
-
-    <!-- Bulletproof Supabase UMD delivery script (Fixes 'Supabase is not defined' when running from local files) -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
     <script>
         tailwind.config = {
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
                     colors: {
                         brand: {
-                          50: '#f8fafc',
-                          100: '#f1f5f9',
-                          500: '#2563eb',
-                          600: '#1d4ed8',
-                          700: '#1e40af',
-                          800: '#1e3a8a',
-                          900: '#0f172a',
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            800: '#1e3a8a',
+                            900: '#0f172a',
                         },
                         aero: {
-                          50: '#f0f9ff',
-                          400: '#38bdf8',
-                          500: '#0ea5e9',
-                          600: '#0284c7',
+                            50: '#f0f9ff',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
                         }
                     }
                 }
             }
         }
     </script>
-</head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white">
 
-    <!-- Fixed Header Container -->
-    <div class="fixed top-0 w-full z-50 border-b border-slate-200 shadow-sm">
-        <!-- QUICK CONTACTS TOP BAR -->
-        <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center gap-2 border-b border-slate-800">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+
+<body
+    class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white flex flex-col min-h-screen">
+
+    <!-- Fixed Header -->
+    <header class="fixed top-0 w-full z-40 border-b border-slate-200 shadow-sm backdrop-blur-md bg-white/95">
+        <div
+            class="bg-slate-900 text-slate-300 text-xs py-2 px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center gap-2 border-b border-slate-800">
             <div class="flex items-center space-x-2">
                 <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span class="text-[11px] font-medium tracking-wide text-slate-400">CA & KCAA Statutory Gateway Active</span>
+                <span class="text-[11px] font-medium tracking-wide text-slate-400">Direct CA & KCAA Engineering
+                    Compliance Secretariat</span>
             </div>
             <div class="flex items-center space-x-6">
-                <!-- Clickable Phone Asset -->
-                <a href="tel:+254726661849" class="flex items-center gap-1.5 hover:text-white transition duration-150 group">
-                    <svg class="w-3.5 h-3.5 text-brand-400 group-hover:text-brand-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"></path>
+                <a href="tel:+254726661849" class="flex items-center gap-1.5 hover:text-white transition group">
+                    <svg class="w-3.5 h-3.5 text-brand-400" fill="none" stroke="currentColor" stroke-width="2.5"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z">
+                        </path>
                     </svg>
-                    <span class="font-semibold tracking-wide font-mono text-[11px]">0726661849</span>
+                    <span class="font-semibold font-mono text-[11px]">+254 726 661 849</span>
                 </a>
-                <!-- Clickable Mail Asset -->
-                <a href="mailto:info@aeroteleconsult.co.ke" class="flex items-center gap-1.5 hover:text-white transition duration-150 group">
-                    <svg class="w-3.5 h-3.5 text-aero-400 group-hover:text-aero-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0l-7.5-4.615m19.5 0A2.25 2.25 0 0118.5 8.25v.243"></path>
+                <a href="mailto:info@aeroteleconsult.co.ke"
+                    class="flex items-center gap-1.5 hover:text-white transition group">
+                    <svg class="w-3.5 h-3.5 text-aero-400" fill="none" stroke="currentColor" stroke-width="2.5"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0l-7.5-4.615m19.5 0A2.25 2.25 0 0118.5 8.25v.243">
+                        </path>
                     </svg>
                     <span class="font-medium text-[11px]">info@aeroteleconsult.co.ke</span>
                 </a>
             </div>
         </div>
 
-        <!-- MAIN NAVIGATION BAR -->
-        <div class="bg-white/90 backdrop-blur-xl h-20 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <div class="h-20 px-4 sm:px-6 lg:px-8 flex items-center justify-between max-w-7xl mx-auto">
             <div class="flex items-center space-x-3">
-                <div class="p-2 bg-brand-50 border border-brand-100 rounded-xl shadow-sm text-brand-500">
-                    <svg class="w-10 h-10 text-brand-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"></path>
+                <div class="p-2 bg-brand-50 border border-brand-100 rounded-xl text-brand-500">
+                    <svg class="w-8 h-8 text-brand-600" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z">
+                        </path>
                     </svg>
                 </div>
-                <span class="text-lg font-bold tracking-tight text-slate-900">AeroTeleConsult KE</span>
+                <div>
+                    <span class="text-lg font-bold text-slate-900 block leading-tight">AeroTeleConsult</span>
+                    <span class="text-[10px] text-slate-500 font-medium uppercase tracking-wider">East Africa Spectrum
+                        Regulatory Practice</span>
+                </div>
             </div>
             <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
-                <a href="#sectors" class="hover:text-brand-500 transition duration-200">Compliance Sectors</a>
-                <a href="#roadmap" class="hover:text-brand-500 transition duration-200">Licensing Lifecycle</a>
-                <a href="#intake" class="hover:text-brand-500 transition duration-200">Intake Console</a>
+                <a href="#solutions" class="hover:text-brand-500 transition">Solutions</a>
+                <a href="#intake" class="hover:text-brand-500 transition">Fast-Track Consultation</a>
+                <a href="#tracking" class="hover:text-brand-500 transition">Track Application</a>
             </nav>
             <div>
-                <a href="#intake" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition duration-300 shadow-sm">
-                    Initialize Spectrum Assessment
+                <a href="#intake"
+                    class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-slate-900 hover:bg-brand-600 rounded-xl transition duration-300 shadow-sm">
+                    Book Board-Level Review
                 </a>
             </div>
         </div>
-    </div>
+    </header>
 
-    <!-- Hero Offset Spacing Fix for Double Header Header -->
-    <section class="relative pt-44 pb-24 md:pt-52 md:pb-36 bg-gradient-to-b from-blue-50/50 via-white to-slate-50 overflow-hidden border-b border-slate-200">
-        <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60"></div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid lg:grid-cols-12 gap-12 items-center">
-                <div class="lg:col-span-7 space-y-6">
-                    <div class="flex flex-wrap gap-2">
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-brand-50 border border-brand-100 text-brand-600 uppercase tracking-widest backdrop-blur-sm">
-                            CA Frequency Frameworks
-                        </span>
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-aero-50 border border-aero-100 text-aero-600 uppercase tracking-widest backdrop-blur-sm">
-                            Aviation & Private RF Systems
-                        </span>
-                    </div>
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1] text-balance">
-                        High-Authority Licensing for Telecom, Radio Networks & Fleet Operators.
-                    </h1>
-                    <p class="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed">
-                        Accelerate structural market entry and spectrum assignments. We engineer compliance blueprints for commercial carriers, aircraft stations, private business radio networks, and amateur radio operators under the Communications Authority of Kenya.
-                    </p>
-                    <div class="flex flex-wrap gap-4 pt-2">
-                        <a href="#intake" class="px-6 py-3.5 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition shadow-sm">
-                            Launch Evaluation Console
-                        </a>
-                        <a href="#sectors" class="px-6 py-3.5 text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl transition shadow-sm">
-                            Review Operational Vectors
-                        </a>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-5 bg-white border border-slate-200 rounded-3xl p-6 shadow-xl relative">
-                    <div class="absolute -top-3 left-6 px-3 py-0.5 bg-brand-50 border border-brand-100 text-brand-600 text-[10px] font-bold tracking-widest rounded-full uppercase">
-                        Unified Regulatory Gateways
-                    </div>
-                    <h3 class="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-brand-500"></span>
-                        Statutory System Thresholds
-                    </h3>
-                    <div class="space-y-3 text-xs">
-                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
-                            <span class="text-slate-500 font-medium">Aeronautical & Mobile</span>
-                            <span class="text-aero-600 font-mono font-bold">CA Call-Sign & Station Matching</span>
-                        </div>
-                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
-                            <span class="text-slate-500 font-medium">Commercial Equity Target</span>
-                            <span class="text-slate-700 font-mono font-semibold">Min 30% Kenyan Shareholding Block</span>
-                        </div>
-                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
-                            <span class="text-slate-500 font-medium">Amateur Licensing</span>
-                            <span class="text-emerald-600 font-mono font-bold">Exam Routing & Call Allocations</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- COMPLIANCE PORTFOLIOS SECTION -->
-    <section id="sectors" class="py-24 bg-white border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="max-w-3xl mx-auto text-center mb-16 space-y-3">
-                <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Target Compliance Portfolios</h2>
-                <p class="text-base text-slate-600">Professional technical document synthesis optimized for CA engineering board evaluation loops.</p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="p-6 bg-slate-50 border border-slate-200/60 rounded-2xl hover:border-aero-500 hover:bg-white transition-all duration-300 group shadow-sm">
-                    <div class="w-10 h-10 bg-aero-50 border border-aero-100 rounded-xl flex items-center justify-center mb-4 text-aero-600 group-hover:bg-aero-600 group-hover:text-white transition-all duration-300">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 mb-2 group-hover:text-aero-600 transition-colors">Aircraft Radiocomm</h3>
-                    <p class="text-slate-600 text-xs leading-relaxed">Processing configurations for airborne fleets, VHF/HF arrays, Emergency Locator Transmitters (ELTs), and Mode-S transponder approvals.</p>
-                </div>
-                <div class="p-6 bg-slate-50 border border-slate-200/60 rounded-2xl hover:border-brand-500 hover:bg-white transition-all duration-300 group shadow-sm">
-                    <div class="w-10 h-10 bg-brand-50 border border-brand-100 rounded-xl flex items-center justify-center mb-4 text-brand-600 group-hover:bg-brand-600 font-semibold group-hover:text-white transition-all duration-300">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 mb-2 group-hover:text-brand-600 transition-colors">Carrier Networks (NFP/ASP)</h3>
-                    <p class="text-slate-600 text-xs leading-relaxed">Handling applications for Tier 1-3 infrastructure operators, regional dark-fiber links, local ISPs, and MVNO configuration stacks.</p>
-                </div>
-                <div class="p-6 bg-slate-50 border border-slate-200/60 rounded-2xl hover:border-emerald-500 hover:bg-white transition-all duration-300 group shadow-sm">
-                    <div class="w-10 h-10 bg-emerald-50 border border-emerald-100 rounded-xl flex items-center justify-center mb-4 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 01-2-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path></svg>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 mb-2 group-hover:text-emerald-600 transition-colors">Radio Networks</h3>
-                    <p class="text-slate-600 text-xs leading-relaxed">Frequency licensing for private PMR networks, land-mobile fleets, HF long-range wilderness installations, and fixed micro-links.</p>
-                </div>
-                <div class="p-6 bg-slate-50 border border-slate-200/60 rounded-2xl hover:border-amber-500 hover:bg-white transition-all duration-300 group shadow-sm">
-                    <div class="w-10 h-10 bg-amber-50 border border-amber-100 rounded-xl flex items-center justify-center mb-4 text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-all duration-300">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 mb-2 group-hover:text-amber-600 transition-colors">Amateur Radio</h3>
-                    <p class="text-slate-600 text-xs leading-relaxed">Guidance for technical exams, processing Class A/B permits, international reciprocal calls, and technical station validation parameters.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PROCESSING LIFECYCLE ROADMAP -->
-    <section id="roadmap" class="py-24 bg-slate-50 border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="max-w-3xl mx-auto text-center mb-16 space-y-3">
-                <h2 class="text-3xl font-extrabold tracking-tight text-slate-900">The Application Processing Lifecycle</h2>
-                <p class="text-base text-slate-600">Our structured sequence leading to official spectrum assignments and license delivery.</p>
+    <main class="flex-grow">
+        <!-- HERO SECTION -->
+        <section
+            class="relative pt-44 pb-24 md:pt-52 md:pb-36 bg-gradient-to-b from-blue-50/50 via-white to-slate-50 overflow-hidden border-b border-slate-200">
+            <div
+                class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60 pointer-events-none">
             </div>
 
-            <div class="grid md:grid-cols-4 gap-6 relative">
-                <div class="p-5 bg-white border border-slate-200 rounded-xl shadow-sm">
-                    <div class="text-xs font-mono text-aero-600 mb-2 font-bold">01 / STRUCTURING</div>
-                    <h4 class="text-sm font-bold text-slate-900 mb-1">Spectrum Allocation Strategy</h4>
-                    <p class="text-xs text-slate-500">Validating hardware specs, station layouts, or corporate equity parameters prior to filing maps.</p>
-                </div>
-                <div class="p-5 bg-white border border-slate-200 rounded-xl shadow-sm">
-                    <div class="text-xs font-mono text-brand-600 mb-2 font-bold">02 / COMPILATION</div>
-                    <h4 class="text-sm font-bold text-slate-900 mb-1">Technical Document Design</h4>
-                    <p class="text-xs text-slate-500">Engineering exact emission designators, bandwidth preferences, and hardware type approval lists.</p>
-                </div>
-                <div class="p-5 bg-white border border-slate-200 rounded-xl shadow-sm">
-                    <div class="text-xs font-mono text-emerald-600 mb-2 font-bold">03 / INGESTION</div>
-                    <h4 class="text-sm font-bold text-slate-900 mb-1">CA Ingestion Matrix</h4>
-                    <p class="text-xs text-slate-500">Managing desk reviews, engineering calculations, and frequency coordination within the regulatory loops.</p>
-                </div>
-                <div class="p-5 bg-white border border-slate-200 rounded-xl shadow-sm">
-                    <div class="text-xs font-mono text-amber-600 mb-2 font-bold">04 / DISPATCH</div>
-                    <h4 class="text-sm font-bold text-slate-900 mb-1">Call Sign & License Issuance</h4>
-                    <p class="text-xs text-slate-500">Obtaining statutory station permits, specific operating channels, and legitimate active certificates.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- INTAKE CONSOLE CONTEXT SECTION -->
-    <section id="intake" class="py-24 bg-white border-b border-slate-200">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-slate-50 border border-slate-200 rounded-3xl p-8 sm:p-12 shadow-lg relative">
-                <div class="mb-10 text-center sm:text-left border-b border-slate-200 pb-6">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Technical Evaluation Console</h2>
-                    <p class="text-slate-600 text-sm">Provide exact system parameters below to register your tracking record in the compliance database architecture.</p>
-                </div>
-
-                <form id="caSubmissionForm" class="space-y-6">
-                    <div>
-                        <label class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Regulatory Track Vector</label>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                            <label class="flex flex-col items-center justify-center p-3 border border-slate-200 bg-white rounded-xl cursor-pointer hover:border-brand-500 transition text-center shadow-sm">
-                                <input type="radio" name="sector_track" value="aviation" checked class="w-4 h-4 text-brand-600 focus:ring-0 bg-transparent border-slate-300 mb-2">
-                                <span class="text-xs font-semibold text-slate-700">Aircraft Station</span>
-                            </label>
-                            <label class="flex flex-col items-center justify-center p-3 border border-slate-200 bg-white rounded-xl cursor-pointer hover:border-brand-500 transition text-center shadow-sm">
-                                <input type="radio" name="sector_track" value="telecom" class="w-4 h-4 text-brand-600 focus:ring-0 bg-transparent border-slate-300 mb-2">
-                                <span class="text-xs font-semibold text-slate-700">Telecom Framework</span>
-                            </label>
-                            <label class="flex flex-col items-center justify-center p-3 border border-slate-200 bg-white rounded-xl cursor-pointer hover:border-brand-500 transition text-center shadow-sm">
-                                <input type="radio" name="sector_track" value="radionet" class="w-4 h-4 text-brand-600 focus:ring-0 bg-transparent border-slate-300 mb-2">
-                                <span class="text-xs font-semibold text-slate-700">Radio Networks</span>
-                            </label>
-                            <label class="flex flex-col items-center justify-center p-3 border border-slate-200 bg-white rounded-xl cursor-pointer hover:border-brand-500 transition text-center shadow-sm">
-                                <input type="radio" name="sector_track" value="amateur" class="w-4 h-4 text-brand-600 focus:ring-0 bg-transparent border-slate-300 mb-2">
-                                <span class="text-xs font-semibold text-slate-700">Amateur License</span>
-                            </label>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-brand-50 border border-brand-100 text-brand-600 uppercase tracking-widest">
+                                Guaranteed Regulatory Turnaround
+                            </span>
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-aero-50 border border-aero-100 text-aero-600 uppercase tracking-widest">
+                                End-to-End CA & KCAA Authorization
+                            </span>
+                        </div>
+                        <h1
+                            class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1]">
+                            Eliminate Licensing Bottlenecks for Aviation, Telecom & Fleet Operations.
+                        </h1>
+                        <p class="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed">
+                            We resolve regulatory friction for private charter fleets, enterprise carrier networks, and
+                            satellite operators. Get your frequency allocations, call signs, and station licenses
+                            approved without regulatory delays.
+                        </p>
+                        <div class="flex flex-wrap gap-4 pt-2">
+                            <a href="#intake"
+                                class="px-6 py-3.5 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition shadow-sm">
+                                Fast-Track Your Application
+                            </a>
+                            <a href="#tracking"
+                                class="px-6 py-3.5 text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl transition shadow-sm">
+                                Track Existing Ticket
+                            </a>
                         </div>
                     </div>
 
-                    <div class="grid sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Entity Name / Full Name</label>
-                            <input type="text" id="company_name" name="company_name" required class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm text-slate-900 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition shadow-sm">
+                    <div class="lg:col-span-5 bg-white border border-slate-200 rounded-3xl p-6 shadow-xl relative">
+                        <div
+                            class="absolute -top-3 left-6 px-3 py-0.5 bg-slate-900 text-white text-[10px] font-bold tracking-widest rounded-full uppercase">
+                            Client Assurance Metrics
                         </div>
-                        <div>
-                            <label class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Contact Officer / Operator Name</label>
-                            <input type="text" id="contact_name" name="contact_name" required class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm text-slate-900 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition shadow-sm">
-                        </div>
-                    </div>
-
-                    <div class="grid sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Correspondence Email</label>
-                            <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm text-slate-900 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition shadow-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Primary Contact Phone Number</label>
-                            <input type="tel" id="phone" name="phone" required placeholder="e.g., +254 712 345678" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm text-slate-900 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition shadow-sm">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Website / Portfolio Reference</label>
-                        <input type="url" id="corporate_website" name="corporate_website" placeholder="https://" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm text-slate-900 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition shadow-sm">
-                    </div>
-
-                    <!-- CONDITIONAL PARAMETERS CONTENT BLOCKS -->
-                    <div id="aviation_parameters_block" class="space-y-6 bg-white p-6 border border-slate-200 rounded-2xl shadow-sm">
-                        <h4 class="text-xs font-bold text-aero-600 uppercase tracking-wider mb-2">Aircraft Radiotelephony Matrix</h4>
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Aircraft Tail/Registration Number</label>
-                                <input type="text" id="aircraft_tail" name="aircraft_tail" placeholder="e.g., 5Y-ABC" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-900 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition">
+                        <h3 class="text-sm font-bold text-slate-800 mb-4 mt-1 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                            Why High-Value Operators Partner With Us
+                        </h3>
+                        <div class="space-y-3 text-xs">
+                            <div
+                                class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
+                                <div>
+                                    <div class="font-bold text-slate-900">Zero Technical Rejections</div>
+                                    <div class="text-[11px] text-slate-500">100% compliant engineering documentation
+                                    </div>
+                                </div>
+                                <span class="text-brand-600 font-mono font-bold">Verified</span>
                             </div>
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Aircraft Airframe Make / Model</label>
-                                <input type="text" id="aircraft_model" name="aircraft_model" placeholder="e.g., Cessna 208B" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-900 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition">
+                            <div
+                                class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
+                                <div>
+                                    <div class="font-bold text-slate-900">Commercial Equity Compliance</div>
+                                    <div class="text-[11px] text-slate-500">Structured 30% local shareholding setups
+                                    </div>
+                                </div>
+                                <span class="text-slate-700 font-mono font-semibold">Turnkey</span>
+                            </div>
+                            <div
+                                class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
+                                <div>
+                                    <div class="font-bold text-slate-900">KCAA & CA Dual Alignment</div>
+                                    <div class="text-[11px] text-slate-500">Synchronized airborne & ground frequency
+                                        permits</div>
+                                </div>
+                                <span class="text-aero-600 font-mono font-bold">Fast-Track</span>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
 
-                    <div id="telecom_parameters_block" class="space-y-6 hidden bg-white p-6 border border-slate-200 rounded-2xl shadow-sm">
-                        <h4 class="text-xs font-bold text-brand-600 uppercase tracking-wider mb-2">Unified Telecom Configuration Matrix</h4>
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Target CA Framework Matrix</label>
-                                <select id="target_framework" name="target_framework" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-700 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition">
-                                    <option value="">Select parameters...</option>
-                                    <option value="nfp_tier1">Network Facilities Provider Tier 1 (National)</option>
-                                    <option value="nfp_tier2">Network Facilities Provider Tier 2 (Regional)</option>
-                                    <option value="nfp_tier3">Network Facilities Provider Tier 3 (Multi-County)</option>
-                                    <option value="asp">Application Service Provider (ISP/VoIP)</option>
-                                    <option value="csp">Content Services Provider (Shortcodes/SMS)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Estimated System CAPEX (KES)</label>
-                                <input type="number" id="estimated_capex" name="estimated_capex" min="0" value="0" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-900 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition">
+        <!-- CUSTOMER NEED / SOLUTIONS SECTION -->
+        <section id="solutions" class="py-20 bg-white border-b border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center mb-16 space-y-3">
+                    <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Tailored Solutions for
+                        Your Operations</h2>
+                    <p class="text-base text-slate-600">Select your sector to view our specialized engineering and
+                        statutory submission vectors.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div
+                        class="p-6 bg-slate-50 border border-slate-200 rounded-2xl hover:border-aero-500 hover:bg-white transition duration-300">
+                        <div
+                            class="w-10 h-10 bg-aero-50 text-aero-600 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-900 mb-2">Aviation Fleet & Aircraft</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">VHF/HF radio licensing, Mode-S transponders,
+                            ELT registration, and KCAA/CA call-sign synchronization for commercial fleets and private
+                            jets.</p>
+                    </div>
+                    <div
+                        class="p-6 bg-slate-50 border border-slate-200 rounded-2xl hover:border-brand-500 hover:bg-white transition duration-300">
+                        <div
+                            class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-900 mb-2">Telecom Operators (NFP/ASP)</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">Turnkey licensing for Tier 1–3 infrastructure
+                            providers, ISPs, dark fiber operators, and MVNO equity structuring.</p>
+                    </div>
+                    <div
+                        class="p-6 bg-slate-50 border border-slate-200 rounded-2xl hover:border-emerald-500 hover:bg-white transition duration-300">
+                        <div
+                            class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 01-2-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-900 mb-2">Private & Business PMR</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">VHF/UHF frequency assignments for mining,
+                            logistics, security, and remote wilderness commercial radio networks.</p>
+                    </div>
+                    <div
+                        class="p-6 bg-slate-50 border border-slate-200 rounded-2xl hover:border-amber-500 hover:bg-white transition duration-300">
+                        <div
+                            class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-900 mb-2">Amateur & Experimental</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">International reciprocal permits, Class A/B
+                            operator licensing, call-sign reservations, and technical station validation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTAKE CONSOLE -->
+        <section id="intake" class="py-24 bg-slate-50 border-b border-slate-200 relative">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 shadow-xl relative">
+                    <div class="mb-10 text-center sm:text-left border-b border-slate-200 pb-6">
+                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest block mb-1">Confidential
+                            Engagement</span>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Initialize Compliance Assessment
+                        </h2>
+                        <p class="text-slate-600 text-sm">Submit your technical requirements below for an expedited
+                            engineering evaluation.</p>
+                    </div>
+
+                    <form id="caSubmissionForm" class="space-y-6">
+                        <div>
+                            <label
+                                class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Target
+                                Licensing Sector</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <label
+                                    class="flex flex-col items-center justify-center p-3.5 border border-slate-200 bg-slate-50 rounded-xl cursor-pointer hover:border-brand-500 transition text-center">
+                                    <input type="radio" name="sector_track" value="aviation" checked
+                                        class="w-4 h-4 text-brand-600 mb-2">
+                                    <span class="text-xs font-semibold text-slate-700">Aircraft Station</span>
+                                </label>
+                                <label
+                                    class="flex flex-col items-center justify-center p-3.5 border border-slate-200 bg-slate-50 rounded-xl cursor-pointer hover:border-brand-500 transition text-center">
+                                    <input type="radio" name="sector_track" value="telecom"
+                                        class="w-4 h-4 text-brand-600 mb-2">
+                                    <span class="text-xs font-semibold text-slate-700">Telecom Carrier</span>
+                                </label>
+                                <label
+                                    class="flex flex-col items-center justify-center p-3.5 border border-slate-200 bg-slate-50 rounded-xl cursor-pointer hover:border-brand-500 transition text-center">
+                                    <input type="radio" name="sector_track" value="radionet"
+                                        class="w-4 h-4 text-brand-600 mb-2">
+                                    <span class="text-xs font-semibold text-slate-700">Private Radio</span>
+                                </label>
+                                <label
+                                    class="flex flex-col items-center justify-center p-3.5 border border-slate-200 bg-slate-50 rounded-xl cursor-pointer hover:border-brand-500 transition text-center">
+                                    <input type="radio" name="sector_track" value="amateur"
+                                        class="w-4 h-4 text-brand-600 mb-2">
+                                    <span class="text-xs font-semibold text-slate-700">Amateur Permit</span>
+                                </label>
                             </div>
                         </div>
-                        <div>
-                            <label class="flex items-start cursor-pointer">
-                                <input type="checkbox" id="local_equity" class="mt-1 w-4 h-4 text-brand-600 rounded bg-transparent border-slate-300 focus:ring-0">
-                                <span class="ml-3 text-xs text-slate-600 leading-relaxed">
-                                    Our entity acknowledges that commercial carrier licenses mandate alignment with regulatory structural configurations including at least <strong>30% local equity shareholding distributions</strong>.
+
+                        <div class="grid sm:grid-cols-2 gap-6">
+                            <div>
+                                <label
+                                    class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Organization
+                                    / Legal Entity</label>
+                                <input type="text" id="company_name" name="company_name" required
+                                    placeholder="Company or Individual Name"
+                                    class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-900 focus:bg-white focus:ring-2 focus:ring-brand-500 outline-none transition">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Primary
+                                    Officer Name</label>
+                                <input type="text" id="contact_name" name="contact_name" required
+                                    placeholder="Full Name"
+                                    class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-900 focus:bg-white focus:ring-2 focus:ring-brand-500 outline-none transition">
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-6">
+                            <div>
+                                <label
+                                    class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Official
+                                    Email</label>
+                                <input type="email" id="email" name="email" required placeholder="officer@company.com"
+                                    class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-900 focus:bg-white focus:ring-2 focus:ring-brand-500 outline-none transition">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Direct
+                                    Phone / WhatsApp</label>
+                                <input type="tel" id="phone" name="phone" required placeholder="+254 7XX XXX XXX"
+                                    class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-900 focus:bg-white focus:ring-2 focus:ring-brand-500 outline-none transition">
+                            </div>
+                        </div>
+
+                        <!-- SECTOR DYNAMIC PANELS -->
+                        <div id="aviation_parameters_block"
+                            class="space-y-4 bg-slate-50 p-6 border border-slate-200 rounded-2xl">
+                            <h4 class="text-xs font-bold text-aero-600 uppercase tracking-wider">Aeronautical Fleet
+                                Specifications</h4>
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Tail /
+                                        Registration Mark</label>
+                                    <input type="text" id="aircraft_tail" name="aircraft_tail"
+                                        placeholder="e.g., 5Y-ABC"
+                                        class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Airframe
+                                        Model & Year</label>
+                                    <input type="text" id="aircraft_model" name="aircraft_model"
+                                        placeholder="e.g., Beechcraft King Air 350"
+                                        class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="telecom_parameters_block"
+                            class="space-y-4 bg-slate-50 p-6 border border-slate-200 rounded-2xl hidden">
+                            <h4 class="text-xs font-bold text-brand-600 uppercase tracking-wider">Telecom Infrastructure
+                                Framework</h4>
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">License
+                                        Category</label>
+                                    <select id="target_framework" name="target_framework"
+                                        class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
+                                        <option value="">Select category...</option>
+                                        <option value="nfp_tier1">Network Facilities Provider (Tier 1 National)</option>
+                                        <option value="nfp_tier2">Network Facilities Provider (Tier 2 Regional)</option>
+                                        <option value="asp">Application Service Provider (ISP/VoIP)</option>
+                                        <option value="csp">Content Services Provider (PRSP/SMS)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Estimated
+                                        CAPEX (KES)</label>
+                                    <input type="number" id="estimated_capex" name="estimated_capex" min="0" value="0"
+                                        class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="radionet_parameters_block"
+                            class="space-y-4 bg-slate-50 p-6 border border-slate-200 rounded-2xl hidden">
+                            <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Radio Network
+                                Parameters</h4>
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Network
+                                        Deployment Type</label>
+                                    <select id="radionet_type" name="radionet_type"
+                                        class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
+                                        <option value="land_mobile">Land Mobile PMR (Base & Handhelds)</option>
+                                        <option value="fixed_link">Fixed Point-to-Point Micro-Link</option>
+                                        <option value="marine">Marine Coast Station</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Requested
+                                        Band</label>
+                                    <select id="radionet_band" name="radionet_band"
+                                        class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
+                                        <option value="vhf">VHF Band (136 - 174 MHz)</option>
+                                        <option value="uhf">UHF Band (400 - 470 MHz)</option>
+                                        <option value="hf">HF Band (Long Range)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="amateur_parameters_block"
+                            class="space-y-4 bg-slate-50 p-6 border border-slate-200 rounded-2xl hidden">
+                            <h4 class="text-xs font-bold text-amber-600 uppercase tracking-wider">Amateur Radio Operator
+                            </h4>
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Permit
+                                        Class</label>
+                                    <select id="amateur_class" name="amateur_class"
+                                        class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
+                                        <option value="class_b">Class B (Restricted)</option>
+                                        <option value="class_a">Class A (Full Privileges)</option>
+                                        <option value="reciprocal">Foreign Reciprocal Permit</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Preferred
+                                        Call Sign Suffix</label>
+                                    <input type="text" id="amateur_suffix" name="amateur_suffix" placeholder="e.g., KAA"
+                                        class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DATA PROTECTION CONSENT CHECKBOX -->
+                        <div class="pt-2">
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="checkbox" id="data_consent" name="data_consent" required
+                                    class="mt-0.5 w-4 h-4 text-brand-600 border-slate-300 rounded focus:ring-brand-500">
+                                <span class="text-xs text-slate-500 leading-relaxed">
+                                    I consent to AeroTeleConsult processing my contact details for regulatory evaluation
+                                    in accordance with the Kenya Data Protection Act (2019).
                                 </span>
                             </label>
                         </div>
-                    </div>
 
-                    <div id="radionet_parameters_block" class="space-y-6 hidden bg-white p-6 border border-slate-200 rounded-2xl shadow-sm">
-                        <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">Private & Commercial Radio Networks</h4>
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Network Deployment Mode</label>
-                                <select id="radionet_type" name="radionet_type" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-700 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition">
-                                    <option value="land_mobile">Land Mobile PMR (Base / Mobiles / Handhelds)</option>
-                                    <option value="fixed_link">Fixed Point-to-Point Micro-Link</option>
-                                    <option value="marine_station">Marine Radio Base Allocation</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Preferred Frequency Spectrum</label>
-                                <select id="radionet_band" name="radionet_band" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-700 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition">
-                                    <option value="vhf">VHF Band (136 - 174 MHz)</option>
-                                    <option value="uhf">UHF Band (400 - 470 MHz)</option>
-                                    <option value="hf">HF High Frequency (Long Range / Wilderness)</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="amateur_parameters_block" class="space-y-6 hidden bg-white p-6 border border-slate-200 rounded-2xl shadow-sm">
-                        <h4 class="text-xs font-bold text-amber-600 uppercase tracking-wider mb-2">Amateur Radio Operator Framework</h4>
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Requested License Tier</label>
-                                <select id="amateur_class" name="amateur_class" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-700 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition">
-                                    <option value="class_b">Class B License (Introductory / Restricted)</option>
-                                    <option value="class_a">Class A License (Full Privileges / High Power)</option>
-                                    <option value="reciprocal">International Reciprocal Visitor Permit</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Preferred Custom Suffix (If Available)</label>
-                                <input type="text" id="amateur_suffix" name="amateur_suffix" placeholder="e.g., DM" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-900 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Target Project Lifecycle Timeline</label>
-                        <div class="grid sm:grid-cols-3 gap-3">
-                            <label class="flex items-center px-4 py-3 border border-slate-200 bg-white rounded-xl cursor-pointer hover:border-brand-500 transition shadow-sm">
-                                <input type="radio" name="timeline" value="immediate" checked class="w-4 h-4 text-brand-600 focus:ring-0 bg-transparent border-slate-300">
-                                <span class="ml-3 text-sm text-slate-700 font-medium">Immediate (&lt; 3 Mos)</span>
-                            </label>
-                            <label class="flex items-center px-4 py-3 border border-slate-200 bg-white rounded-xl cursor-pointer hover:border-brand-500 transition shadow-sm">
-                                <input type="radio" name="timeline" value="medium" class="w-4 h-4 text-brand-600 focus:ring-0 bg-transparent border-slate-300">
-                                <span class="ml-3 text-sm text-slate-700 font-medium">Mid-Term (3-6 Mos)</span>
-                            </label>
-                            <label class="flex items-center px-4 py-3 border border-slate-200 bg-white rounded-xl cursor-pointer hover:border-brand-500 transition shadow-sm">
-                                <input type="radio" name="timeline" value="planning" class="w-4 h-4 text-brand-600 focus:ring-0 bg-transparent border-slate-300">
-                                <span class="ml-3 text-sm text-slate-700 font-medium">Strategic Planning</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Technical System Architecture Brief & Transceiver Inventory</label>
-                        <textarea id="architecture_brief" name="architecture_brief" rows="4" placeholder="Detail your hardware deployment specs, anticipated frequencies, base station sites, or required call-sign counts..." class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm text-slate-900 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition shadow-sm resize-none"></textarea>
-                    </div>
-
-                    <div class="pt-4">
-                        <button type="submit" class="w-full inline-flex items-center justify-center px-6 py-4 text-sm font-bold tracking-wide text-white bg-brand-600 hover:bg-brand-700 active:bg-brand-800 rounded-xl transition duration-300 shadow-md hover:shadow-lg transform active:scale-[0.99]">
-                            Submit to Compliance Database Architecture
+                        <button type="submit" id="submitBtn"
+                            class="w-full py-4 text-center text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition shadow-md focus:outline-none focus:ring-4 focus:ring-brand-100 disabled:opacity-50">
+                            Request Expedited Regulatory Review
                         </button>
-                    </div>
-                </form>
+                        <p id="formStatus" class="text-xs text-center font-medium hidden p-3 rounded-xl"></p>
 
+                        <!-- SUCCESS TICKET CONFIRMATION CARD -->
+                        <div id="ticketConfirmationCard"
+                            class="hidden bg-slate-900 text-white rounded-2xl p-6 border border-slate-800 space-y-4">
+                            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-300">Submission Registered</span>
+                                </div>
+                                <span class="text-[10px] font-mono text-slate-400" id="confirmTime"></span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-brand-400 tracking-widest block mb-1">Your Tracking Reference Ticket</span>
+                                <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/60">
+                                    <span id="generatedTicketCode" class="text-xl font-mono font-bold text-amber-400 tracking-wider"></span>
+                                    <div class="flex items-center gap-2">
+                                        <button type="button" id="copyTicketBtn"
+                                            class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-xs font-semibold rounded-lg text-slate-200 transition">
+                                            Copy Ticket
+                                        </button>
+                                        <button type="button" id="downloadTicketBtn"
+                                            class="px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-xs font-semibold rounded-lg text-white transition">
+                                            Download Receipt
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Save this ticket code or download your receipt now. The ticket reference on this screen will reset upon refreshing or closing the page.
+                            </p>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- FOOTER MATRIX WITH QUICK CONTACT CHANNELS -->
-    <footer class="bg-slate-900 text-slate-400 pt-16 pb-12 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-12 gap-10 pb-12 border-b border-slate-800">
-                <!-- Branding Context -->
-                <div class="md:col-span-5 space-y-4">
-                    <div class="flex items-center space-x-3 text-white">
-                        <svg class="w-8 h-8 text-brand-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"></path>
-                        </svg>
-                        <span class="text-base font-bold tracking-tight">AeroTeleConsult KE</span>
+        <!-- APPLICATION STATUS TRACKER UI -->
+        <section id="tracking" class="py-20 bg-white border-b border-slate-200">
+            <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm">
+                    <div class="mb-6 text-center">
+                        <span
+                            class="text-[11px] font-bold text-brand-600 uppercase tracking-widest block mb-1">Self-Service
+                            Verification</span>
+                        <h3 class="text-xl sm:text-2xl font-bold text-slate-900">Check Application Status</h3>
+                        <p class="text-xs text-slate-500 mt-1">Enter your reference ticket (e.g., ATC-A1B2C3D4) to track
+                            real-time regulatory progress.</p>
                     </div>
-                    <p class="text-xs text-slate-400 max-w-sm leading-relaxed">
-                        High-authority strategic execution architecture for spectrum analysis, frequency licensing management, and telecom market authorization compliance inside the Republic of Kenya.
+
+                    <form id="statusCheckForm" class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="ticketInput" required placeholder="ATC-XXXXXX"
+                            class="flex-grow px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm text-slate-900 font-mono tracking-wider focus:ring-2 focus:ring-brand-500 outline-none uppercase">
+                        <button type="submit" id="trackBtn"
+                            class="px-6 py-3 text-sm font-semibold text-white bg-slate-900 hover:bg-brand-600 rounded-xl transition shadow-sm whitespace-nowrap disabled:opacity-50">
+                            Track Status
+                        </button>
+                    </form>
+
+                    <!-- Result Display Card -->
+                    <div id="statusResult"
+                        class="hidden mt-6 p-5 bg-white border border-slate-200 rounded-2xl space-y-3 shadow-sm">
+                        <div class="flex justify-between items-start border-b border-slate-100 pb-3">
+                            <div>
+                                <span id="resCompany" class="font-bold text-slate-900 text-sm block"></span>
+                                <span id="resSector"
+                                    class="text-[11px] text-slate-500 font-medium uppercase tracking-wider"></span>
+                            </div>
+                            <span id="resStatusBadge"
+                                class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"></span>
+                        </div>
+                        <div>
+                            <span
+                                class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-0.5">Secretariat
+                                Status Note</span>
+                            <p id="resNotes" class="text-xs text-slate-700 leading-relaxed"></p>
+                        </div>
+                        <div class="text-[10px] text-slate-400 font-mono pt-1">
+                            Submitted: <span id="resDate"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
+                <div class="space-y-4 md:col-span-1">
+                    <div class="flex items-center space-x-2">
+                        <div class="p-1.5 bg-brand-600 rounded-lg text-white">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="text-base font-bold text-white tracking-tight">AeroTeleConsult</span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Engineering practice delivering statutory RF spectrum approvals, avionics licensing, and telecom
+                        network authorizations in Kenya.
                     </p>
                 </div>
 
-                <!-- Direct Strategic Contacts Sub-Loop -->
-                <div class="md:col-span-7 space-y-4 md:pl-12">
-                    <h4 class="text-xs font-bold uppercase tracking-widest text-slate-300">Direct Compliance Assistance Desk</h4>
-                    <div class="grid sm:grid-cols-2 gap-4">
-                        <!-- Phone Card Block -->
-                        <div class="p-4 bg-slate-800/40 border border-slate-800 rounded-xl hover:border-brand-500 transition duration-200">
-                            <span class="block text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1">Direct Voice Line</span>
-                            <a href="tel:+254726661849" class="text-sm font-semibold text-white hover:text-brand-400 tracking-wide font-mono transition inline-flex items-center gap-1.5">
-                                0726661849
-                            </a>
-                        </div>
-                        <!-- Email Card Block -->
-                        <div class="p-4 bg-slate-800/40 border border-slate-800 rounded-xl hover:border-aero-500 transition duration-200">
-                            <span class="block text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1">Electronic Ingestion Mail</span>
-                            <a href="mailto:info@aeroteleconsult.co.ke" class="text-sm font-semibold text-white hover:text-aero-400 transition inline-flex items-center gap-1.5">
-                                info@aeroteleconsult.co.ke
-                            </a>
-                        </div>
-                    </div>
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Practice Vectors</h4>
+                    <ul class="space-y-2.5 text-xs">
+                        <li><a href="#solutions" class="hover:text-white transition">Aeronautical VHF/HF Licensing</a>
+                        </li>
+                        <li><a href="#solutions" class="hover:text-white transition">KCAA Airworthiness RF Sign-offs</a>
+                        </li>
+                        <li><a href="#solutions" class="hover:text-white transition">Communications Authority (CA)
+                                NFP/ASP</a></li>
+                        <li><a href="#solutions" class="hover:text-white transition">Commercial Radio Frequency
+                                Allocations</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Regulatory Bodies</h4>
+                    <ul class="space-y-2.5 text-xs">
+                        <li><a href="https://www.ca.go.ke" target="_blank" rel="noopener"
+                                class="hover:text-white transition">Communications Authority of Kenya (CA)</a></li>
+                        <li><a href="https://www.kcaa.or.ke" target="_blank" rel="noopener"
+                                class="hover:text-white transition">Kenya Civil Aviation Authority (KCAA)</a></li>
+                        <li><a href="https://www.itu.int" target="_blank" rel="noopener"
+                                class="hover:text-white transition">International Telecommunication Union (ITU)</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Secretariat Operations</h4>
+                    <p class="text-xs leading-relaxed text-slate-400 mb-2">Nairobi, Kenya</p>
+                    <p class="text-xs font-mono text-slate-300">Phone: +254 726 661 849</p>
+                    <p class="text-xs font-mono text-slate-300">Email: info@aeroteleconsult.co.ke</p>
                 </div>
             </div>
 
-            <!-- Copyright and Regulatory Stamp Baseline -->
-            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p class="text-xs tracking-wide text-slate-500 text-center sm:text-left">
-                    &copy; 2026 AeroTeleConsult KE. All statutory compliance frameworks aligned with CA & KCAA regulations.
-                </p>
-                <div class="flex space-x-6 text-[11px] text-slate-500">
-                    <span>Nairobi, Kenya</span>
+            <div class="pt-8 flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-500 gap-4">
+                <p>&copy; 2026 AeroTeleConsult Kenya. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#intake" class="hover:text-slate-400 transition">Statutory Compliance Terms</a>
+                    <a href="#intake" class="hover:text-slate-400 transition">Data Privacy Protocol</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- INTERACTIVE SCRIPTS BUNDLE -->
+    <!-- OPTIMIZED FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/254726661849?text=Hello%20AeroTeleConsult,%20I%20would%20like%20to%20inquire%20about%20regulatory%20compliance%20services."
+        target="_blank" rel="noopener noreferrer"
+        class="fixed bottom-6 right-6 z-50 flex items-center justify-center gap-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-3 px-4 sm:px-5 rounded-full shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-300"
+        aria-label="Chat on WhatsApp">
+        <svg class="w-6 h-6 shrink-0 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M16 2A13.93 13.93 0 0 0 4 23L2 29l6.21-1.95A13.9 13.9 0 1 0 16 2zm0 25.43a11.44 11.44 0 0 1-5.83-1.59l-.42-.25-3.69 1.16 1.18-3.57-.27-.44A11.46 11.46 0 1 1 16 27.43zm6.3-8.52c-.35-.17-2.05-1-2.37-1.12s-.55-.17-.78.17-.9 1.12-1.1 1.35-.41.26-.75.09a9.5 9.5 0 0 1-2.79-1.72 10.43 10.43 0 0 1-1.93-2.4c-.2-.35 0-.54.15-.71s.35-.41.52-.61a2.33 2.33 0 0 0 .35-.58.65.65 0 0 0 0-.61c-.09-.17-.78-1.88-1.07-2.58s-.57-.59-.78-.6h-.67a1.28 1.28 0 0 0-.93.43 3.9 3.9 0 0 0-1.22 2.9 6.81 6.81 0 0 0 1.43 3.6 15.58 15.58 0 0 0 6 5.28c2.51 1 3 .83 3.56.77a3 3 0 0 0 2-1.4 2.47 2.47 0 0 0 .17-1.4c-.09-.18-.35-.29-.7-.46z" />
+        </svg>
+        <span class="hidden sm:inline text-xs font-semibold tracking-wide">Direct WhatsApp Consult</span>
+    </a>
+
+    <!-- FRONTEND APP CONTROLLER -->
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('caSubmissionForm');
-        
-        if (form) {
-            form.addEventListener('submit', (e) => { e.preventDefault(); });
-        }
+        // Production Environment Variables Configuration Injection
+        const CONFIG = {
+            SUPABASE_URL: window.ENV_SUPABASE_URL || "https://tfetuykairghymxmknxc.supabase.co",
+            SUPABASE_ANON_KEY: window.ENV_SUPABASE_ANON_KEY || "sb_publishable_9ITJB3dba8vSDsZzcF3psw_YPIdstSx"
+        };
 
-        const SUPABASE_URL = "https://tfetuykairghymxmknxc.supabase.co"; 
-        const SUPABASE_ANON_KEY = "sb_publishable_9ITJB3dba8vSDsZzcF3psw_YPIdstSx"; 
-        
-        let supabase = null;
-        try {
-            const supabaseClientSource = window.supabase || (typeof Supabase !== 'undefined' ? Supabase : null);
-            if (supabaseClientSource) {
-                supabase = supabaseClientSource.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            }
-        } catch(err) {
-            console.error("Supabase instantiating safety exception:", err);
-        }
+        const supabaseClient = (window.supabase && CONFIG.SUPABASE_URL.indexOf("YOUR_SUPABASE") === -1)
+            ? window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY)
+            : null;
 
-        const trackRadios = document.getElementsByName('sector_track');
-        const parameterBlocks = {
+        // Dynamic Sector Form Switcher
+        const radios = document.querySelectorAll('input[name="sector_track"]');
+        const blocks = {
             aviation: document.getElementById('aviation_parameters_block'),
             telecom: document.getElementById('telecom_parameters_block'),
             radionet: document.getElementById('radionet_parameters_block'),
             amateur: document.getElementById('amateur_parameters_block')
         };
 
-        function updateFormState(selectedTrack) {
-            Object.keys(parameterBlocks).forEach(track => {
-                if (parameterBlocks[track]) {
-                    parameterBlocks[track].classList.add('hidden');
-                }
-            });
-
-            if (parameterBlocks[selectedTrack]) {
-                parameterBlocks[selectedTrack].classList.remove('hidden');
-            }
-
-            const targetFramework = document.getElementById('target_framework');
-            if (targetFramework) {
-                if (selectedTrack === 'telecom') {
-                    targetFramework.setAttribute('required', 'true');
-                } else {
-                    targetFramework.removeAttribute('required');
-                    targetFramework.value = ""; 
-                }
-            }
-        }
-
-        trackRadios.forEach(radio => {
+        radios.forEach(radio => {
             radio.addEventListener('change', (e) => {
-                updateFormState(e.target.value);
+                Object.keys(blocks).forEach(key => {
+                    if (key === e.target.value) {
+                        blocks[key].classList.remove('hidden');
+                    } else {
+                        blocks[key].classList.add('hidden');
+                    }
+                });
             });
         });
+
+        // Intake Form Elements
+        const form = document.getElementById('caSubmissionForm');
+        const statusText = document.getElementById('formStatus');
+        const submitBtn = document.getElementById('submitBtn');
+        const ticketCard = document.getElementById('ticketConfirmationCard');
+        const generatedTicketCode = document.getElementById('generatedTicketCode');
+        const copyTicketBtn = document.getElementById('copyTicketBtn');
+        const downloadTicketBtn = document.getElementById('downloadTicketBtn');
+        const confirmTime = document.getElementById('confirmTime');
+
+        // Transient Memory Object (resets automatically upon page refresh)
+        let currentSubmission = null;
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            if (!supabase) {
-                alert("Initialization Error: The Supabase client could not be loaded from the network CDN.");
-                return;
-            }
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <span class="inline-flex items-center gap-2">
+                    <svg class="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Encrypting & Transmitting Assessment...
+                </span>
+            `;
 
-            const currentTrack = document.querySelector('input[name="sector_track"]:checked').value;
             const formData = new FormData(form);
-            
-            let specificParameters = {};
-            switch (currentTrack) {
-                case 'aviation':
-                    specificParameters = {
-                        aircraftTail: formData.get('aircraft_tail'),
-                        aircraftModel: formData.get('aircraft_model')
-                    };
-                    break;
-                case 'telecom':
-                    const localEquityChecked = document.getElementById('local_equity')?.checked || false;
-                    if (!localEquityChecked) {
-                        alert('Mandatory Requirement: You must acknowledge alignment with the 30% local equity shareholding distribution to process Telecom Carrier frameworks.');
-                        return;
-                    }
-                    specificParameters = {
-                        targetFramework: formData.get('target_framework'),
-                        estimatedCapex: parseFloat(formData.get('estimated_capex')) || 0
-                    };
-                    break;
-                case 'radionet':
-                    specificParameters = {
-                        networkType: formData.get('radionet_type'),
-                        preferredBand: formData.get('radionet_band')
-                    };
-                    break;
-                case 'amateur':
-                    specificParameters = {
-                        licenseTier: formData.get('amateur_class'),
-                        customSuffix: formData.get('amateur_suffix') || null
-                    };
-                    break;
-            }
+            const selectedSector = formData.get('sector_track');
 
-            const submitButton = form.querySelector('button[type="submit"]');
-            const originalText = submitButton.innerText;
-            
+            const sectorDetailsMap = {
+                aviation: {
+                    aircraft_tail: formData.get('aircraft_tail'),
+                    aircraft_model: formData.get('aircraft_model')
+                },
+                telecom: {
+                    target_framework: formData.get('target_framework'),
+                    estimated_capex: formData.get('estimated_capex')
+                },
+                radionet: {
+                    radionet_type: formData.get('radionet_type'),
+                    radionet_band: formData.get('radionet_band')
+                },
+                amateur: {
+                    amateur_class: formData.get('amateur_class'),
+                    amateur_suffix: formData.get('amateur_suffix')
+                }
+            };
+
+            const payload = {
+                company_name: formData.get('company_name'),
+                contact_name: formData.get('contact_name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                sector_track: selectedSector,
+                sector_details: sectorDetailsMap[selectedSector] || {}
+            };
+
             try {
-                submitButton.disabled = true;
-                submitButton.className = "w-full inline-flex items-center justify-center px-6 py-4 text-sm font-bold tracking-wide text-white bg-slate-600 cursor-not-allowed rounded-xl transition duration-300 shadow-md";
-                submitButton.innerText = "Transmitting to Supabase Grid...";
+                if (!supabaseClient) {
+                    throw new Error("Supabase client is not initialized. Please verify your CONFIG parameters.");
+                }
 
-                // Fixed the column map below to target 'timeline' directly
-                const { data, error } = await supabase
-                    .from('compliance_submissions')
-                    .insert([
-                        {
-                            company_name: formData.get('company_name'),
-                            contact_name: formData.get('contact_name'),
-                            email: formData.get('email'),
-                            phone: formData.get('phone'), 
-                            website: formData.get('corporate_website') || null,
-                            regulatory_track: currentTrack,
-                            timeline: formData.get('timeline'), // Corrected column key name
-                            architecture_brief: formData.get('architecture_brief'),
-                            track_parameters: specificParameters 
-                        }
-                    ]);
+                const { data, error } = await supabaseClient
+                    .from('intake_submissions')
+                    .insert([payload])
+                    .select('tracking_ticket')
+                    .single();
 
                 if (error) throw error;
 
-                alert(`Data Packet written to Supabase cloud successfully!\nEntity: ${formData.get('company_name')}`);
-                form.reset();
-                updateFormState('aviation'); 
+                const returnedTicket = data ? data.tracking_ticket : "N/A";
+                const issuedTimestamp = new Date().toLocaleString();
 
-            } catch (error) {
-                console.error('Supabase Core Network Fault Trace:', error);
-                alert(`Database Communication Error: ${error.message || JSON.stringify(error)}`);
+                // Store transient details in variable
+                currentSubmission = {
+                    ticket: returnedTicket,
+                    company: payload.company_name,
+                    contact: payload.contact_name,
+                    email: payload.email,
+                    phone: payload.phone,
+                    sector: payload.sector_track,
+                    date: issuedTimestamp
+                };
+
+                statusText.className = "text-xs text-center font-medium text-emerald-800 bg-emerald-50 border border-emerald-200 block";
+                statusText.innerText = "Assessment received. Your reference ticket has been issued below.";
+
+                generatedTicketCode.innerText = returnedTicket;
+                confirmTime.innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                ticketCard.classList.remove('hidden');
+
+                // Pre-populate status tracker input field
+                document.getElementById('ticketInput').value = returnedTicket;
+
+                form.reset();
+            } catch (err) {
+                console.error(err);
+                statusText.className = "text-xs text-center font-medium text-rose-800 bg-rose-50 border border-rose-200 block";
+                statusText.innerText = "Submission Notice: " + err.message;
             } finally {
-                submitButton.disabled = false;
-                submitButton.className = "w-full inline-flex items-center justify-center px-6 py-4 text-sm font-bold tracking-wide text-white bg-brand-600 hover:bg-brand-700 active:bg-brand-800 rounded-xl transition duration-300 shadow-md hover:shadow-lg transform active:scale-[0.99]";
-                submitButton.innerText = originalText;
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Request Expedited Regulatory Review";
             }
         });
-    });
-</script>
+
+        // Copy Ticket Handler
+        copyTicketBtn.addEventListener('click', () => {
+            const ticket = generatedTicketCode.innerText;
+            if (ticket) {
+                navigator.clipboard.writeText(ticket);
+                copyTicketBtn.innerText = "Copied!";
+                setTimeout(() => { copyTicketBtn.innerText = "Copy Ticket"; }, 2000);
+            }
+        });
+
+        // Transient Receipt File Generator Handler
+        downloadTicketBtn.addEventListener('click', () => {
+            if (!currentSubmission) return;
+
+            const content = 
+`==================================================
+      AEROTELECONSULT REGULATORY COMPLIANCE
+             OFFICIAL INTAKE RECEIPT
+==================================================
+
+TRACKING TICKET : ${currentSubmission.ticket}
+ORGANIZATION    : ${currentSubmission.company}
+OFFICER NAME    : ${currentSubmission.contact}
+OFFICIAL EMAIL  : ${currentSubmission.email}
+PHONE NUMBER    : ${currentSubmission.phone}
+SECTOR TRACK    : ${currentSubmission.sector.toUpperCase()}
+DATE ISSUED     : ${currentSubmission.date}
+
+STATUS: UNDER REVIEW
+
+Instructions:
+Keep this document for your records. You can check the live
+status of your regulatory review at any time by entering your
+tracking ticket at https://aeroteleconsult.co.ke/#tracking
+
+--------------------------------------------------
+AeroTeleConsult Kenya | info@aeroteleconsult.co.ke
+==================================================`;
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const downloadLink = document.createElement('a');
+            downloadLink.href = url;
+            downloadLink.download = `AeroTeleConsult_Ticket_${currentSubmission.ticket}.txt`;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+            URL.revokeObjectURL(url);
+        });
+
+        // Status Check Form Handler
+        const statusForm = document.getElementById('statusCheckForm');
+        const ticketInput = document.getElementById('ticketInput');
+        const statusResult = document.getElementById('statusResult');
+        const trackBtn = document.getElementById('trackBtn');
+
+        statusForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const ticket = ticketInput.value.trim();
+            if (!ticket) return;
+
+            trackBtn.disabled = true;
+            trackBtn.innerText = 'Checking...';
+
+            try {
+                if (!supabaseClient) {
+                    throw new Error("Supabase client is not initialized. Please verify your CONFIG parameters.");
+                }
+
+                const { data, error } = await supabaseClient.rpc('check_application_status', {
+                    ticket_number: ticket
+                });
+
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    alert('No submission found matching that reference ticket. Please check the code and try again.');
+                    statusResult.classList.add('hidden');
+                    return;
+                }
+
+                const record = data[0];
+                document.getElementById('resCompany').innerText = record.company_name;
+                document.getElementById('resSector').innerText = record.sector_track + ' Track';
+                document.getElementById('resNotes').innerText = record.status_notes || 'Your submission has been received and routed for compliance evaluation.';
+                document.getElementById('resDate').innerText = new Date(record.created_at).toLocaleString();
+
+                const badge = document.getElementById('resStatusBadge');
+                const statusMap = {
+                    under_review: { label: 'Under Review', class: 'bg-amber-50 text-amber-700 border border-amber-200' },
+                    processing: { label: 'In Processing', class: 'bg-blue-50 text-blue-700 border border-blue-200' },
+                    approved: { label: 'Approved', class: 'bg-emerald-50 text-emerald-700 border border-emerald-200' },
+                    action_required: { label: 'Action Required', class: 'bg-rose-50 text-rose-700 border border-rose-200' },
+                    rejected: { label: 'Rejected', class: 'bg-slate-100 text-slate-700 border border-slate-200' }
+                };
+
+                const statusInfo = statusMap[record.status] || { label: record.status, class: 'bg-slate-100 text-slate-700 border border-slate-200' };
+                badge.className = `px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${statusInfo.class}`;
+                badge.innerText = statusInfo.label;
+
+                statusResult.classList.remove('hidden');
+            } catch (err) {
+                alert('Status Query Notice: ' + err.message);
+            } finally {
+                trackBtn.disabled = false;
+                trackBtn.innerText = 'Track Status';
+            }
+        });
+    </script>
 </body>
+
 </html>
