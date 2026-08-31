@@ -33,7 +33,8 @@
         }
     </script>
 
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body class="h-full font-sans text-slate-100 antialiased flex flex-col selection:bg-brand-500 selection:text-white">
@@ -52,10 +53,20 @@
             </div>
         </div>
 
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-3">
+            <button id="configBtn"
+                class="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                    </path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                API Config
+            </button>
             <button id="refreshBtn"
                 class="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <svg id="refreshIcon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
                     </path>
@@ -63,19 +74,31 @@
                 Refresh Data
             </button>
             <span id="connectionStatus"
-                class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                ● Connected: Live Database
+                class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                ● Initializing...
             </span>
         </div>
     </header>
 
     <main class="flex-1 p-6 overflow-y-auto max-w-7xl mx-auto w-full space-y-6">
 
+        <!-- Error Alert Container -->
+        <div id="errorAlert" class="hidden bg-rose-500/10 border border-rose-500/30 rounded-2xl p-4 text-rose-300 text-xs">
+            <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-rose-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+                <div class="flex-1">
+                    <h4 class="font-bold text-rose-200">Supabase Connection Notice</h4>
+                    <p id="errorMessage" class="mt-1 font-mono text-[11px]"></p>
+                </div>
+            </div>
+        </div>
+
         <!-- Stat Summary Widgets -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4">
-                <span class="text-xs font-medium text-slate-400 uppercase tracking-wider block mb-1">Total
-                    Applications</span>
+                <span class="text-xs font-medium text-slate-400 uppercase tracking-wider block mb-1">Total Applications</span>
                 <span id="statTotal" class="text-2xl font-bold font-mono text-white">0</span>
             </div>
             <div class="bg-slate-800/60 border border-amber-500/30 rounded-2xl p-4">
@@ -87,17 +110,15 @@
                 <span id="statProcessing" class="text-2xl font-bold font-mono text-blue-300">0</span>
             </div>
             <div class="bg-slate-800/60 border border-rose-500/30 rounded-2xl p-4">
-                <span class="text-xs font-medium text-rose-400 uppercase tracking-wider block mb-1">Action
-                    Required</span>
+                <span class="text-xs font-medium text-rose-400 uppercase tracking-wider block mb-1">Action Required</span>
                 <span id="statAction" class="text-2xl font-bold font-mono text-rose-300">0</span>
             </div>
         </div>
 
         <!-- Search and Filter Controls -->
-        <div
-            class="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-4 flex flex-col md:flex-row gap-4 justify-between items-center">
+        <div class="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-4 flex flex-col md:flex-row gap-4 justify-between items-center">
             <div class="relative w-full md:w-80">
-                <input type="text" id="searchInput" placeholder="Search ticket or company..."
+                <input type="text" id="searchInput" placeholder="Search ticket, name, or company..."
                     class="w-full pl-9 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500 font-mono">
                 <svg class="w-4 h-4 text-slate-500 absolute left-3 top-2.5" fill="none" stroke="currentColor"
                     stroke-width="2" viewBox="0 0 24 24">
@@ -144,8 +165,8 @@
                     </thead>
                     <tbody id="tableBody" class="divide-y divide-slate-800/60">
                         <tr>
-                            <td colspan="6" class="px-5 py-8 text-center text-slate-500 font-mono">
-                                Loading live applications...
+                            <td colspan="6" class="px-5 py-12 text-center text-slate-500 font-mono">
+                                Connecting and loading live applications...
                             </td>
                         </tr>
                     </tbody>
@@ -153,6 +174,71 @@
             </div>
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800/80 px-6 py-6 text-center text-xs text-slate-400 shrink-0 space-y-1.5">
+        <div>
+            &copy; 2024 - <span id="currentYear"></span> AeroTeleConsult. All rights reserved.
+        </div>
+        <div class="text-[11px] text-slate-500">
+            Website designed and developed by 
+            <a href="https://engineer-david-portfolio.kiuradavis.workers.dev/" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="text-brand-400 hover:text-brand-300 font-medium underline underline-offset-2 transition">
+                Wankilb Software Solutions
+            </a>
+        </div>
+    </footer>
+
+    <!-- Supabase Config Modal -->
+    <div id="configModal"
+        class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-5">
+            <div class="flex justify-between items-start border-b border-slate-800 pb-4">
+                <div>
+                    <h3 class="text-base font-bold text-white">Database Credentials</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Configure your Supabase Project URL & Anon Public Key</p>
+                </div>
+                <button id="closeConfigBtn" type="button" class="text-slate-400 hover:text-white p-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="configForm" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Supabase Project URL</label>
+                    <input type="text" id="configUrlInput" required
+                        class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-slate-200 font-mono outline-none focus:border-brand-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Supabase Anon Key (JWT format eyJhbGci...)</label>
+                    <input type="password" id="configKeyInput" required
+                        class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-slate-200 font-mono outline-none focus:border-brand-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Table Name</label>
+                    <input type="text" id="configTableInput" required value="intake_submissions"
+                        class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-slate-200 font-mono outline-none focus:border-brand-500">
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="button" id="cancelConfigBtn"
+                        class="w-1/2 py-2.5 text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 rounded-xl transition">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="w-1/2 py-2.5 text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition">
+                        Save & Reconnect
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Status Update Modal -->
     <div id="updateModal"
@@ -174,16 +260,14 @@
                 <input type="hidden" id="modalRecordId">
 
                 <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Applicant
-                        Entity</label>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Applicant Entity</label>
                     <div id="modalCompanyName"
                         class="text-sm font-semibold text-slate-200 bg-slate-800/60 p-3 rounded-xl border border-slate-700/50">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">New
-                        Compliance Status</label>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">New Compliance Status</label>
                     <select id="modalStatusSelect" required
                         class="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-xs text-slate-200 outline-none focus:border-brand-500">
                         <option value="under_review">Under Review (Initial Assessment)</option>
@@ -195,13 +279,11 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Secretarial
-                        Notes / Public Remark</label>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Secretarial Notes / Public Remark</label>
                     <textarea id="modalNotesInput" rows="4"
                         placeholder="Enter notes visible to applicant when checking status..."
                         class="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-brand-500"></textarea>
-                    <span class="text-[10px] text-slate-500 mt-1 block">This note is displayed on the client-facing
-                        tracking portal.</span>
+                    <span class="text-[10px] text-slate-500 mt-1 block">This note is displayed on the client-facing tracking portal.</span>
                 </div>
 
                 <div class="flex gap-3 pt-2">
@@ -220,25 +302,14 @@
 
     <!-- JavaScript Data Controller -->
     <script>
+        // Supabase Configuration
         const CONFIG = {
-            SUPABASE_URL: window.ENV_SUPABASE_URL || "https://tfetuykairghymxmknxc.supabase.co",
-            SUPABASE_KEY: window.ENV_SUPABASE_ANON_KEY || "sb_publishable_9ITJB3dba8vSDsZzcF3psw_YPIdstSx"
+            SUPABASE_URL: localStorage.getItem('SP_URL') || window.ENV_SUPABASE_URL || "https://tfetuykairghymxmknxc.supabase.co",
+            SUPABASE_KEY: localStorage.getItem('SP_KEY') || window.ENV_SUPABASE_ANON_KEY || "sb_publishable_9ITJB3dba8vSDsZzcF3psw_YPIdstSx",
+            TABLE_NAME: localStorage.getItem('SP_TABLE') || "intake_submissions"
         };
 
-        const supabase = (window.supabase && CONFIG.SUPABASE_URL.indexOf("YOUR_SUPABASE") === -1)
-            ? window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY)
-            : null;
-
-        (async () => {
-    const { data, error } = await supabase
-        .from('intake_submissions')
-        .select('*')
-        .limit(1);
-
-    console.log('TEST DATA:', data);
-    console.log('TEST ERROR:', error);
-})();
-        
+        let dbClient = null;
         let applicationsData = [];
 
         // DOM Elements
@@ -247,6 +318,9 @@
         const filterSector = document.getElementById('filterSector');
         const filterStatus = document.getElementById('filterStatus');
         const refreshBtn = document.getElementById('refreshBtn');
+        const connectionStatus = document.getElementById('connectionStatus');
+        const errorAlert = document.getElementById('errorAlert');
+        const errorMessage = document.getElementById('errorMessage');
 
         // Modal Elements
         const updateModal = document.getElementById('updateModal');
@@ -260,6 +334,45 @@
         const modalNotesInput = document.getElementById('modalNotesInput');
         const saveModalBtn = document.getElementById('saveModalBtn');
 
+        // Config Modal Elements
+        const configModal = document.getElementById('configModal');
+        const configBtn = document.getElementById('configBtn');
+        const closeConfigBtn = document.getElementById('closeConfigBtn');
+        const cancelConfigBtn = document.getElementById('cancelConfigBtn');
+        const configForm = document.getElementById('configForm');
+        const configUrlInput = document.getElementById('configUrlInput');
+        const configKeyInput = document.getElementById('configKeyInput');
+        const configTableInput = document.getElementById('configTableInput');
+
+        // Initialize Supabase Client
+        function initSupabase() {
+            try {
+                if (window.supabase && typeof window.supabase.createClient === 'function') {
+                    dbClient = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY);
+                    return true;
+                } else {
+                    showError("Supabase JS SDK library failed to load. Please check your internet connection.");
+                    return false;
+                }
+            } catch (err) {
+                showError("Supabase Client Init Error: " + err.message);
+                return false;
+            }
+        }
+
+        function showError(msg) {
+            errorAlert.classList.remove('hidden');
+            errorMessage.innerText = msg;
+            connectionStatus.className = "inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20";
+            connectionStatus.innerHTML = "● Connection Error";
+        }
+
+        function setStatusConnected() {
+            errorAlert.classList.add('hidden');
+            connectionStatus.className = "inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+            connectionStatus.innerHTML = "● Connected: Live Database";
+        }
+
         // Status Badge Helper
         function renderStatusBadge(status) {
             const badges = {
@@ -269,101 +382,174 @@
                 action_required: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-400 border border-rose-500/20">Action Required</span>',
                 rejected: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-500/10 text-slate-400 border border-slate-500/20">Rejected</span>'
             };
-            return badges[status] || `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-slate-800 text-slate-400">${status}</span>`;
+            return badges[status] || `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-slate-800 text-slate-400">${status || 'under_review'}</span>`;
+        }
+
+        // Compute Stat Counters locally & safely
+        function updateStatCounters(data) {
+            const total = data.length;
+            let review = 0;
+            let processing = 0;
+            let action = 0;
+
+            data.forEach(item => {
+                const s = (item.status || 'under_review').toLowerCase();
+                if (s === 'under_review' || s === 'pending') review++;
+                else if (s === 'processing' || s === 'in_progress') processing++;
+                else if (s === 'action_required' || s === 'action_needed') action++;
+            });
+
+            document.getElementById('statTotal').innerText = total;
+            document.getElementById('statReview').innerText = review;
+            document.getElementById('statProcessing').innerText = processing;
+            document.getElementById('statAction').innerText = action;
         }
 
         // Fetch Live Applications from Supabase
         async function fetchApplications() {
-            if (!supabase) {
-                tableBody.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-rose-400 font-mono">Supabase client initialization error. Check API keys.</td></tr>`;
-                return;
-            }
+            if (!dbClient && !initSupabase()) return;
 
-            tableBody.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-slate-500 font-mono">Loading live records...</td></tr>`;
+            tableBody.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-slate-400 font-mono">
+                <div class="inline-flex items-center gap-2">
+                    <svg class="animate-spin h-4 w-4 text-brand-500" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                    </svg>
+                    Querying "${CONFIG.TABLE_NAME}"...
+                </div>
+            </td></tr>`;
 
             try {
-                const { data, error } = await supabase
-                    .from('intake_submissions')
+                // Try query with created_at order first
+                let { data, error } = await dbClient
+                    .from(CONFIG.TABLE_NAME)
                     .select('*')
                     .order('created_at', { ascending: false });
 
-                if (error) throw error;
+                // Fallback if created_at column is missing
+                if (error && error.message && error.message.includes('created_at')) {
+                    const fallback = await dbClient.from(CONFIG.TABLE_NAME).select('*');
+                    data = fallback.data;
+                    error = fallback.error;
+                }
+
+                if (error) {
+                    throw error;
+                }
 
                 applicationsData = data || [];
-                updateStatsCounters();
+                setStatusConnected();
+                updateStatCounters(applicationsData);
                 renderTable();
+
             } catch (err) {
-                console.error(err);
-                tableBody.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-rose-400 font-mono">Error fetching data: ${err.message}</td></tr>`;
+                console.error("Supabase Fetch Error:", err);
+                showError(`Database query failed on table '${CONFIG.TABLE_NAME}': ${err.message || err.error_description || JSON.stringify(err)}`);
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="px-5 py-8 text-center text-rose-400 font-mono text-xs">
+                            <p class="font-bold">Error fetching data:</p>
+                            <p class="mt-1 text-slate-400">${err.message || 'Check database permissions, table name, or API key.'}</p>
+                            <button onclick="openConfigModal()" class="mt-3 px-3 py-1.5 bg-rose-600/20 hover:bg-rose-600 text-rose-200 border border-rose-500/30 rounded-lg text-xs font-semibold transition">
+                                Edit Supabase Credentials
+                            </button>
+                        </td>
+                    </tr>`;
             }
         }
 
-        // Stats Counters Update
-        function updateStatsCounters() {
-            document.getElementById('statTotal').innerText = applicationsData.length;
-            document.getElementById('statReview').innerText = applicationsData.filter(a => (a.status || 'under_review') === 'under_review').length;
-            document.getElementById('statProcessing').innerText = applicationsData.filter(a => a.status === 'processing').length;
-            document.getElementById('statAction').innerText = applicationsData.filter(a => a.status === 'action_required').length;
+        // Realtime Subscription
+        function subscribeToRealtime() {
+            if (!dbClient) return;
+
+            try {
+                dbClient
+                    .channel('realtime_' + CONFIG.TABLE_NAME)
+                    .on('postgres_changes', { event: '*', schema: 'public', table: CONFIG.TABLE_NAME }, async (payload) => {
+                        console.log('Realtime update received:', payload);
+                        await fetchApplications();
+                    })
+                    .subscribe();
+            } catch (e) {
+                console.warn("Realtime subscription could not be established:", e);
+            }
         }
 
         // Filter & Render Table Data
         function renderTable() {
-            const query = searchInput.value.toLowerCase().trim();
+            const query = (searchInput.value || '').toLowerCase().trim();
             const sector = filterSector.value;
             const status = filterStatus.value;
 
             const filtered = applicationsData.filter(item => {
-                const itemStatus = item.status || 'under_review';
-                const matchesQuery = !query ||
-                    (item.tracking_ticket && item.tracking_ticket.toLowerCase().includes(query)) ||
-                    (item.company_name && item.company_name.toLowerCase().includes(query)) ||
-                    (item.contact_name && item.contact_name.toLowerCase().includes(query));
+                const itemStatus = (item.status || 'under_review').toLowerCase();
+                const ticket = (item.tracking_ticket || item.ticket_number || item.ticket || item.id || '').toString().toLowerCase();
+                const company = (item.company_name || item.organization || item.company || '').toString().toLowerCase();
+                const contact = (item.contact_name || item.name || item.full_name || '').toString().toLowerCase();
+                const itemSector = (item.sector_track || item.sector || item.track || '').toString().toLowerCase();
 
-                const matchesSector = sector === 'all' || item.sector_track === sector;
-                const matchesStatus = status === 'all' || itemStatus === status;
+                const matchesQuery = !query || ticket.includes(query) || company.includes(query) || contact.includes(query);
+                const matchesSector = sector === 'all' || itemSector === sector.toLowerCase();
+                const matchesStatus = status === 'all' || itemStatus === status.toLowerCase();
 
                 return matchesQuery && matchesSector && matchesStatus;
             });
 
             if (filtered.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-slate-500">No applications match the active filters.</td></tr>`;
+                const msg = applicationsData.length === 0 
+                    ? `No records found in table "${CONFIG.TABLE_NAME}".` 
+                    : "No applications match the active search/filter criteria.";
+                tableBody.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-slate-500 font-mono">${msg}</td></tr>`;
                 return;
             }
 
-            tableBody.innerHTML = filtered.map(item => `
+            tableBody.innerHTML = filtered.map(item => {
+                const ticket = item.tracking_ticket || item.ticket_number || item.ticket || (item.id ? String(item.id).substring(0, 8) : 'N/A');
+                const company = item.company_name || item.organization || item.company || 'Unnamed Organization';
+                const contact = item.contact_name || item.name || item.full_name || 'No contact specified';
+                const email = item.email || item.contact_email || '';
+                const sectorName = item.sector_track || item.sector || item.track || 'General';
+                const dateStr = item.created_at || item.createdAt || item.inserted_at;
+                const formattedDate = dateStr ? new Date(dateStr).toLocaleDateString() : 'N/A';
+                const currentStatus = item.status || 'under_review';
+                const rowId = item.id || ticket;
+
+                return `
                 <tr class="hover:bg-slate-800/30 transition">
-                    <td class="px-5 py-3.5 font-mono text-amber-400 font-bold">${item.tracking_ticket || 'N/A'}</td>
+                    <td class="px-5 py-3.5 font-mono text-amber-400 font-bold">${ticket}</td>
                     <td class="px-5 py-3.5">
-                        <div class="font-semibold text-slate-100">${item.company_name}</div>
-                        <div class="text-[11px] text-slate-400">${item.contact_name} (${item.email})</div>
+                        <div class="font-semibold text-slate-100">${company}</div>
+                        <div class="text-[11px] text-slate-400">${contact}${email ? ` (${email})` : ''}</div>
                     </td>
-                    <td class="px-5 py-3.5 text-slate-300 capitalize font-medium">${item.sector_track} Track</td>
-                    <td class="px-5 py-3.5 font-mono text-slate-400">${new Date(item.created_at).toLocaleDateString()}</td>
-                    <td class="px-5 py-3.5">${renderStatusBadge(item.status || 'under_review')}</td>
+                    <td class="px-5 py-3.5 text-slate-300 capitalize font-medium">${sectorName} Track</td>
+                    <td class="px-5 py-3.5 font-mono text-slate-400">${formattedDate}</td>
+                    <td class="px-5 py-3.5">${renderStatusBadge(currentStatus)}</td>
                     <td class="px-5 py-3.5 text-right">
-                        <button onclick="openUpdateModal('${item.id}')" class="px-3 py-1 bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white border border-brand-500/30 rounded-lg text-xs font-semibold transition">
+                        <button onclick="openUpdateModal('${rowId}')" class="px-3 py-1 bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white border border-brand-500/30 rounded-lg text-xs font-semibold transition">
                             Manage
                         </button>
                     </td>
                 </tr>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        // Open Modal Handler
+        // Open Status Modal Handler
         window.openUpdateModal = function (id) {
-            const record = applicationsData.find(a => a.id === id);
+            const record = applicationsData.find(a => (a.id === id || a.tracking_ticket === id || a.ticket === id));
             if (!record) return;
 
-            modalRecordId.value = record.id;
-            modalTicketCode.innerText = record.tracking_ticket || 'N/A';
-            modalCompanyName.innerText = `${record.company_name} (${record.contact_name})`;
+            modalRecordId.value = record.id || id;
+            modalTicketCode.innerText = record.tracking_ticket || record.ticket || record.id || 'N/A';
+            const company = record.company_name || record.organization || 'Applicant Entity';
+            const contact = record.contact_name || record.name || '';
+            modalCompanyName.innerText = contact ? `${company} (${contact})` : company;
             modalStatusSelect.value = record.status || 'under_review';
-            modalNotesInput.value = record.status_notes || '';
+            modalNotesInput.value = record.status_notes || record.notes || '';
 
             updateModal.classList.remove('hidden');
         };
 
-        // Close Modal Handler
         function closeModal() {
             updateModal.classList.add('hidden');
         }
@@ -382,13 +568,18 @@
             const newNotes = modalNotesInput.value.trim();
 
             try {
-                const { error } = await supabase
-                    .from('intake_submissions')
-                    .update({
-                        status: newStatus,
-                        status_notes: newNotes,
-                        updated_at: new Date().toISOString()
-                    })
+                const updatePayload = {
+                    status: newStatus,
+                    status_notes: newNotes
+                };
+
+                try {
+                    updatePayload.updated_at = new Date().toISOString();
+                } catch(e) {}
+
+                const { error } = await dbClient
+                    .from(CONFIG.TABLE_NAME)
+                    .update(updatePayload)
                     .eq('id', id);
 
                 if (error) throw error;
@@ -396,21 +587,65 @@
                 closeModal();
                 await fetchApplications();
             } catch (err) {
-                alert('Failed to update record: ' + err.message);
+                alert('Failed to update record: ' + (err.message || JSON.stringify(err)));
             } finally {
                 saveModalBtn.disabled = false;
                 saveModalBtn.innerText = 'Save Status Update';
             }
         });
 
+        // Config Modal Functions
+        window.openConfigModal = function() {
+            configUrlInput.value = CONFIG.SUPABASE_URL;
+            configKeyInput.value = CONFIG.SUPABASE_KEY;
+            configTableInput.value = CONFIG.TABLE_NAME;
+            configModal.classList.remove('hidden');
+        };
+
+        function closeConfigModal() {
+            configModal.classList.add('hidden');
+        }
+
+        configBtn.addEventListener('click', openConfigModal);
+        closeConfigBtn.addEventListener('click', closeConfigModal);
+        cancelConfigBtn.addEventListener('click', closeConfigModal);
+
+        configForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            CONFIG.SUPABASE_URL = configUrlInput.value.trim();
+            CONFIG.SUPABASE_KEY = configKeyInput.value.trim();
+            CONFIG.TABLE_NAME = configTableInput.value.trim();
+
+            localStorage.setItem('SP_URL', CONFIG.SUPABASE_URL);
+            localStorage.setItem('SP_KEY', CONFIG.SUPABASE_KEY);
+            localStorage.setItem('SP_TABLE', CONFIG.TABLE_NAME);
+
+            closeConfigModal();
+            initSupabase();
+            fetchApplications();
+        });
+
         // Event Listeners
         searchInput.addEventListener('input', renderTable);
         filterSector.addEventListener('change', renderTable);
         filterStatus.addEventListener('change', renderTable);
-        refreshBtn.addEventListener('click', fetchApplications);
+        refreshBtn.addEventListener('click', () => {
+            const icon = document.getElementById('refreshIcon');
+            icon.classList.add('animate-spin');
+            fetchApplications().finally(() => {
+                setTimeout(() => icon.classList.remove('animate-spin'), 600);
+            });
+        });
 
-        // Initial Fetch
-        fetchApplications();
+        // Initialize and Run
+        window.addEventListener('DOMContentLoaded', () => {
+            const currentYearEl = document.getElementById('currentYear');
+            if (currentYearEl) currentYearEl.innerText = new Date().getFullYear();
+
+            initSupabase();
+            fetchApplications();
+            subscribeToRealtime();
+        });
     </script>
 </body>
 
