@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wankilb ProTech | Hardware Repairs, Web Engineering, TV Mounting & Skills Bootcamp Nairobi</title>
+
+    <meta name="description"
+        content="Nairobi's premier on-demand tech engineering secretariat. Certified computer repairs, precision TV wall mountings, modern web applications, computer packages training bootcamp, and enterprise data recovery.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                        },
+                        dark: {
+                            900: '#0b0f19',
+                            950: '#030712',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- jsPDF for Work Order / Receipt Download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        @keyframes slideInRight {
+            from {
+                transform: translateX(120%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(120%);
+                opacity: 0;
+            }
+        }
+
+        .toast-enter {
+            animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .toast-exit {
+            animation: slideOutRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-slate-900 text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white flex flex-col min-h-screen">
+
+    <!-- TOAST CONTAINER -->
+    <div id="toastContainer"
+        class="fixed top-20 right-4 sm:right-6 z-50 flex flex-col gap-3 max-w-sm w-full pointer-events-none"></div>
+
+    <!-- Top Announcement Bar -->
+    <div
+        class="bg-dark-950 border-b border-slate-800 text-slate-300 text-xs py-2 px-4 sm:px-8 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+            <span class="text-[11px] font-medium tracking-wide text-slate-400">Nairobi On-Site Callout & Remote
+                Engineering Desk</span>
+        </div>
+        <div class="flex items-center space-x-6">
+            <a href="tel:+254726661849"
+                class="hover:text-white font-mono text-[11px] font-semibold flex items-center gap-1.5 transition">
+                <span class="text-brand-500">📞</span> +254 726 661 849
+            </a>
+            <a href="mailto:info@aeroteleconsult.co.ke"
+                class="hidden sm:flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-white transition">
+                <span>✉️</span> info@aeroteleconsult.co.ke
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <header class="sticky top-0 z-40 bg-dark-900/90 backdrop-blur-xl border-b border-slate-800/80 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="p-2.5 bg-brand-500/10 text-brand-500 rounded-2xl border border-brand-500/20 shadow-inner">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M11.42 15.17L17.25 21A2.67 2.67 0 0021 17.25l-5.83-5.83M11.42 15.17l2.496-3.03c.315-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5">
+                        </path>
+                    </svg>
+                </div>
+                <div>
+                    <span class="text-xl font-black text-white tracking-tight block">WANKILB <span
+                            class="text-brand-500">PROTECH</span></span>
+                    <span class="text-[10px] text-slate-400 font-mono uppercase tracking-wider">Engineering • Web •
+                        Training • Systems</span>
+                </div>
+            </div>
+
+            <nav class="hidden md:flex space-x-8 text-xs font-bold uppercase tracking-wider text-slate-300">
+                <a href="#services" class="hover:text-brand-500 transition">Services Matrix</a>
+                <a href="#estimator" class="hover:text-brand-500 transition">Rate Estimator</a>
+                <a href="#bootcamp" class="hover:text-brand-500 transition">Skills Bootcamp</a>
+                <a href="#booking" class="hover:text-brand-500 transition">Dispatch Ticket</a>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <a href="#booking"
+                    class="inline-flex items-center px-5 py-2.5 text-xs font-bold text-dark-950 bg-brand-500 hover:bg-brand-400 rounded-xl transition shadow-lg shadow-brand-500/20">
+                    Book Callout &rarr;
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- HERO SECTION -->
+        <section
+            class="relative pt-24 pb-28 bg-gradient-to-b from-dark-950 via-dark-900 to-slate-900 border-b border-slate-800 overflow-hidden">
+            <div
+                class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30 pointer-events-none">
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10">
+                <div
+                    class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/30 text-brand-400 text-xs font-mono font-semibold tracking-wider">
+                    ● PRO-GRADE ON-DEMAND TECH SOLUTIONS
+                </div>
+                <h1
+                    class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight max-w-4xl mx-auto leading-[1.1]">
+                    Hardware Diagnostics, Web Systems, Precision TV Mounts & Skills Bootcamp.
+                </h1>
+                <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                    Fast on-site dispatch across Nairobi. Certified hardware repairs, precision audio/visual
+                    installations, cloud backups, and intensive hands-on computer packages training.
+                </p>
+
+                <div class="flex flex-wrap justify-center gap-4 pt-4">
+                    <a href="#booking"
+                        class="px-8 py-4 text-sm font-bold text-dark-950 bg-brand-500 hover:bg-brand-400 rounded-xl transition shadow-xl shadow-brand-500/20">
+                        Dispatch a Technician Now
+                    </a>
+                    <a href="#estimator"
+                        class="px-8 py-4 text-sm font-bold text-slate-200 bg-slate-800/80 hover:bg-slate-800 border border-slate-700 rounded-xl transition">
+                        📊 Explore Instant Rate Calculator
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES MATRIX -->
+        <section id="services" class="py-24 bg-dark-900 border-b border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-16 space-y-2">
+                    <span class="text-xs font-mono font-bold text-brand-500 uppercase tracking-widest">TECHNICAL
+                        VECTORS</span>
+                    <h2 class="text-3xl font-extrabold text-white">Full-Spectrum Technical Services</h2>
+                    <p class="text-xs text-slate-400">Select any vector for immediate booking or transparent pricing.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    <!-- Vector 1: Hardware Repairs -->
+                    <div
+                        class="p-7 bg-slate-900/90 border border-slate-800 rounded-3xl hover:border-brand-500/50 hover:bg-slate-800/60 transition duration-300 space-y-5 flex flex-col justify-between group">
+                        <div class="space-y-4">
+                            <div
+                                class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-2xl flex items-center justify-center border border-blue-500/20">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0H3">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-brand-400 transition">Laptop & PC
+                                Hardware Diagnostics</h3>
+                            <ul class="text-xs text-slate-400 space-y-2.5 leading-relaxed">
+                                <li>✓ High-grade screen, keyboard & battery replacements</li>
+                                <li>✓ High-speed NVMe SSD & RAM upgrade kits</li>
+                                <li>✓ Windows 11 / macOS clean installation & debloat</li>
+                                <li>✓ Liquid damage recovery & thermal paste repasting</li>
+                            </ul>
+                        </div>
+                        <div class="pt-4 border-t border-slate-800 flex justify-between items-center">
+                            <span class="text-xs font-mono font-bold text-slate-300">From KES 1,500</span>
+                            <a href="#booking" class="text-xs font-bold text-brand-500 hover:text-brand-400">Book
+                                Diagnostic &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- Vector 2: Training Bootcamp -->
+                    <div id="bootcamp"
+                        class="p-7 bg-gradient-to-b from-brand-950/40 via-slate-900 to-slate-900 border border-brand-500/40 rounded-3xl shadow-xl space-y-5 flex flex-col justify-between relative overflow-hidden group">
+                        <div
+                            class="absolute -right-8 -bottom-8 w-32 h-32 bg-brand-500/10 rounded-full blur-2xl pointer-events-none">
+                        </div>
+                        <div class="space-y-4 relative z-10">
+                            <div class="flex justify-between items-start">
+                                <div
+                                    class="w-12 h-12 bg-brand-500/20 text-brand-400 rounded-2xl flex items-center justify-center border border-brand-500/30">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <span
+                                    class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-brand-500/20 text-brand-300 border border-brand-500/40">Certification</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-brand-400 transition">Computer
+                                Packages & AI Bootcamp</h3>
+                            <ul class="text-xs text-slate-300 space-y-2.5 leading-relaxed">
+                                <li>✓ Touch-typing mastery (Speed & Accuracy drills)</li>
+                                <li>✓ Advanced MS Excel, Word, PowerPoint & Access</li>
+                                <li>✓ Modern AI tools (ChatGPT, Google Workspace, Canva)</li>
+                                <li>✓ 1-on-1 personalized instruction + Accredited Certificate</li>
+                            </ul>
+                        </div>
+                        <div class="pt-4 border-t border-slate-800/80 flex justify-between items-center relative z-10">
+                            <span class="text-xs font-mono font-bold text-amber-400">KES 4,500 / 4-Wk Cohort</span>
+                            <a href="#booking" class="text-xs font-bold text-brand-400 hover:text-brand-300">Enroll
+                                Today &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- Vector 3: TV Mounting -->
+                    <div
+                        class="p-7 bg-slate-900/90 border border-slate-800 rounded-3xl hover:border-brand-500/50 hover:bg-slate-800/60 transition duration-300 space-y-5 flex flex-col justify-between group">
+                        <div class="space-y-4">
+                            <div
+                                class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-2xl flex items-center justify-center border border-amber-500/20">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-brand-400 transition">Precision
+                                Smart TV Wall Mounting</h3>
+                            <ul class="text-xs text-slate-400 space-y-2.5 leading-relaxed">
+                                <li>✓ Fixed, tilt, and heavy-duty swivel bracket anchoring</li>
+                                <li>✓ Laser-leveled precision mounting (32" to 98"+ OLEDs)</li>
+                                <li>✓ Concealed in-wall / trunking cable concealment</li>
+                                <li>✓ Soundbar, Apple TV & DSTV bracket alignment</li>
+                            </ul>
+                        </div>
+                        <div class="pt-4 border-t border-slate-800 flex justify-between items-center">
+                            <span class="text-xs font-mono font-bold text-slate-300">From KES 2,000</span>
+                            <a href="#booking" class="text-xs font-bold text-brand-500 hover:text-brand-400">Book Mount
+                                &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- Vector 4: Web Design -->
+                    <div
+                        class="p-7 bg-slate-900/90 border border-slate-800 rounded-3xl hover:border-brand-500/50 hover:bg-slate-800/60 transition duration-300 space-y-5 flex flex-col justify-between group">
+                        <div class="space-y-4">
+                            <div
+                                class="w-12 h-12 bg-purple-500/10 text-purple-400 rounded-2xl flex items-center justify-center border border-purple-500/20">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-brand-400 transition">Custom Web
+                                Engineering & Portals</h3>
+                            <ul class="text-xs text-slate-400 space-y-2.5 leading-relaxed">
+                                <li>✓ Corporate landing pages, SaaS frontends & portfolios</li>
+                                <li>✓ Domain registration, cloud hosting & SSL deployment</li>
+                                <li>✓ Database integration (Supabase, Firebase, PostgreSQL)</li>
+                                <li>✓ Website maintenance, security patches & SEO tuning</li>
+                            </ul>
+                        </div>
+                        <div class="pt-4 border-t border-slate-800 flex justify-between items-center">
+                            <span class="text-xs font-mono font-bold text-slate-300">From KES 15,000</span>
+                            <a href="#booking" class="text-xs font-bold text-brand-500 hover:text-brand-400">Request
+                                Quote &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- Vector 5: Data Recovery & Backups -->
+                    <div
+                        class="p-7 bg-slate-900/90 border border-slate-800 rounded-3xl hover:border-brand-500/50 hover:bg-slate-800/60 transition duration-300 space-y-5 flex flex-col justify-between group">
+                        <div class="space-y-4">
+                            <div
+                                class="w-12 h-12 bg-rose-500/10 text-rose-400 rounded-2xl flex items-center justify-center border border-rose-500/20">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 5.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125m16.5 5.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-brand-400 transition">Data Recovery
+                                & Cloud Backups</h3>
+                            <ul class="text-xs text-slate-400 space-y-2.5 leading-relaxed">
+                                <li>✓ Crashed hard drive, formatted USB & SSD file extraction</li>
+                                <li>✓ Automated cloud sync (Google Drive, OneDrive, NAS)</li>
+                                <li>✓ Secure cloning when transferring to new computers</li>
+                                <li>✓ Confidential data sanitization & wipe certificates</li>
+                            </ul>
+                        </div>
+                        <div class="pt-4 border-t border-slate-800 flex justify-between items-center">
+                            <span class="text-xs font-mono font-bold text-slate-300">From KES 2,000</span>
+                            <a href="#booking" class="text-xs font-bold text-brand-500 hover:text-brand-400">Recover
+                                Data &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- Vector 6: Document Processing -->
+                    <div
+                        class="p-7 bg-slate-900/90 border border-slate-800 rounded-3xl hover:border-brand-500/50 hover:bg-slate-800/60 transition duration-300 space-y-5 flex flex-col justify-between group">
+                        <div class="space-y-4">
+                            <div
+                                class="w-12 h-12 bg-indigo-500/10 text-indigo-400 rounded-2xl flex items-center justify-center border border-indigo-500/20">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.53-3h7.5m-7.5-3h7.5M6.75 21h10.5A2.25 2.25 0 0019.5 18.75V7.5a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 7.5v11.25A2.25 2.25 0 006.75 21z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-brand-400 transition">Document
+                                Processing & Cyber Desk</h3>
+                            <ul class="text-xs text-slate-400 space-y-2.5 leading-relaxed">
+                                <li>✓ Executive CV / Resume redesign & ATS optimization</li>
+                                <li>✓ Academic & commercial proposal typesetting</li>
+                                <li>✓ PDF editing, form creation, conversion & OCR</li>
+                                <li>✓ eCitizen, KRA iTax, NTSA & statutory portal filings</li>
+                            </ul>
+                        </div>
+                        <div class="pt-4 border-t border-slate-800 flex justify-between items-center">
+                            <span class="text-xs font-mono font-bold text-slate-300">From KES 500</span>
+                            <a href="#booking" class="text-xs font-bold text-brand-500 hover:text-brand-400">Submit Docs
+                                &rarr;</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE RATE ESTIMATOR -->
+        <section id="estimator" class="py-20 bg-dark-950 border-b border-slate-800">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 shadow-2xl space-y-8">
+                    <div class="text-center space-y-1">
+                        <span class="text-xs font-mono font-bold text-brand-500 uppercase tracking-widest">TRANSPARENT
+                            PRICING</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Interactive Service & Turnaround
+                            Calculator</h2>
+                        <p class="text-xs text-slate-400">Click a package below to view instant cost estimates and
+                            turnaround benchmarks.</p>
+                    </div>
+
+                    <!-- Calculator Selector Pills -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                        <button type="button" onclick="calculateQuote('repair')"
+                            class="calc-btn active p-3 bg-slate-800 border border-brand-500 text-brand-400 rounded-xl text-xs font-bold transition">
+                            💻 Laptop Repair
+                        </button>
+                        <button type="button" onclick="calculateQuote('tv')"
+                            class="calc-btn p-3 bg-slate-800/40 border border-slate-700 text-slate-300 hover:border-slate-500 rounded-xl text-xs font-bold transition">
+                            📺 TV Wall Mount
+                        </button>
+                        <button type="button" onclick="calculateQuote('bootcamp')"
+                            class="calc-btn p-3 bg-slate-800/40 border border-slate-700 text-slate-300 hover:border-slate-500 rounded-xl text-xs font-bold transition">
+                            🎓 Skills Bootcamp
+                        </button>
+                        <button type="button" onclick="calculateQuote('backup')"
+                            class="calc-btn p-3 bg-slate-800/40 border border-slate-700 text-slate-300 hover:border-slate-500 rounded-xl text-xs font-bold transition">
+                            💾 Data Recovery
+                        </button>
+                    </div>
+
+                    <!-- Calculated Result Card -->
+                    <div id="calcResultCard"
+                        class="bg-dark-950 border border-slate-800 rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-center gap-6">
+                        <div class="space-y-1.5 text-center sm:text-left">
+                            <span id="calcServiceName" class="text-sm font-bold text-white block">Laptop Diagnostic &
+                                Optimization</span>
+                            <p id="calcServiceDesc" class="text-xs text-slate-400 max-w-md">Includes complete hardware
+                                health scan, thermal paste renewal, dust cleaning, and OS speedup.</p>
+                            <span id="calcTurnaround" class="inline-block text-[11px] font-mono text-emerald-400">⏱️
+                                Est. Turnaround: 2 - 4 Hours</span>
+                        </div>
+                        <div class="text-center sm:text-right shrink-0">
+                            <span class="text-[10px] uppercase font-mono text-slate-400 block">Baseline Rate</span>
+                            <span id="calcPrice" class="text-2xl font-black font-mono text-amber-400">KES 1,500</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOOKING / DISPATCH INTAKE ENGINE -->
+        <section id="booking" class="py-24 bg-dark-900 border-b border-slate-800 relative">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 shadow-2xl space-y-8">
+                    <div class="border-b border-slate-800 pb-6 text-center sm:text-left">
+                        <span
+                            class="text-xs font-mono font-bold text-brand-500 uppercase tracking-widest block mb-1">DISPATCH
+                            CONSOLE</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Generate Work Order & Dispatch Ticket
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">Submit your details to generate your work order receipt
+                            and connect directly to a lead technician.</p>
+                    </div>
+
+                    <form id="proBookingForm" class="space-y-6">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Target
+                                Service Track</label>
+                            <select id="proServiceTrack" required
+                                class="w-full px-4 py-3 bg-dark-950 border border-slate-800 rounded-xl text-xs text-slate-200 focus:border-brand-500 outline-none transition">
+                                <option value="computer_repair">💻 Laptop & Computer Hardware Repair / OS Tune-up
+                                </option>
+                                <option value="tv_mounting">📺 Smart TV Wall Mounting (Fixed, Tilt or Swivel Bracket)
+                                </option>
+                                <option value="bootcamp_enrollment">🎓 Computer Packages & AI Productivity Bootcamp (4
+                                    Weeks)</option>
+                                <option value="web_engineering">🌐 Custom Website Design, App Development or Maintenance
+                                </option>
+                                <option value="data_backup">💾 Hard Drive Data Recovery & Automated Cloud Backup
+                                </option>
+                                <option value="document_processing">📄 Professional Document Typesetting, CV Branding &
+                                    Cyber Filings</option>
+                            </select>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label
+                                    class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Client
+                                    / Organization Name</label>
+                                <input type="text" id="proCustName" required placeholder="John Doe"
+                                    class="w-full px-4 py-3 bg-dark-950 border border-slate-800 rounded-xl text-xs text-slate-200 focus:border-brand-500 outline-none transition">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">WhatsApp
+                                    / Phone Number</label>
+                                <input type="tel" id="proCustPhone" required placeholder="+254 7XX XXX XXX"
+                                    class="w-full px-4 py-3 bg-dark-950 border border-slate-800 rounded-xl text-xs text-slate-200 focus:border-brand-500 outline-none transition font-mono">
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label
+                                    class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Location
+                                    / Estate (Nairobi)</label>
+                                <input type="text" id="proCustLocation" required
+                                    placeholder="e.g. Westlands, Kilimani, Roysambu..."
+                                    class="w-full px-4 py-3 bg-dark-950 border border-slate-800 rounded-xl text-xs text-slate-200 focus:border-brand-500 outline-none transition">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Execution
+                                    Timeline</label>
+                                <select id="proExecutionSchedule"
+                                    class="w-full px-4 py-3 bg-dark-950 border border-slate-800 rounded-xl text-xs text-slate-200 focus:border-brand-500 outline-none transition">
+                                    <option value="Same-Day Express Callout">⚡ Urgent / Same-Day Callout</option>
+                                    <option value="Scheduled 24-48 Hours">📅 Scheduled (Next 24-48 Hours)</option>
+                                    <option value="Upcoming Bootcamp Cohort">🎓 Upcoming Bootcamp Cohort</option>
+                                    <option value="Weekend Appointment">🛋️ Weekend Session</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Technical
+                                Scope / Device Details</label>
+                            <textarea id="proCustNotes" rows="3"
+                                placeholder="e.g. 55-inch LG OLED bracket mount with hidden cabling, or HP Pavilion blue screen bootloop..."
+                                class="w-full p-3 bg-dark-950 border border-slate-800 rounded-xl text-xs text-slate-200 focus:border-brand-500 outline-none transition"></textarea>
+                        </div>
+
+                        <button type="submit" id="proSubmitBtn"
+                            class="w-full py-4 text-center text-xs font-bold uppercase tracking-wider text-dark-950 bg-brand-500 hover:bg-brand-400 rounded-xl transition shadow-lg shadow-brand-500/20">
+                            Issue Work Order & Connect with Technician &rarr;
+                        </button>
+
+                        <!-- TICKET GENERATED CARD -->
+                        <div id="proTicketConfirmationCard"
+                            class="hidden bg-dark-950 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
+                            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    <span class="text-xs font-bold uppercase text-slate-200">Work Order Generated</span>
+                                </div>
+                                <span id="proGeneratedTicket" class="font-mono text-sm font-bold text-amber-400"></span>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2 pt-1">
+                                <button type="button" id="proDownloadPdfBtn"
+                                    class="px-4 py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                                    📄 Download PDF Work Order
+                                </button>
+                                <a id="proWaDirectBtn" href="#" target="_blank" rel="noopener noreferrer"
+                                    class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                                    💬 Open Dispatch on WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ ACCORDION -->
+        <section id="faq" class="py-20 bg-dark-950 border-b border-slate-800">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+                <div class="text-center space-y-1">
+                    <span class="text-xs font-mono font-bold text-brand-500 uppercase tracking-widest">KNOWLEDGE
+                        BASE</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Frequently Asked Questions</h2>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
+                        <h4 class="font-bold text-sm text-white">How quickly can a technician be dispatched for TV
+                            Mounting or PC Repair?</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">For express requests within Nairobi
+                            (Westlands, Kilimani, Kasarani, Karen, South B, etc.), technician arrival typically ranges
+                            between 1 to 3 hours upon ticket issuance.</p>
+                    </div>
+
+                    <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
+                        <h4 class="font-bold text-sm text-white">What is covered in the 4-Week Computer Packages
+                            Training Bootcamp?</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">The curriculum covers touch-typing mastery,
+                            advanced Microsoft Excel formulas/pivot tables, Word, PowerPoint, internet safety, and
+                            modern AI productivity workflows (ChatGPT & Google Docs). Students receive a verifiable
+                            certificate of completion.</p>
+                    </div>
+
+                    <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
+                        <h4 class="font-bold text-sm text-white">Do you provide heavy-duty brackets for TV mounting?
+                        </h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Yes. Our technicians carry certified
+                            heavy-gauge fixed, tilt, and full-motion dual-arm swivel brackets suitable for all screen
+                            sizes from 32 inches up to 98+ inches.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark-950 text-slate-400 py-12 border-t border-slate-800/80 text-xs">
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+            <div>
+                <span class="font-bold text-white block">Wankilb ProTech & Skills Solutions</span>
+                <span class="text-slate-500">Nairobi, Kenya • Call / WhatsApp: +254 726 661 849</span>
+            </div>
+            <div>
+                <p>&copy; 2024 - 2026 Wankilb ProTech. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE CONTROLLER SCRIPT -->
+    <script>
+        // Rate Calculator Data
+        const quotePresets = {
+            repair: {
+                title: "Laptop Hardware Diagnostic & Optimization",
+                desc: "Full motherboard health check, cooling fan thermal cleaning, dust removal, and OS speedup.",
+                turnaround: "⏱️ Est. Turnaround: 2 - 4 Hours",
+                price: "KES 1,500"
+            },
+            tv: {
+                title: "Precision Smart TV Wall Mounting",
+                desc: "Includes laser leveling, heavy-duty wall anchoring (32\"-75\"), and cable concealment.",
+                turnaround: "⏱️ Est. Turnaround: 45 - 60 Minutes",
+                price: "KES 2,000"
+            },
+            bootcamp: {
+                title: "Computer Packages & AI Bootcamp (4 Weeks)",
+                desc: "Touch-typing, Advanced Excel/Word/PowerPoint, ChatGPT workflows, and Certificate of Completion.",
+                turnaround: "⏱️ Schedule: Weekday or Weekend Cohorts",
+                price: "KES 4,500"
+            },
+            backup: {
+                title: "Hard Drive Data Recovery & Cloud Sync",
+                desc: "File extraction from crashed drives, partition recovery, and automated Google Drive/OneDrive sync.",
+                turnaround: "⏱️ Est. Turnaround: 24 Hours",
+                price: "KES 2,000"
+            }
+        };
+
+        function calculateQuote(type) {
+            const data = quotePresets[type] || quotePresets.repair;
+            document.getElementById('calcServiceName').innerText = data.title;
+            document.getElementById('calcServiceDesc').innerText = data.desc;
+            document.getElementById('calcTurnaround').innerText = data.turnaround;
+            document.getElementById('calcPrice').innerText = data.price;
+
+            document.querySelectorAll('.calc-btn').forEach(btn => {
+                btn.className = "calc-btn p-3 bg-slate-800/40 border border-slate-700 text-slate-300 hover:border-slate-500 rounded-xl text-xs font-bold transition";
+            });
+            event.target.className = "calc-btn active p-3 bg-slate-800 border border-brand-500 text-brand-400 rounded-xl text-xs font-bold transition";
+        }
+
+        // Toast System
+        function showToast({ title, message, type = 'success' }) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = 'toast-enter pointer-events-auto bg-slate-900 border border-slate-700 text-white rounded-2xl p-4 shadow-2xl flex items-start gap-3';
+            toast.innerHTML = `
+                <div class="w-7 h-7 rounded-xl bg-brand-500/10 border border-brand-500/30 text-brand-400 flex items-center justify-center shrink-0">✓</div>
+                <div class="flex-1 min-w-0">
+                    <h4 class="text-xs font-bold text-white">${title}</h4>
+                    <p class="text-[11px] text-slate-400 mt-0.5">${message}</p>
+                </div>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('toast-exit');
+                setTimeout(() => { if (toast.parentElement) toast.parentElement.removeChild(toast); }, 300);
+            }, 4000);
+        }
+
+        // Pro Booking Form & PDF Generator
+        const form = document.getElementById('proBookingForm');
+        const card = document.getElementById('proTicketConfirmationCard');
+        const ticketCodeSpan = document.getElementById('proGeneratedTicket');
+        const waBtn = document.getElementById('proWaDirectBtn');
+        const pdfBtn = document.getElementById('proDownloadPdfBtn');
+        let currentTicket = null;
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const code = 'TECH-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+            const serviceSelect = document.getElementById('proServiceTrack');
+            const serviceName = serviceSelect.options[serviceSelect.selectedIndex].text;
+            const name = document.getElementById('proCustName').value.trim();
+            const phone = document.getElementById('proCustPhone').value.trim();
+            const loc = document.getElementById('proCustLocation').value.trim();
+            const sched = document.getElementById('proExecutionSchedule').value;
+            const notes = document.getElementById('proCustNotes').value.trim();
+
+            currentTicket = {
+                code: code,
+                service: serviceName,
+                name: name,
+                phone: phone,
+                location: loc,
+                schedule: sched,
+                notes: notes,
+                date: new Date().toLocaleString()
+            };
+
+            ticketCodeSpan.innerText = code;
+
+            // WhatsApp Payload
+            const msg = `*WANKILB PROTECH WORK ORDER:*
+Ticket: ${code}
+Client: ${name} (${phone})
+Service: ${serviceName}
+Location: ${loc}
+Schedule: ${sched}
+Notes: ${notes || 'Standard callout'}`;
+
+            waBtn.href = `https://wa.me/254726661849?text=${encodeURIComponent(msg)}`;
+
+            card.classList.remove('hidden');
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            showToast({
+                title: 'Work Order Generated',
+                message: `Ticket ${code} has been issued.`
+            });
+        });
+
+        // PDF Work Order Generator
+        pdfBtn.addEventListener('click', () => {
+            if (!currentTicket) return;
+
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+                // Top Header Banner
+                doc.setFillColor(15, 23, 42);
+                doc.rect(0, 0, 210, 32, 'F');
+
+                doc.setTextColor(255, 255, 255);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(16);
+                doc.text('WANKILB PROTECH & SKILLS NAIROBI', 15, 14);
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(8.5);
+                doc.setTextColor(16, 185, 129);
+                doc.text('Official Technical Service Work Order & Booking Confirmation', 15, 22);
+
+                // Reference Box
+                doc.setFillColor(248, 250, 252);
+                doc.setDrawColor(226, 232, 240);
+                doc.roundedRect(15, 45, 180, 24, 3, 3, 'FD');
+
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(16, 185, 129);
+                doc.text('SERVICE TICKET REFERENCE', 22, 53);
+
+                doc.setFontSize(14);
+                doc.setFont('courier', 'bold');
+                doc.setTextColor(15, 23, 42);
+                doc.text(currentTicket.code, 22, 62);
+
+                // Table Rows
+                let y = 82;
+                const fields = [
+                    ['Client Name', currentTicket.name],
+                    ['Phone / WhatsApp', currentTicket.phone],
+                    ['Target Service Track', currentTicket.service],
+                    ['Location / Estate', currentTicket.location],
+                    ['Execution Timing', currentTicket.schedule],
+                    ['Scope / Notes', currentTicket.notes || 'Standard callout'],
+                    ['Generated On', currentTicket.date]
+                ];
+
+                fields.forEach(([label, val], idx) => {
+                    if (idx % 2 === 0) {
+                        doc.setFillColor(248, 250, 252);
+                        doc.rect(15, y - 4, 180, 9, 'F');
+                    }
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(9);
+                    doc.setTextColor(100, 116, 139);
+                    doc.text(label, 20, y + 2);
+
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(9);
+                    doc.setTextColor(15, 23, 42);
+                    doc.text(String(val), 80, y + 2);
+
+                    y += 10;
+                });
+
+                // Footer
+                doc.setDrawColor(226, 232, 240);
+                doc.line(15, 260, 195, 260);
+
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(148, 163, 184);
+                doc.text('Wankilb ProTech | +254 726 661 849 | Nairobi, Kenya', 15, 268);
+
+                doc.save(`Wankilb_WorkOrder_${currentTicket.code}.pdf`);
+            } catch (err) {
+                console.error(err);
+                alert("Could not generate PDF. Please use the WhatsApp dispatch button.");
+            }
+        });
+    </script>
+</body>
+
+</html>
