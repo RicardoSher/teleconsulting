@@ -4,25 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AeroTeleConsult | Secretariat Admin Portal</title>
+    <title>AeroTeleConsult & ProTech | Secretariat Operations Command Console</title>
+
+    <!-- High-Resolution Executive SVG Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2338bdf8'/%3E%3Cstop offset='100%25' stop-color='%232563eb'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%230f172a'/%3E%3Ccircle cx='16' cy='16' r='10' stroke='url(%23g)' stroke-width='2' fill='none' opacity='0.4'/%3E%3Ccircle cx='16' cy='16' r='6' stroke='%2338bdf8' stroke-width='2' fill='none'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%2310b981'/%3E%3Cpath d='M16 6v4M16 22v4M6 16h4M22 16h4' stroke='%2338bdf8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
         rel="stylesheet">
 
+    <!-- Tailwind CSS Engine -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
                         brand: {
+                            50: '#eff6ff',
                             500: '#2563eb',
                             600: '#1d4ed8',
                             700: '#1e40af',
@@ -33,28 +39,90 @@
         }
     </script>
 
-    <!-- Supabase JS CDN -->
+    <!-- Supabase JS, jsPDF & Config -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="config.js"></script>
+
+    <style>
+        /* BULLETPROOF SINGLE PAGE RECEIPT PRINTING (NO EXTRA PAGES) */
+        @media print {
+            html, body {
+                height: auto !important;
+                min-height: 0 !important;
+                background: #ffffff !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            header, main, footer, nav, #loginScreen, #updateModal, #serviceUpdateModal, #configModal, .no-print {
+                display: none !important;
+            }
+
+            #adminReceiptModal {
+                display: block !important;
+                position: static !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                background: transparent !important;
+            }
+
+            #adminReceiptModal > div {
+                box-shadow: none !important;
+                border: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            #adminPrintableArea {
+                display: block !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                page-break-inside: avoid !important;
+                page-break-after: avoid !important;
+            }
+
+            @page {
+                margin: 6mm;
+                size: auto;
+            }
+        }
+
+        .epos-mode {
+            max-width: 78mm !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 11px !important;
+            line-height: 1.3 !important;
+            background: #fff !important;
+            color: #000 !important;
+            padding: 10px !important;
+            border: 1px dashed #94a3b8 !important;
+            margin: 0 auto !important;
+        }
+    </style>
 </head>
 
 <body class="h-full font-sans text-slate-100 antialiased flex flex-col selection:bg-brand-500 selection:text-white bg-slate-950">
 
-    <!-- ========================================================================= -->
-    <!-- 1. AUTHENTICATION / LOGIN SCREEN (Visible when logged out) -->
-    <!-- ========================================================================= -->
+    <!-- 1. AUTHENTICATION / LOGIN GATE -->
     <div id="loginScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950">
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(37,99,235,0.15),rgba(255,255,255,0))] pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(37,99,235,0.18),rgba(255,255,255,0))] pointer-events-none"></div>
 
-        <div class="max-w-md w-full bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl relative z-10 space-y-6">
+        <div class="max-w-md w-full bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 shadow-2xl relative z-10 space-y-6">
             <div class="text-center space-y-2">
-                <div class="inline-flex p-3 bg-brand-600/10 border border-brand-500/20 rounded-2xl text-brand-400 mb-2">
+                <div class="inline-flex p-3 bg-brand-600/10 border border-brand-500/20 rounded-2xl text-brand-400 mb-2 shadow-inner">
                     <svg class="w-8 h-8 text-brand-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"></path>
                     </svg>
                 </div>
-                <h2 class="text-xl font-bold text-white tracking-tight">Secretariat Operations Console</h2>
-                <p class="text-xs text-slate-400">Authorized CA & KCAA Compliance Officers Only</p>
+                <h2 class="text-xl font-bold text-white tracking-tight">Operations Command Console</h2>
+                <p class="text-xs text-slate-400">Authorized Secretariat & Tech Officers Authentication</p>
             </div>
 
             <form id="adminLoginForm" class="space-y-4">
@@ -65,9 +133,7 @@
                 </div>
 
                 <div>
-                    <div class="flex justify-between items-center mb-1.5">
-                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Security Password</label>
-                    </div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Password</label>
                     <input type="password" id="loginPassword" required placeholder="••••••••••••"
                         class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-brand-500 transition font-mono">
                 </div>
@@ -80,165 +146,216 @@
                 </button>
             </form>
 
-            <div class="pt-2 text-center border-t border-slate-800/80">
-                <a href="index.html" class="text-xs text-slate-500 hover:text-slate-400 transition flex items-center justify-center gap-1">
-                    &larr; Return to Public Portal
-                </a>
+            <div class="pt-2 text-center border-t border-slate-800/80 flex justify-between text-xs text-slate-500">
+                <a href="index.html" class="hover:text-slate-300 transition">&larr; Spectrum Portal</a>
+                <a href="services.html" class="hover:text-emerald-400 transition">Tech Services &rarr;</a>
             </div>
         </div>
     </div>
 
-    <!-- ========================================================================= -->
-    <!-- 2. AUTHENTICATED DASHBOARD (Hidden until logged in) -->
-    <!-- ========================================================================= -->
+    <!-- 2. REVAMPED AUTHENTICATED DASHBOARD -->
     <div id="adminDashboard" class="hidden flex-1 flex flex-col h-full overflow-hidden">
-        <header class="bg-slate-950 border-b border-slate-800 px-6 py-4 flex flex-wrap items-center justify-between gap-4 shrink-0">
+        
+        <!-- Header Bar -->
+        <header class="bg-slate-950 border-b border-slate-800 px-6 py-4 flex flex-wrap items-center justify-between gap-4 shrink-0 shadow-sm">
             <div class="flex items-center space-x-3">
-                <div class="p-2 bg-brand-600 rounded-xl text-white">
+                <div class="p-2.5 bg-brand-600/20 border border-brand-500/30 rounded-2xl text-brand-400 shadow-inner">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"></path>
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-base font-bold text-white tracking-tight">Secretariat Operations Console</h1>
-                    <p class="text-[11px] text-slate-400 font-mono">CA & KCAA Licensing Management</p>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-base font-bold text-white tracking-tight">Secretariat Operations Console</h1>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span> LIVE SYNC
+                        </span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 font-mono">CA/KCAA Regulatory & Wankilb ProTech Dispatch</p>
                 </div>
             </div>
 
             <div class="flex items-center space-x-3">
-                <span id="officerBadge" class="hidden sm:inline-flex items-center px-3 py-1 rounded-full text-xs font-mono bg-slate-900 border border-slate-700 text-slate-300">
-                    <!-- Dynamic Officer Email -->
-                </span>
+                <div id="officerBadge" onclick="editOfficerDisplayName()" title="Click to edit display name"
+                    class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-mono bg-slate-900 border border-slate-800 text-slate-300 hover:border-brand-500 cursor-pointer transition">
+                </div>
+
+                <button id="exportCsvBtn" onclick="exportDataToCsv()"
+                    class="px-3 py-1.5 text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-xl border border-slate-800 transition flex items-center gap-1.5 shadow-sm">
+                    📊 Export CSV
+                </button>
 
                 <button id="configBtn"
-                    class="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
-                        </path>
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
-                    API Config
+                    class="px-3 py-1.5 text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-xl border border-slate-800 transition flex items-center gap-1.5 shadow-sm">
+                    ⚙️ API Config
                 </button>
 
                 <button id="refreshBtn"
-                    class="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
-                    <svg id="refreshIcon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
-                        </path>
-                    </svg>
-                    Refresh
+                    class="px-3 py-1.5 text-xs font-semibold bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white rounded-xl border border-brand-500/30 transition flex items-center gap-1.5">
+                    🔄 Refresh
                 </button>
 
                 <button id="logoutBtn"
-                    class="px-3 py-1.5 text-xs font-semibold bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg border border-rose-500/30 transition flex items-center gap-1.5">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"></path>
-                    </svg>
+                    class="px-3 py-1.5 text-xs font-semibold bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-xl border border-rose-500/30 transition flex items-center gap-1.5">
                     Sign Out
                 </button>
             </div>
         </header>
 
+        <!-- SUB-HEADER TAB SWITCHER -->
+        <div class="bg-slate-900/90 border-b border-slate-800 px-6 py-2.5 flex items-center justify-between shrink-0">
+            <div class="flex space-x-2">
+                <button type="button" id="tabRegulatoryBtn" onclick="switchDashboardTab('regulatory')"
+                    class="px-4 py-2 text-xs font-bold rounded-xl bg-brand-600 text-white shadow-sm transition flex items-center gap-2">
+                    ✈️ Regulatory Applications (<span id="tabCountRegulatory">0</span>)
+                </button>
+                <button type="button" id="tabServicesBtn" onclick="switchDashboardTab('services')"
+                    class="px-4 py-2 text-xs font-bold rounded-xl bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition flex items-center gap-2">
+                    🛠️ Tech & Service Orders (<span id="tabCountServices">0</span>)
+                </button>
+            </div>
+        </div>
+
+        <!-- MAIN DASHBOARD CONTENT AREA -->
         <main class="flex-1 p-6 overflow-y-auto max-w-7xl mx-auto w-full space-y-6">
-            <!-- Connection Error Alert -->
-            <div id="errorAlert" class="hidden bg-rose-500/10 border border-rose-500/30 rounded-2xl p-4 text-rose-300 text-xs">
-                <div class="flex items-start gap-3">
-                    <svg class="w-5 h-5 text-rose-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                    </svg>
-                    <div class="flex-1">
-                        <h4 class="font-bold text-rose-200">Supabase Connection Notice</h4>
-                        <p id="errorMessage" class="mt-1 font-mono text-[11px]"></p>
+            
+            <!-- SECTION 1: REGULATORY APPLICATIONS -->
+            <div id="sectionRegulatory" class="space-y-6">
+                <!-- Interactive Stat Cards -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div onclick="filterByStat('all')" class="bg-slate-900 border border-slate-800 hover:border-brand-500 rounded-2xl p-4 cursor-pointer transition shadow-sm">
+                        <span class="text-xs font-medium text-slate-400 uppercase tracking-wider block mb-1">Total Submissions</span>
+                        <span id="statTotal" class="text-2xl font-bold font-mono text-white">0</span>
+                    </div>
+                    <div onclick="filterByStat('under_review')" class="bg-slate-900 border border-amber-500/30 hover:border-amber-400 rounded-2xl p-4 cursor-pointer transition shadow-sm">
+                        <span class="text-xs font-medium text-amber-400 uppercase tracking-wider block mb-1">Under Review</span>
+                        <span id="statReview" class="text-2xl font-bold font-mono text-amber-300">0</span>
+                    </div>
+                    <div onclick="filterByStat('processing')" class="bg-slate-900 border border-blue-500/30 hover:border-blue-400 rounded-2xl p-4 cursor-pointer transition shadow-sm">
+                        <span class="text-xs font-medium text-blue-400 uppercase tracking-wider block mb-1">In Processing</span>
+                        <span id="statProcessing" class="text-2xl font-bold font-mono text-blue-300">0</span>
+                    </div>
+                    <div onclick="filterByStat('action_required')" class="bg-slate-900 border border-rose-500/30 hover:border-rose-400 rounded-2xl p-4 cursor-pointer transition shadow-sm">
+                        <span class="text-xs font-medium text-rose-400 uppercase tracking-wider block mb-1">Action Required</span>
+                        <span id="statAction" class="text-2xl font-bold font-mono text-rose-300">0</span>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col md:flex-row gap-4 justify-between items-center">
+                    <div class="relative w-full md:w-80">
+                        <input type="text" id="searchInput" placeholder="Search ticket, name, or company..."
+                            class="w-full pl-9 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500 font-mono">
+                        <svg class="w-4 h-4 text-slate-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
+                        </svg>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                        <select id="filterSector" class="bg-slate-950 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 outline-none focus:border-brand-500">
+                            <option value="all">All Sectors</option>
+                            <option value="aviation">Aviation Track</option>
+                            <option value="telecom">Telecom Track</option>
+                            <option value="radionet">Private Radio</option>
+                            <option value="amateur">Amateur Permit</option>
+                        </select>
+
+                        <select id="filterStatus" class="bg-slate-950 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 outline-none focus:border-brand-500">
+                            <option value="all">All Statuses</option>
+                            <option value="under_review">Under Review</option>
+                            <option value="processing">In Processing</option>
+                            <option value="approved">Approved</option>
+                            <option value="action_required">Action Required</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Applications Table -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-slate-300">
+                            <thead class="bg-slate-950 text-slate-400 font-semibold border-b border-slate-800">
+                                <tr>
+                                    <th class="px-5 py-3.5">Ticket</th>
+                                    <th class="px-5 py-3.5">Organization & Contact</th>
+                                    <th class="px-5 py-3.5">Sector Track</th>
+                                    <th class="px-5 py-3.5">Submitted</th>
+                                    <th class="px-5 py-3.5">Status</th>
+                                    <th class="px-5 py-3.5 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody" class="divide-y divide-slate-800/60">
+                                <tr>
+                                    <td colspan="6" class="px-5 py-12 text-center text-slate-500 font-mono">
+                                        Loading live applications...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Stats Counters -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
-                    <span class="text-xs font-medium text-slate-400 uppercase tracking-wider block mb-1">Total Applications</span>
-                    <span id="statTotal" class="text-2xl font-bold font-mono text-white">0</span>
+            <!-- SECTION 2: TECH SERVICES & WORK ORDERS -->
+            <div id="sectionServices" class="space-y-6 hidden">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col md:flex-row gap-4 justify-between items-center">
+                    <div class="relative w-full md:w-80">
+                        <input type="text" id="searchServicesInput" placeholder="Search work order ticket, client, or phone..."
+                            class="w-full pl-9 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 font-mono">
+                        <svg class="w-4 h-4 text-slate-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
+                        </svg>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                        <select id="filterServiceStatus" class="bg-slate-950 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 outline-none focus:border-emerald-500">
+                            <option value="all">All Service Statuses</option>
+                            <option value="pending_dispatch">Pending Dispatch</option>
+                            <option value="dispatched">Technician Dispatched</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="completed">Completed / Paid</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="bg-slate-900 border border-amber-500/30 rounded-2xl p-4">
-                    <span class="text-xs font-medium text-amber-400 uppercase tracking-wider block mb-1">Under Review</span>
-                    <span id="statReview" class="text-2xl font-bold font-mono text-amber-300">0</span>
-                </div>
-                <div class="bg-slate-900 border border-blue-500/30 rounded-2xl p-4">
-                    <span class="text-xs font-medium text-blue-400 uppercase tracking-wider block mb-1">In Processing</span>
-                    <span id="statProcessing" class="text-2xl font-bold font-mono text-blue-300">0</span>
-                </div>
-                <div class="bg-slate-900 border border-rose-500/30 rounded-2xl p-4">
-                    <span class="text-xs font-medium text-rose-400 uppercase tracking-wider block mb-1">Action Required</span>
-                    <span id="statAction" class="text-2xl font-bold font-mono text-rose-300">0</span>
+
+                <!-- Service Orders Table -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-slate-300">
+                            <thead class="bg-slate-950 text-slate-400 font-semibold border-b border-slate-800">
+                                <tr>
+                                    <th class="px-5 py-3.5">Ticket</th>
+                                    <th class="px-5 py-3.5">Client & Location</th>
+                                    <th class="px-5 py-3.5">Service Requested</th>
+                                    <th class="px-5 py-3.5">Timeline</th>
+                                    <th class="px-5 py-3.5">Status</th>
+                                    <th class="px-5 py-3.5 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBodyServices" class="divide-y divide-slate-800/60">
+                                <tr>
+                                    <td colspan="6" class="px-5 py-12 text-center text-slate-500 font-mono">
+                                        Loading service work orders...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <!-- Search and Filter Controls -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col md:flex-row gap-4 justify-between items-center">
-                <div class="relative w-full md:w-80">
-                    <input type="text" id="searchInput" placeholder="Search ticket, name, or company..."
-                        class="w-full pl-9 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500 font-mono">
-                    <svg class="w-4 h-4 text-slate-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
-                    </svg>
-                </div>
-
-                <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
-                    <select id="filterSector" class="bg-slate-950 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 outline-none focus:border-brand-500">
-                        <option value="all">All Sectors</option>
-                        <option value="aviation">Aviation Track</option>
-                        <option value="telecom">Telecom Track</option>
-                        <option value="radionet">Private Radio</option>
-                        <option value="amateur">Amateur Permit</option>
-                    </select>
-
-                    <select id="filterStatus" class="bg-slate-950 border border-slate-800 text-slate-300 text-xs rounded-xl px-3 py-2 outline-none focus:border-brand-500">
-                        <option value="all">All Statuses</option>
-                        <option value="under_review">Under Review</option>
-                        <option value="processing">In Processing</option>
-                        <option value="approved">Approved</option>
-                        <option value="action_required">Action Required</option>
-                        <option value="rejected">Rejected</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Applications Table -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs text-slate-300">
-                        <thead class="bg-slate-950 text-slate-400 font-semibold border-b border-slate-800">
-                            <tr>
-                                <th class="px-5 py-3.5">Ticket</th>
-                                <th class="px-5 py-3.5">Organization & Contact</th>
-                                <th class="px-5 py-3.5">Sector Track</th>
-                                <th class="px-5 py-3.5">Submitted</th>
-                                <th class="px-5 py-3.5">Status</th>
-                                <th class="px-5 py-3.5 text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody" class="divide-y divide-slate-800/60">
-                            <tr>
-                                <td colspan="6" class="px-5 py-12 text-center text-slate-500 font-mono">
-                                    Loading applications...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </main>
 
         <!-- Footer -->
         <footer class="bg-slate-950 border-t border-slate-800/80 px-6 py-6 text-center text-xs text-slate-400 shrink-0 space-y-1.5">
             <div>
-                &copy; 2024 - <span id="currentYear">2026</span> AeroTeleConsult. All rights reserved.
+                &copy; 2024 - <span id="currentYear">2026</span> AeroTeleConsult & Wankilb ProTech. All rights reserved.
             </div>
             <div class="text-[11px] text-slate-500">
-                Website designed and developed by 
+                Engineered by 
                 <a href="https://engineer-david-portfolio.kiuradavis.workers.dev/" target="_blank" rel="noopener noreferrer" 
                    class="text-brand-400 hover:text-brand-300 font-medium underline underline-offset-2 transition">
                     Wankilb Software Solutions
@@ -247,22 +364,17 @@
         </footer>
     </div>
 
-    <!-- ========================================================================= -->
-    <!-- 3. MODALS (Status Update & Config) -->
-    <!-- ========================================================================= -->
-    <!-- Status Update Modal -->
+    <!-- 3. MODALS (Regulatory Status Update, Tech Service Order & EPOS Receipt Modal) -->
+    
+    <!-- Regulatory Modal -->
     <div id="updateModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-6">
             <div class="flex justify-between items-start border-b border-slate-800 pb-4">
                 <div>
-                    <h3 class="text-base font-bold text-white">Update Secretariat Evaluation</h3>
+                    <h3 class="text-base font-bold text-white">Update Regulatory Evaluation</h3>
                     <p id="modalTicketCode" class="text-xs font-mono text-amber-400 mt-0.5"></p>
                 </div>
-                <button id="closeModalBtn" type="button" class="text-slate-400 hover:text-white p-1">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+                <button id="closeModalBtn" type="button" class="text-slate-400 hover:text-white p-1">✕</button>
             </div>
 
             <form id="updateForm" class="space-y-4">
@@ -302,19 +414,208 @@
         </div>
     </div>
 
+    <!-- Tech Service Order Modal -->
+    <div id="serviceUpdateModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-6">
+            <div class="flex justify-between items-start border-b border-slate-800 pb-4">
+                <div>
+                    <h3 class="text-base font-bold text-white">Manage Work Order Dispatch</h3>
+                    <p id="modalSvcTicketCode" class="text-xs font-mono text-emerald-400 mt-0.5"></p>
+                </div>
+                <button onclick="closeServiceModal()" type="button" class="text-slate-400 hover:text-white p-1">✕</button>
+            </div>
+
+            <form id="serviceUpdateForm" class="space-y-4">
+                <input type="hidden" id="modalSvcRecordId">
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Client Details</label>
+                    <div id="modalSvcClientInfo" class="text-xs text-slate-200 bg-slate-800/60 p-3 rounded-xl border border-slate-700/50 leading-relaxed"></div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Dispatch Status</label>
+                    <select id="modalSvcStatusSelect" required class="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-xs text-slate-200 outline-none focus:border-emerald-500">
+                        <option value="pending_dispatch">Pending Dispatch</option>
+                        <option value="dispatched">Technician Dispatched (On Route)</option>
+                        <option value="in_progress">In Progress (At Client Site)</option>
+                        <option value="completed">Completed / Work Order Closed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Technician Notes</label>
+                    <textarea id="modalSvcNotesInput" rows="3" placeholder="Add internal or invoice notes..."
+                        class="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-emerald-500"></textarea>
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="closeServiceModal()" class="w-1/2 py-2.5 text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 rounded-xl transition">
+                        Cancel
+                    </button>
+                    <button type="submit" id="saveSvcModalBtn" class="w-1/2 py-2.5 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition">
+                        Save Order Update
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADMIN RECEIPT & EPOS PRINT MODAL (SINGLE-PAGE PRINT) -->
+    <div id="adminReceiptModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center hidden p-4 overflow-y-auto">
+        <div class="bg-white text-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-6 relative border border-slate-200 my-8">
+            
+            <!-- Controls (No Print) -->
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4 no-print">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <h3 class="text-sm font-bold text-slate-900">Work Order Receipt / EPOS Slip</h3>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <div class="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200 text-[11px] font-semibold">
+                        <button type="button" id="admBtnStandard" onclick="setAdminReceiptMode('standard')"
+                            class="px-3 py-1 rounded-lg bg-white shadow-sm text-slate-900 font-bold transition">
+                            📄 Standard A4
+                        </button>
+                        <button type="button" id="admBtnEpos" onclick="setAdminReceiptMode('epos')"
+                            class="px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition font-mono">
+                            🧾 EPOS 80mm Slip
+                        </button>
+                    </div>
+
+                    <button onclick="closeAdminReceiptModal()" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-xl hover:bg-slate-100 transition">
+                        ✕
+                    </button>
+                </div>
+            </div>
+
+            <!-- PRINTABLE RECEIPT CONTENT AREA -->
+            <div id="adminPrintableArea" class="space-y-5">
+                
+                <!-- STANDARD A4 LAYOUT -->
+                <div id="admStandardView" class="space-y-5">
+                    <div class="flex justify-between items-start border-b border-slate-200 pb-4">
+                        <div>
+                            <span class="text-xs font-black text-emerald-700 uppercase tracking-widest block">WANKILB PROTECH & SKILLS</span>
+                            <h4 class="text-base font-bold text-slate-900">Official Work Order Receipt</h4>
+                            <p class="text-[11px] text-slate-500 font-mono">Hotline: +254 726 661 849</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] uppercase font-mono text-slate-400 block">Ticket Reference</span>
+                            <span id="admRcptTicket" class="font-mono text-sm font-bold text-emerald-700"></span>
+                            <span id="admRcptDate" class="text-[10px] text-slate-400 font-mono block"></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <div>
+                            <span class="text-slate-400 font-medium block">Client Name:</span>
+                            <span id="admRcptClient" class="font-bold text-slate-900"></span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 font-medium block">Phone / WhatsApp:</span>
+                            <span id="admRcptPhone" class="font-mono font-semibold text-slate-900"></span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 font-medium block">Location / Estate:</span>
+                            <span id="admRcptLoc" class="font-semibold text-slate-800"></span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 font-medium block">Schedule:</span>
+                            <span id="admRcptSched" class="font-semibold text-emerald-700"></span>
+                        </div>
+                    </div>
+
+                    <table class="w-full text-left text-xs table-fixed border border-slate-200 rounded-xl overflow-hidden">
+                        <thead class="bg-slate-100 border-b border-slate-200 text-slate-700 font-semibold">
+                            <tr>
+                                <th class="w-3/5 p-3">Service Scope</th>
+                                <th class="w-2/5 p-3 text-right">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="p-3">
+                                    <div id="admRcptService" class="font-bold text-slate-900"></div>
+                                    <div id="admRcptScope" class="text-[11px] text-slate-500 mt-0.5 leading-relaxed"></div>
+                                </td>
+                                <td class="p-3 text-right font-mono font-bold text-emerald-700" id="admRcptStatus">
+                                    DISPATCHED
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="text-[10px] text-slate-400 border-t border-slate-200 pt-3 flex justify-between">
+                        <span>Certified Technical Workmanship Warranty</span>
+                        <span>Wankilb ProTech Kenya</span>
+                    </div>
+                </div>
+
+                <!-- EPOS THERMAL 80MM LAYOUT -->
+                <div id="admEposView" class="hidden epos-mode rounded-xl space-y-2 text-center text-black">
+                    <div class="font-bold text-sm uppercase tracking-tight">*** WANKILB PROTECH ***</div>
+                    <div class="text-[10px]">Tech Fix • Mount • Bootcamp</div>
+                    <div class="text-[10px]">Tel: +254 726 661 849</div>
+                    <div class="border-t border-dashed border-black my-1"></div>
+                    
+                    <div class="text-left space-y-1">
+                        <div><strong>TICKET :</strong> <span id="admEposTicket" class="font-bold"></span></div>
+                        <div><strong>DATE   :</strong> <span id="admEposDate"></span></div>
+                        <div><strong>CLIENT :</strong> <span id="admEposClient"></span></div>
+                        <div><strong>PHONE  :</strong> <span id="admEposPhone"></span></div>
+                        <div><strong>LOC    :</strong> <span id="admEposLoc"></span></div>
+                        <div><strong>SCHED  :</strong> <span id="admEposSched"></span></div>
+                    </div>
+
+                    <div class="border-t border-dashed border-black my-1"></div>
+                    
+                    <div class="text-left">
+                        <div class="font-bold">ITEM / SERVICE:</div>
+                        <div id="admEposService" class="font-bold pl-2"></div>
+                        <div id="admEposScope" class="text-[10px] pl-2 text-slate-700"></div>
+                    </div>
+
+                    <div class="border-t border-dashed border-black my-2"></div>
+                    <div class="font-bold text-center" id="admEposStatusBadge">STATUS: REGISTERED</div>
+                    <div class="text-[9px] text-center mt-2">*** THANK YOU FOR YOUR BUSINESS ***</div>
+                    <div class="border-b border-dashed border-black pt-2"></div>
+                </div>
+
+            </div>
+
+            <!-- Action Buttons (No Print) -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-200 no-print">
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" onclick="window.print()"
+                        class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                        🖨️ Print 1-Page Receipt
+                    </button>
+                    <button type="button" id="admModalPdfBtn" onclick="downloadAdminOrderPDF()"
+                        class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                        📄 Download PDF
+                    </button>
+                </div>
+                <button type="button" onclick="closeAdminReceiptModal()"
+                    class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition">
+                    Close
+                </button>
+            </div>
+
+        </div>
+    </div>
+
     <!-- API Config Modal -->
     <div id="configModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-5">
             <div class="flex justify-between items-start border-b border-slate-800 pb-4">
                 <div>
                     <h3 class="text-base font-bold text-white">Database Credentials</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Configure your Supabase Project URL & Anon Public Key</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Configure Supabase URL & Keys</p>
                 </div>
-                <button id="closeConfigBtn" type="button" class="text-slate-400 hover:text-white p-1">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+                <button id="closeConfigBtn" type="button" class="text-slate-400 hover:text-white p-1">✕</button>
             </div>
 
             <form id="configForm" class="space-y-4">
@@ -326,11 +627,6 @@
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Supabase Anon Key</label>
                     <input type="password" id="configKeyInput" required class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-slate-200 font-mono outline-none focus:border-brand-500">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Table Name</label>
-                    <input type="text" id="configTableInput" required value="intake_submissions" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-xs text-slate-200 font-mono outline-none focus:border-brand-500">
                 </div>
 
                 <div class="flex gap-3 pt-2">
@@ -345,29 +641,12 @@
         </div>
     </div>
 
-    <!-- ========================================================================= -->
-    <!-- 4. CONTROLLER & AUTHENTICATION SCRIPT -->
-    <!-- ========================================================================= -->
+    <!-- 4. CONTROLLER SCRIPT -->
     <script>
-        // Supabase Configuration
-        const CONFIG = {
-            SUPABASE_URL: localStorage.getItem('SP_URL') || window.ENV_SUPABASE_URL || "https://tfetuykairghymxmknxc.supabase.co",
-            SUPABASE_KEY: localStorage.getItem('SP_KEY') || window.ENV_SUPABASE_ANON_KEY || "sb_publishable_9ITJB3dba8vSDsZzcF3psw_YPIdstSx",
-            TABLE_NAME: localStorage.getItem('SP_TABLE') || "intake_submissions"
-        };
-
-        // Authorized Secretariat Officers Whitelist
-        const AUTHORIZED_ADMINS = [
-            "info@aeroteleconsult.co.ke",
-            "admin@aeroteleconsult.co.ke",
-            "secretariat@aeroteleconsult.co.ke",
-            "kiuradavis@gmail.com"
-        ];
-
-        let dbClient = null;
+        let dbClient = window.getSupabaseClient();
         let applicationsData = [];
+        let servicesData = [];
 
-        // Auth & UI Elements
         const loginScreen = document.getElementById('loginScreen');
         const adminDashboard = document.getElementById('adminDashboard');
         const adminLoginForm = document.getElementById('adminLoginForm');
@@ -378,51 +657,63 @@
         const officerBadge = document.getElementById('officerBadge');
         const logoutBtn = document.getElementById('logoutBtn');
 
-        // Dashboard DOM Elements
+        const sectionRegulatory = document.getElementById('sectionRegulatory');
+        const sectionServices = document.getElementById('sectionServices');
+        const tabRegulatoryBtn = document.getElementById('tabRegulatoryBtn');
+        const tabServicesBtn = document.getElementById('tabServicesBtn');
+        const tabCountRegulatory = document.getElementById('tabCountRegulatory');
+        const tabCountServices = document.getElementById('tabCountServices');
+
         const tableBody = document.getElementById('tableBody');
+        const tableBodyServices = document.getElementById('tableBodyServices');
         const searchInput = document.getElementById('searchInput');
+        const searchServicesInput = document.getElementById('searchServicesInput');
         const filterSector = document.getElementById('filterSector');
         const filterStatus = document.getElementById('filterStatus');
+        const filterServiceStatus = document.getElementById('filterServiceStatus');
         const refreshBtn = document.getElementById('refreshBtn');
-        const errorAlert = document.getElementById('errorAlert');
-        const errorMessage = document.getElementById('errorMessage');
 
-        // Modals
-        const updateModal = document.getElementById('updateModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const cancelModalBtn = document.getElementById('cancelModalBtn');
-        const updateForm = document.getElementById('updateForm');
-        const modalRecordId = document.getElementById('modalRecordId');
-        const modalTicketCode = document.getElementById('modalTicketCode');
-        const modalCompanyName = document.getElementById('modalCompanyName');
-        const modalStatusSelect = document.getElementById('modalStatusSelect');
-        const modalNotesInput = document.getElementById('modalNotesInput');
-        const saveModalBtn = document.getElementById('saveModalBtn');
-
-        const configModal = document.getElementById('configModal');
-        const configBtn = document.getElementById('configBtn');
-        const closeConfigBtn = document.getElementById('closeConfigBtn');
-        const cancelConfigBtn = document.getElementById('cancelConfigBtn');
-        const configForm = document.getElementById('configForm');
-        const configUrlInput = document.getElementById('configUrlInput');
-        const configKeyInput = document.getElementById('configKeyInput');
-        const configTableInput = document.getElementById('configTableInput');
-
-        // Initialize Supabase Client
-        function initSupabase() {
-            try {
-                if (window.supabase && typeof window.supabase.createClient === 'function') {
-                    dbClient = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY);
-                    return true;
-                }
-                return false;
-            } catch (err) {
-                console.error("Client Init Error:", err);
-                return false;
+        function switchDashboardTab(tab) {
+            if (tab === 'regulatory') {
+                sectionRegulatory.classList.remove('hidden');
+                sectionServices.classList.add('hidden');
+                tabRegulatoryBtn.className = "px-4 py-2 text-xs font-bold rounded-xl bg-brand-600 text-white shadow-sm transition flex items-center gap-2";
+                tabServicesBtn.className = "px-4 py-2 text-xs font-bold rounded-xl bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition flex items-center gap-2";
+            } else {
+                sectionRegulatory.classList.add('hidden');
+                sectionServices.classList.remove('hidden');
+                tabServicesBtn.className = "px-4 py-2 text-xs font-bold rounded-xl bg-emerald-600 text-white shadow-sm transition flex items-center gap-2";
+                tabRegulatoryBtn.className = "px-4 py-2 text-xs font-bold rounded-xl bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition flex items-center gap-2";
             }
         }
 
-        // ================= AUTHENTICATION LOGIC =================
+        function filterByStat(status) {
+            filterStatus.value = status;
+            renderRegulatoryTable();
+        }
+
+        function updateOfficerDisplay(email) {
+            const savedName = localStorage.getItem('ATC_OFFICER_NAME') || (email ? email.split('@')[0].toUpperCase() : 'OFFICER');
+            if (officerBadge) {
+                officerBadge.innerHTML = `
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="font-bold text-white">${savedName}</span>
+                    <span class="text-[10px] text-slate-500 font-mono">(${email})</span>
+                    <span class="text-[10px] text-brand-400 underline">edit</span>
+                `;
+            }
+        }
+
+        window.editOfficerDisplayName = function() {
+            const current = localStorage.getItem('ATC_OFFICER_NAME') || '';
+            const newName = prompt("Enter Officer Display Name:", current);
+            if (newName && newName.trim()) {
+                localStorage.setItem('ATC_OFFICER_NAME', newName.trim());
+                const session = JSON.parse(sessionStorage.getItem('ATC_ADMIN_SESSION') || '{}');
+                updateOfficerDisplay(session.email || 'officer@aeroteleconsult.co.ke');
+            }
+        };
+
         async function handleLogin(e) {
             e.preventDefault();
             loginError.classList.add('hidden');
@@ -433,33 +724,21 @@
             const password = loginPassword.value;
 
             try {
-                if (!dbClient && !initSupabase()) {
-                    throw new Error("Unable to connect to database client. Check configuration.");
-                }
+                if (!dbClient) dbClient = window.getSupabaseClient();
+                if (!dbClient) throw new Error("Unable to initialize database client.");
 
-                // Check Supabase Auth
                 let authenticated = false;
                 try {
-                    const { data, error } = await dbClient.auth.signInWithPassword({
-                        email: email,
-                        password: password
-                    });
+                    const { data, error } = await dbClient.auth.signInWithPassword({ email: email, password: password });
+                    if (!error && data && data.user) authenticated = true;
+                } catch (authErr) { console.warn(authErr); }
 
-                    if (!error && data && data.user) {
-                        authenticated = true;
-                    }
-                } catch (authErr) {
-                    console.warn("Supabase Auth sign-in attempted:", authErr);
-                }
-
-                // Authorized Whitelist verification
-                const isWhitelisted = AUTHORIZED_ADMINS.some(a => a.toLowerCase() === email);
+                const isWhitelisted = (window.APP_CONFIG.AUTHORIZED_ADMINS || []).some(a => a.toLowerCase() === email);
 
                 if (!authenticated && !isWhitelisted) {
-                    throw new Error("Access Denied: Unrecognized or unauthorized officer credentials.");
+                    throw new Error("Access Denied: Unrecognized officer credentials.");
                 }
 
-                // Save active session
                 sessionStorage.setItem('ATC_ADMIN_SESSION', JSON.stringify({
                     email: email,
                     loginTime: new Date().toISOString()
@@ -467,7 +746,7 @@
 
                 showAuthenticatedDashboard(email);
             } catch (err) {
-                loginError.innerText = err.message || "Invalid credentials or unauthorized user.";
+                loginError.innerText = err.message || "Invalid credentials.";
                 loginError.classList.remove('hidden');
             } finally {
                 loginSubmitBtn.disabled = false;
@@ -487,81 +766,70 @@
         function showAuthenticatedDashboard(email) {
             loginScreen.classList.add('hidden');
             adminDashboard.classList.remove('hidden');
-            if (officerBadge) {
-                officerBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-2 animate-pulse"></span> ${email}`;
-            }
-            fetchApplications();
+            updateOfficerDisplay(email);
+            fetchAllData();
         }
 
         function handleLogout() {
             sessionStorage.removeItem('ATC_ADMIN_SESSION');
-            try {
-                if (dbClient) dbClient.auth.signOut();
-            } catch(e) {}
+            try { if (dbClient) dbClient.auth.signOut(); } catch(e) {}
             window.location.reload();
         }
 
         adminLoginForm.addEventListener('submit', handleLogin);
         logoutBtn.addEventListener('click', handleLogout);
 
-        // ================= DATA LOGIC =================
-        function renderStatusBadge(status) {
-            const badges = {
-                under_review: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/20">Under Review</span>',
-                processing: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-500/10 text-blue-400 border border-blue-500/20">In Processing</span>',
-                approved: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Approved</span>',
-                action_required: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-400 border border-rose-500/20">Action Required</span>',
-                rejected: '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-500/10 text-slate-400 border border-slate-500/20">Rejected</span>'
-            };
-            return badges[status] || `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-slate-800 text-slate-400">${status || 'under_review'}</span>`;
+        async function fetchAllData() {
+            if (!dbClient) dbClient = window.getSupabaseClient();
+            if (!dbClient) return;
+
+            // 1. Fetch Regulatory
+            try {
+                let { data } = await dbClient
+                    .from(window.APP_CONFIG.TABLE_SUBMISSIONS)
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                applicationsData = (data || []).filter(item => item.sector_track !== 'tech_service');
+                tabCountRegulatory.innerText = applicationsData.length;
+                updateStatCounters(applicationsData);
+                renderRegulatoryTable();
+            } catch (e) { console.warn(e); }
+
+            // 2. Fetch Tech Services
+            try {
+                let { data, error } = await dbClient
+                    .from(window.APP_CONFIG.TABLE_WORK_ORDERS)
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error || !data) {
+                    let fallback = await dbClient.from(window.APP_CONFIG.TABLE_SUBMISSIONS).select('*').eq('sector_track', 'tech_service');
+                    servicesData = fallback.data || [];
+                } else {
+                    servicesData = data || [];
+                }
+
+                tabCountServices.innerText = servicesData.length;
+                renderServicesTable();
+            } catch (e) { console.warn(e); }
         }
 
         function updateStatCounters(data) {
-            const total = data.length;
             let review = 0, processing = 0, action = 0;
-
             data.forEach(item => {
                 const s = (item.status || 'under_review').toLowerCase();
                 if (s === 'under_review' || s === 'pending') review++;
-                else if (s === 'processing' || s === 'in_progress') processing++;
-                else if (s === 'action_required' || s === 'action_needed') action++;
+                else if (s === 'processing') processing++;
+                else if (s === 'action_required') action++;
             });
-
-            document.getElementById('statTotal').innerText = total;
+            document.getElementById('statTotal').innerText = data.length;
             document.getElementById('statReview').innerText = review;
             document.getElementById('statProcessing').innerText = processing;
             document.getElementById('statAction').innerText = action;
         }
 
-        async function fetchApplications() {
-            if (!dbClient && !initSupabase()) return;
-
-            tableBody.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-slate-400 font-mono">Querying live submissions...</td></tr>`;
-
-            try {
-                let { data, error } = await dbClient
-                    .from(CONFIG.TABLE_NAME)
-                    .select('*')
-                    .order('created_at', { ascending: false });
-
-                if (error && error.message && error.message.includes('created_at')) {
-                    const fallback = await dbClient.from(CONFIG.TABLE_NAME).select('*');
-                    data = fallback.data;
-                    error = fallback.error;
-                }
-
-                if (error) throw error;
-
-                applicationsData = data || [];
-                updateStatCounters(applicationsData);
-                renderTable();
-            } catch (err) {
-                console.error("Fetch Error:", err);
-                tableBody.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-rose-400 font-mono text-xs">Error loading data: ${err.message}</td></tr>`;
-            }
-        }
-
-        function renderTable() {
+        function renderRegulatoryTable() {
             const query = (searchInput.value || '').toLowerCase().trim();
             const sector = filterSector.value;
             const status = filterStatus.value;
@@ -569,9 +837,9 @@
             const filtered = applicationsData.filter(item => {
                 const itemStatus = (item.status || 'under_review').toLowerCase();
                 const ticket = (item.tracking_ticket || item.id || '').toString().toLowerCase();
-                const company = (item.company_name || item.organization || '').toString().toLowerCase();
-                const contact = (item.contact_name || item.name || '').toString().toLowerCase();
-                const itemSector = (item.sector_track || item.sector || '').toString().toLowerCase();
+                const company = (item.company_name || '').toString().toLowerCase();
+                const contact = (item.contact_name || '').toString().toLowerCase();
+                const itemSector = (item.sector_track || '').toString().toLowerCase();
 
                 const matchesQuery = !query || ticket.includes(query) || company.includes(query) || contact.includes(query);
                 const matchesSector = sector === 'all' || itemSector === sector.toLowerCase();
@@ -591,13 +859,12 @@
                 const contact = item.contact_name || 'No contact';
                 const email = item.email || '';
                 const sectorName = item.sector_track || 'General';
-                const dateStr = item.created_at;
-                const formattedDate = dateStr ? new Date(dateStr).toLocaleDateString() : 'N/A';
+                const formattedDate = item.created_at ? new Date(item.created_at).toLocaleDateString() : 'N/A';
                 const currentStatus = item.status || 'under_review';
                 const rowId = item.id || ticket;
 
                 return `
-                <tr class="hover:bg-slate-800/30 transition">
+                <tr class="hover:bg-slate-800/40 transition">
                     <td class="px-5 py-3.5 font-mono text-amber-400 font-bold">${ticket}</td>
                     <td class="px-5 py-3.5">
                         <div class="font-semibold text-slate-100">${company}</div>
@@ -605,97 +872,471 @@
                     </td>
                     <td class="px-5 py-3.5 text-slate-300 capitalize font-medium">${sectorName} Track</td>
                     <td class="px-5 py-3.5 font-mono text-slate-400">${formattedDate}</td>
-                    <td class="px-5 py-3.5">${renderStatusBadge(currentStatus)}</td>
+                    <td class="px-5 py-3.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-slate-800 text-slate-300">${currentStatus}</span></td>
                     <td class="px-5 py-3.5 text-right">
                         <button onclick="openUpdateModal('${rowId}')" class="px-3 py-1 bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white border border-brand-500/30 rounded-lg text-xs font-semibold transition">
                             Manage
                         </button>
                     </td>
-                </tr>
-                `;
+                </tr>`;
             }).join('');
         }
+
+        function renderServicesTable() {
+            const query = (searchServicesInput.value || '').toLowerCase().trim();
+            const status = filterServiceStatus.value;
+
+            const filtered = servicesData.filter(item => {
+                const ticket = (item.ticket_number || item.tracking_ticket || '').toLowerCase();
+                const name = (item.client_name || item.company_name || '').toLowerCase();
+                const phone = (item.phone || '').toLowerCase();
+                const itemStatus = (item.status || 'pending_dispatch').toLowerCase();
+
+                const matchesQuery = !query || ticket.includes(query) || name.includes(query) || phone.includes(query);
+                const matchesStatus = status === 'all' || itemStatus === status.toLowerCase();
+
+                return matchesQuery && matchesStatus;
+            });
+
+            if (filtered.length === 0) {
+                tableBodyServices.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-slate-500 font-mono">No service work orders found.</td></tr>`;
+                return;
+            }
+
+            tableBodyServices.innerHTML = filtered.map(item => {
+                const ticket = item.ticket_number || item.tracking_ticket || 'TECH-N/A';
+                const name = item.client_name || item.company_name || 'Client';
+                const phone = item.phone || '';
+                const loc = item.location || (item.sector_details && item.sector_details.location) || 'Nairobi';
+                const svc = item.service_track || (item.sector_details && item.sector_details.service) || 'General Tech Support';
+                const timeline = item.schedule_timeline || (item.sector_details && item.sector_details.schedule) || 'Scheduled';
+                const currentStatus = item.status || 'pending_dispatch';
+                const rowId = item.id || ticket;
+
+                return `
+                <tr class="hover:bg-slate-800/40 transition">
+                    <td class="px-5 py-3.5 font-mono text-emerald-400 font-bold">${ticket}</td>
+                    <td class="px-5 py-3.5">
+                        <div class="font-semibold text-slate-100">${name}</div>
+                        <div class="text-[11px] text-slate-400 font-mono">${phone} • ${loc}</div>
+                    </td>
+                    <td class="px-5 py-3.5 text-slate-300 font-medium">${svc}</td>
+                    <td class="px-5 py-3.5 text-slate-400 text-[11px]">${timeline}</td>
+                    <td class="px-5 py-3.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">${currentStatus}</span></td>
+                    <td class="px-5 py-3.5 text-right space-x-1.5">
+                        <button onclick="openAdminReceiptModal('${rowId}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-semibold transition" title="View & Print 1-Page Receipt">
+                            🖨️ Receipt
+                        </button>
+                        <button onclick="openServiceModal('${rowId}')" class="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/30 rounded-lg text-xs font-semibold transition">
+                            Manage
+                        </button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        // Admin Work Order Receipt Modal Controls (A4 & EPOS Mode)
+        function setAdminReceiptMode(mode) {
+            const std = document.getElementById('admStandardView');
+            const epos = document.getElementById('admEposView');
+            const btnStd = document.getElementById('admBtnStandard');
+            const btnPos = document.getElementById('admBtnEpos');
+
+            if (mode === 'epos') {
+                std.classList.add('hidden');
+                epos.classList.remove('hidden');
+                btnPos.className = "px-3 py-1 rounded-lg bg-white shadow-sm text-slate-900 font-bold transition font-mono";
+                btnStd.className = "px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition";
+            } else {
+                std.classList.remove('hidden');
+                epos.classList.add('hidden');
+                btnStd.className = "px-3 py-1 rounded-lg bg-white shadow-sm text-slate-900 font-bold transition";
+                btnPos.className = "px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition font-mono";
+            }
+        }
+
+        let currentAdminReceiptItem = null;
+
+        window.openAdminReceiptModal = function(id) {
+            const item = servicesData.find(s => (s.id === id || s.ticket_number === id || s.tracking_ticket === id));
+            if (!item) return;
+            currentAdminReceiptItem = item;
+
+            const ticket = item.ticket_number || item.tracking_ticket || 'TECH-N/A';
+            const name = item.client_name || item.company_name || 'Client';
+            const phone = item.phone || '';
+            const loc = item.location || (item.sector_details && item.sector_details.location) || 'Nairobi';
+            const svc = item.service_track || (item.sector_details && item.sector_details.service) || 'Technical Service';
+            const sched = item.schedule_timeline || (item.sector_details && item.sector_details.schedule) || 'Scheduled';
+            const scope = item.technical_scope || (item.sector_details && item.sector_details.scope) || 'Standard dispatch';
+            const status = (item.status || 'pending_dispatch').toUpperCase();
+            const dateStr = item.created_at ? new Date(item.created_at).toLocaleString() : new Date().toLocaleString();
+
+            // Populate Standard View
+            document.getElementById('admRcptTicket').innerText = ticket;
+            document.getElementById('admRcptDate').innerText = dateStr;
+            document.getElementById('admRcptClient').innerText = name;
+            document.getElementById('admRcptPhone').innerText = phone;
+            document.getElementById('admRcptLoc').innerText = loc;
+            document.getElementById('admRcptSched').innerText = sched;
+            document.getElementById('admRcptService').innerText = svc;
+            document.getElementById('admRcptScope').innerText = scope;
+            document.getElementById('admRcptStatus').innerText = status;
+
+            // Populate EPOS View
+            document.getElementById('admEposTicket').innerText = ticket;
+            document.getElementById('admEposDate').innerText = dateStr;
+            document.getElementById('admEposClient').innerText = name;
+            document.getElementById('admEposPhone').innerText = phone;
+            document.getElementById('admEposLoc').innerText = loc;
+            document.getElementById('admEposSched').innerText = sched;
+            document.getElementById('admEposService').innerText = svc;
+            document.getElementById('admEposScope').innerText = scope;
+            document.getElementById('admEposStatusBadge').innerText = "STATUS: " + status;
+
+            document.getElementById('adminReceiptModal').classList.remove('hidden');
+        };
+
+        window.closeAdminReceiptModal = function() {
+            document.getElementById('adminReceiptModal').classList.add('hidden');
+        };
+
+        window.downloadAdminOrderPDF = function() {
+            if (!currentAdminReceiptItem) return;
+            try {
+                const item = currentAdminReceiptItem;
+                const ticket = item.ticket_number || item.tracking_ticket || 'TECH-N/A';
+                const name = item.client_name || item.company_name || 'Client';
+                const phone = item.phone || 'N/A';
+                const loc = item.location || (item.sector_details && item.sector_details.location) || 'Nairobi';
+                const svc = item.service_track || (item.sector_details && item.sector_details.service) || 'Technical Service';
+                const sched = item.schedule_timeline || (item.sector_details && item.sector_details.schedule) || 'Scheduled';
+                const scope = item.technical_scope || (item.sector_details && item.sector_details.scope) || 'Standard engineering dispatch';
+                const status = (item.status || 'pending_dispatch').toUpperCase();
+                const dateStr = item.created_at ? new Date(item.created_at).toLocaleString() : new Date().toLocaleString();
+
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+                // 1. Top Brand Banner (Corporate Navy)
+                doc.setFillColor(15, 23, 42);
+                doc.rect(0, 0, 210, 28, 'F');
+
+                // Accent Top Border Strip (Emerald)
+                doc.setFillColor(16, 185, 129);
+                doc.rect(0, 0, 210, 3, 'F');
+
+                doc.setTextColor(255, 255, 255);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(15);
+                doc.text('WANKILB PROTECH & TECHNICAL SERVICES', 15, 14);
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(8.5);
+                doc.setTextColor(148, 163, 184);
+                doc.text('Computer Engineering • Smart Mounting • Bootcamp • Cloud Backups | Nairobi, Kenya', 15, 21);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8.5);
+                doc.setTextColor(52, 211, 153);
+                doc.text('HOTLINE: +254 726 661 849', 195, 14, { align: 'right' });
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(203, 213, 225);
+                doc.text('support@aeroteleconsult.co.ke', 195, 21, { align: 'right' });
+
+                // 2. SEPARATE STANDALONE DOCUMENT TITLE BAR (BELOW BRAND HEADER)
+                doc.setFillColor(241, 245, 249);
+                doc.setDrawColor(203, 213, 225);
+                doc.roundedRect(15, 33, 180, 16, 2, 2, 'FD');
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(12);
+                doc.setTextColor(15, 23, 42);
+                doc.text('OFFICIAL WORK ORDER RECEIPT & VOUCHER', 20, 42);
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(7.5);
+                doc.setTextColor(100, 116, 139);
+                doc.text('AUTHENTICATED SYSTEM DISPATCH VOUCHER', 20, 46.5);
+
+                doc.setFillColor(236, 253, 245);
+                doc.setDrawColor(167, 243, 208);
+                doc.roundedRect(148, 36.5, 42, 9, 2, 2, 'FD');
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(7.5);
+                doc.setTextColor(5, 150, 105);
+                doc.text('● STATUS: ' + status, 169, 42.5, { align: 'center' });
+
+                // 3. Tracking Meta Card
+                doc.setFillColor(248, 250, 252);
+                doc.setDrawColor(226, 232, 240);
+                doc.roundedRect(15, 53, 180, 20, 2, 2, 'FD');
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(7.5);
+                doc.setTextColor(100, 116, 139);
+                doc.text('WORK ORDER REFERENCE NO.', 22, 60);
+
+                doc.setFont('courier', 'bold');
+                doc.setFontSize(13);
+                doc.setTextColor(5, 150, 105);
+                doc.text(ticket, 22, 68);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(7.5);
+                doc.setTextColor(100, 116, 139);
+                doc.text('DATE / TIME LOGGED', 115, 60);
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(9);
+                doc.setTextColor(15, 23, 42);
+                doc.text(dateStr, 115, 67);
+
+                // 4. Client Card
+                doc.setFillColor(255, 255, 255);
+                doc.setDrawColor(226, 232, 240);
+                doc.roundedRect(15, 77, 180, 36, 2, 2, 'FD');
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8);
+                doc.setTextColor(15, 23, 42);
+                doc.text('CLIENT & DISPATCH LOCATION DETAILS', 20, 84);
+                doc.setDrawColor(241, 245, 249);
+                doc.line(20, 86, 190, 86);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8);
+                doc.setTextColor(100, 116, 139);
+                doc.text('Client Name:', 20, 93);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(15, 23, 42);
+                doc.text(name, 55, 93);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(100, 116, 139);
+                doc.text('Phone / WhatsApp:', 20, 100);
+                doc.setFont('courier', 'bold');
+                doc.setTextColor(15, 23, 42);
+                doc.text(phone, 55, 100);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(100, 116, 139);
+                doc.text('Schedule / Timing:', 20, 107);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(5, 150, 105);
+                doc.text(sched, 55, 107);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(100, 116, 139);
+                doc.text('Service Location:', 110, 93);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(15, 23, 42);
+                doc.text(loc, 142, 93);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(100, 116, 139);
+                doc.text('Warranty Cover:', 110, 100);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(15, 23, 42);
+                doc.text('30-Day Workmanship Warranty', 142, 100);
+
+                // 5. Service Line Items Table
+                let yTable = 120;
+                doc.setFillColor(15, 23, 42);
+                doc.rect(15, yTable, 180, 8, 'F');
+
+                doc.setTextColor(255, 255, 255);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8);
+                doc.text('ITEM / SERVICE TRACK DESCRIPTION', 20, yTable + 5.5);
+                doc.text('DISPATCH STATUS', 190, yTable + 5.5, { align: 'right' });
+
+                yTable += 8;
+                doc.setFillColor(255, 255, 255);
+                doc.setDrawColor(226, 232, 240);
+                doc.rect(15, yTable, 180, 24, 'FD');
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(9);
+                doc.setTextColor(15, 23, 42);
+                doc.text(svc, 20, yTable + 6);
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(7.5);
+                doc.setTextColor(100, 116, 139);
+                const descText = scope ? `Work Scope: ${scope}` : 'Standard diagnostic and engineering callout.';
+                const splitDesc = doc.splitTextToSize(descText, 120);
+                doc.text(splitDesc, 20, yTable + 12);
+
+                doc.setFont('courier', 'bold');
+                doc.setFontSize(8.5);
+                doc.setTextColor(5, 150, 105);
+                doc.text(status, 190, yTable + 10, { align: 'right' });
+
+                // 6. Signatures & Footer
+                let ySign = 220;
+                doc.setDrawColor(203, 213, 225);
+                doc.line(20, ySign + 14, 80, ySign + 14);
+                doc.line(130, ySign + 14, 190, ySign + 14);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(7.5);
+                doc.setTextColor(100, 116, 139);
+                doc.text('Client Acceptance Signature', 20, ySign + 18);
+                doc.text('Operations / Lead Engineer Signature', 130, ySign + 18);
+
+                doc.setDrawColor(226, 232, 240);
+                doc.line(15, 275, 195, 275);
+
+                doc.setFontSize(7.5);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(148, 163, 184);
+                doc.text('Wankilb ProTech Nairobi • Official Secretariat Receipt • Validated Electronically.', 15, 281);
+                doc.text('Page 1 of 1', 195, 281, { align: 'right' });
+
+                doc.save(`Wankilb_Admin_Receipt_${ticket}.pdf`);
+            } catch (err) {
+                console.error(err);
+                alert("Could not generate PDF. Please use the Print option.");
+            }
+        };
+
+        window.openServiceModal = function(id) {
+            const item = servicesData.find(s => (s.id === id || s.ticket_number === id || s.tracking_ticket === id));
+            if (!item) return;
+
+            document.getElementById('modalSvcRecordId').value = item.id || id;
+            document.getElementById('modalSvcTicketCode').innerText = item.ticket_number || item.tracking_ticket || 'N/A';
+            document.getElementById('modalSvcClientInfo').innerHTML = `
+                <strong>Client:</strong> ${item.client_name || item.company_name}<br>
+                <strong>Phone:</strong> ${item.phone}<br>
+                <strong>Location:</strong> ${item.location || (item.sector_details && item.sector_details.location) || 'N/A'}<br>
+                <strong>Service:</strong> ${item.service_track || (item.sector_details && item.sector_details.service) || 'N/A'}
+            `;
+            document.getElementById('modalSvcStatusSelect').value = item.status || 'pending_dispatch';
+            document.getElementById('modalSvcNotesInput').value = item.status_notes || '';
+
+            document.getElementById('serviceUpdateModal').classList.remove('hidden');
+        };
+
+        window.closeServiceModal = function() {
+            document.getElementById('serviceUpdateModal').classList.add('hidden');
+        };
+
+        document.getElementById('serviceUpdateForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('saveSvcModalBtn');
+            btn.disabled = true;
+            btn.innerText = 'Saving...';
+
+            const id = document.getElementById('modalSvcRecordId').value;
+            const status = document.getElementById('modalSvcStatusSelect').value;
+            const notes = document.getElementById('modalSvcNotesInput').value.trim();
+
+            try {
+                if (dbClient) {
+                    await dbClient.from(window.APP_CONFIG.TABLE_WORK_ORDERS).update({ status: status, status_notes: notes }).eq('id', id);
+                    await dbClient.from(window.APP_CONFIG.TABLE_SUBMISSIONS).update({ status: status, status_notes: notes }).eq('id', id);
+                }
+                closeServiceModal();
+                await fetchAllData();
+            } catch (err) { alert(err.message); }
+            finally {
+                btn.disabled = false;
+                btn.innerText = 'Save Order Update';
+            }
+        });
 
         window.openUpdateModal = function (id) {
             const record = applicationsData.find(a => (a.id === id || a.tracking_ticket === id));
             if (!record) return;
 
-            modalRecordId.value = record.id || id;
-            modalTicketCode.innerText = record.tracking_ticket || 'N/A';
-            modalCompanyName.innerText = record.company_name || 'Applicant Entity';
-            modalStatusSelect.value = record.status || 'under_review';
-            modalNotesInput.value = record.status_notes || '';
+            document.getElementById('modalRecordId').value = record.id || id;
+            document.getElementById('modalTicketCode').innerText = record.tracking_ticket || 'N/A';
+            document.getElementById('modalCompanyName').innerText = record.company_name || 'Applicant Entity';
+            document.getElementById('modalStatusSelect').value = record.status || 'under_review';
+            document.getElementById('modalNotesInput').value = record.status_notes || '';
 
-            updateModal.classList.remove('hidden');
+            document.getElementById('updateModal').classList.remove('hidden');
         };
 
-        function closeModal() { updateModal.classList.add('hidden'); }
-        closeModalBtn.addEventListener('click', closeModal);
-        cancelModalBtn.addEventListener('click', closeModal);
+        document.getElementById('closeModalBtn').addEventListener('click', () => document.getElementById('updateModal').classList.add('hidden'));
+        document.getElementById('cancelModalBtn').addEventListener('click', () => document.getElementById('updateModal').classList.add('hidden'));
 
-        updateForm.addEventListener('submit', async (e) => {
+        document.getElementById('updateForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            saveModalBtn.disabled = true;
-            saveModalBtn.innerText = 'Saving...';
-
-            const id = modalRecordId.value;
-            const newStatus = modalStatusSelect.value;
-            const newNotes = modalNotesInput.value.trim();
+            const id = document.getElementById('modalRecordId').value;
+            const newStatus = document.getElementById('modalStatusSelect').value;
+            const newNotes = document.getElementById('modalNotesInput').value.trim();
 
             try {
-                const { error } = await dbClient
-                    .from(CONFIG.TABLE_NAME)
-                    .update({ status: newStatus, status_notes: newNotes, updated_at: new Date().toISOString() })
-                    .eq('id', id);
+                await dbClient.from(window.APP_CONFIG.TABLE_SUBMISSIONS).update({ status: newStatus, status_notes: newNotes }).eq('id', id);
+                document.getElementById('updateModal').classList.add('hidden');
+                await fetchAllData();
+            } catch (err) { alert(err.message); }
+        });
 
-                if (error) throw error;
+        function exportDataToCsv() {
+            const activeTab = sectionRegulatory.classList.contains('hidden') ? 'services' : 'regulatory';
+            const dataToExport = activeTab === 'regulatory' ? applicationsData : servicesData;
 
-                closeModal();
-                await fetchApplications();
-            } catch (err) {
-                alert('Failed to update: ' + err.message);
-            } finally {
-                saveModalBtn.disabled = false;
-                saveModalBtn.innerText = 'Save Status Update';
+            if (dataToExport.length === 0) {
+                alert("No data available to export.");
+                return;
             }
-        });
 
-        // Search & Filters
-        searchInput.addEventListener('input', renderTable);
-        filterSector.addEventListener('change', renderTable);
-        filterStatus.addEventListener('change', renderTable);
-        refreshBtn.addEventListener('click', () => {
-            fetchApplications();
-        });
+            let csvContent = "data:text/csv;charset=utf-8,";
+            if (activeTab === 'regulatory') {
+                csvContent += "Ticket,Company,Contact,Email,Phone,Sector,Status,Submitted\n";
+                dataToExport.forEach(r => {
+                    csvContent += `"${r.tracking_ticket || ''}","${r.company_name || ''}","${r.contact_name || ''}","${r.email || ''}","${r.phone || ''}","${r.sector_track || ''}","${r.status || ''}","${r.created_at || ''}"\n`;
+                });
+            } else {
+                csvContent += "Ticket,Client,Phone,Location,Service,Timeline,Status,Created\n";
+                dataToExport.forEach(s => {
+                    csvContent += `"${s.ticket_number || s.tracking_ticket || ''}","${s.client_name || s.company_name || ''}","${s.phone || ''}","${s.location || ''}","${s.service_track || ''}","${s.schedule_timeline || ''}","${s.status || ''}","${s.created_at || ''}"\n`;
+                });
+            }
 
-        // Config Modal
-        configBtn.addEventListener('click', () => {
-            configUrlInput.value = CONFIG.SUPABASE_URL;
-            configKeyInput.value = CONFIG.SUPABASE_KEY;
-            configTableInput.value = CONFIG.TABLE_NAME;
-            configModal.classList.remove('hidden');
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `AeroTeleConsult_${activeTab}_export_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        searchInput.addEventListener('input', renderRegulatoryTable);
+        filterSector.addEventListener('change', renderRegulatoryTable);
+        filterStatus.addEventListener('change', renderRegulatoryTable);
+
+        searchServicesInput.addEventListener('input', renderServicesTable);
+        filterServiceStatus.addEventListener('change', renderServicesTable);
+        refreshBtn.addEventListener('click', () => fetchAllData());
+
+        document.getElementById('configBtn').addEventListener('click', () => {
+            document.getElementById('configUrlInput').value = window.APP_CONFIG.SUPABASE_URL;
+            document.getElementById('configKeyInput').value = window.APP_CONFIG.SUPABASE_ANON_KEY;
+            document.getElementById('configModal').classList.remove('hidden');
         });
-        closeConfigBtn.addEventListener('click', () => configModal.classList.add('hidden'));
-        cancelConfigBtn.addEventListener('click', () => configModal.classList.add('hidden'));
-        configForm.addEventListener('submit', (e) => {
+        document.getElementById('closeConfigBtn').addEventListener('click', () => document.getElementById('configModal').classList.add('hidden'));
+        document.getElementById('cancelConfigBtn').addEventListener('click', () => document.getElementById('configModal').classList.add('hidden'));
+        document.getElementById('configForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            CONFIG.SUPABASE_URL = configUrlInput.value.trim();
-            CONFIG.SUPABASE_KEY = configKeyInput.value.trim();
-            CONFIG.TABLE_NAME = configTableInput.value.trim();
-            localStorage.setItem('SP_URL', CONFIG.SUPABASE_URL);
-            localStorage.setItem('SP_KEY', CONFIG.SUPABASE_KEY);
-            localStorage.setItem('SP_TABLE', CONFIG.TABLE_NAME);
-            configModal.classList.add('hidden');
-            initSupabase();
-            fetchApplications();
+            window.APP_CONFIG.SUPABASE_URL = document.getElementById('configUrlInput').value.trim();
+            window.APP_CONFIG.SUPABASE_ANON_KEY = document.getElementById('configKeyInput').value.trim();
+            localStorage.setItem('SP_URL', window.APP_CONFIG.SUPABASE_URL);
+            localStorage.setItem('SP_KEY', window.APP_CONFIG.SUPABASE_ANON_KEY);
+            document.getElementById('configModal').classList.add('hidden');
+            dbClient = window.getSupabaseClient();
+            fetchAllData();
         });
 
-        // Init on DOM Load
         window.addEventListener('DOMContentLoaded', () => {
-            const currentYearEl = document.getElementById('currentYear');
-            if (currentYearEl) currentYearEl.innerText = new Date().getFullYear();
-
-            initSupabase();
+            const y = document.getElementById('currentYear');
+            if (y) y.innerText = new Date().getFullYear();
             checkExistingSession();
         });
     </script>

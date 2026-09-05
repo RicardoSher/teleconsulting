@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regulatory Frequency & Telecom Licensing Kenya | CA & KCAA Compliance</title>
 
-    <!-- Meta & Open Graph Tags for Production SEO -->
     <meta name="description"
         content="Expedited aeronautical, spectrum frequency allocation, and telecom licensing services in Kenya. CA and KCAA regulatory compliance engineering secretariat.">
     <meta property="og:title" content="Regulatory Frequency & Telecom Licensing Kenya | CA & KCAA Compliance">
@@ -17,11 +16,10 @@
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='22' r='3' fill='%232563eb'/%3E%3Cpath d='M16 6C10.5 6 6 10.5 6 16M26 16C26 10.5 21.5 6 16 6' stroke='%231d4ed8' stroke-width='2.5' stroke-linecap='round' fill='none'/%3E%3Cpath d='M16 11C13.2 11 11 13.2 11 16M21 16C21 13.2 18.8 11 16 11' stroke='%230ea5e9' stroke-width='2.5' stroke-linecap='round' fill='none'/%3E%3Cpath d='M10 24l6-6 6 6z' fill='%231e3a8a'/%3E%3C/svg%3E">
 
-    <!-- Production Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
         rel="stylesheet">
 
     <!-- Tailwind CSS Engine -->
@@ -31,8 +29,8 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
                         brand: {
@@ -56,92 +54,89 @@
         }
     </script>
 
-    <!-- Supabase JS Client -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <!-- jsPDF for Client-side PDF Generation -->
+    <!-- Supabase JS, jsPDF CDN & Config -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="config.js"></script>
 
     <style>
         @keyframes slideInRight {
-            from {
-                transform: translateX(120%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+            from { transform: translateX(120%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
-
         @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(120%); opacity: 0; }
+        }
+        .toast-enter { animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .toast-exit { animation: slideOutRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-            to {
-                transform: translateX(120%);
-                opacity: 0;
+        /* Print Media Rules for EPOS Thermal & A4 Receipts */
+        @media print {
+            body * {
+                visibility: hidden !important;
+            }
+            #printableAeroReceiptArea, #printableAeroReceiptArea * {
+                visibility: visible !important;
+            }
+            #printableAeroReceiptArea {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 10px !important;
+                background: white !important;
+                color: black !important;
+            }
+            .no-print {
+                display: none !important;
             }
         }
 
-        .toast-enter {
-            animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .toast-exit {
-            animation: slideOutRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .epos-mode {
+            max-width: 80mm !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 11px !important;
+            line-height: 1.3 !important;
+            background: #fff !important;
+            color: #000 !important;
+            padding: 12px !important;
+            border: 1px dashed #94a3b8 !important;
+            margin: 0 auto !important;
         }
     </style>
 </head>
 
-<body
-    class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white flex flex-col min-h-screen relative">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white flex flex-col min-h-screen relative">
 
     <!-- TOAST CONTAINER -->
-    <div id="toastContainer"
-        class="fixed top-20 right-4 sm:right-6 z-50 flex flex-col gap-3 max-w-sm w-full pointer-events-none"></div>
+    <div id="toastContainer" class="fixed top-20 right-4 sm:right-6 z-50 flex flex-col gap-3 max-w-sm w-full pointer-events-none"></div>
 
-    <!-- Fixed Header -->
+    <!-- Fixed Header Top Bar -->
     <header class="fixed top-0 w-full z-40 border-b border-slate-200 shadow-sm backdrop-blur-md bg-white/95">
         <div
             class="bg-slate-900 text-slate-300 text-xs py-2 px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center gap-2 border-b border-slate-800">
             <div class="flex items-center space-x-2">
                 <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span class="text-[11px] font-medium tracking-wide text-slate-400">Direct CA & KCAA Engineering
-                    Compliance Secretariat</span>
+                <span class="text-[11px] font-medium tracking-wide text-slate-400">Direct CA & KCAA Engineering Compliance Secretariat</span>
             </div>
             <div class="flex items-center space-x-6">
                 <a href="tel:+254726661849" class="flex items-center gap-1.5 hover:text-white transition group">
-                    <svg class="w-3.5 h-3.5 text-brand-400" fill="none" stroke="currentColor" stroke-width="2.5"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z">
-                        </path>
-                    </svg>
+                    <span class="text-brand-400">📞</span>
                     <span class="font-semibold font-mono text-[11px]">+254 726 661 849</span>
                 </a>
-                <a href="mailto:info@aeroteleconsult.co.ke"
-                    class="flex items-center gap-1.5 hover:text-white transition group">
-                    <svg class="w-3.5 h-3.5 text-aero-400" fill="none" stroke="currentColor" stroke-width="2.5"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0l-7.5-4.615m19.5 0A2.25 2.25 0 0118.5 8.25v.243">
-                        </path>
-                    </svg>
-                    <span class="font-medium text-[11px]">info@aeroteleconsult.co.ke</span>
+                <a href="services.html" class="flex items-center gap-1 text-[11px] text-emerald-400 hover:text-emerald-300 font-semibold transition">
+                    <span>⚡</span> Tech Services & Bootcamp &rarr;
                 </a>
             </div>
         </div>
 
         <div class="h-20 px-4 sm:px-6 lg:px-8 flex items-center justify-between max-w-7xl mx-auto">
             <!-- Brand Logo (Double-click to open Admin Console) -->
-            <div id="brandLogoContainer" class="flex items-center space-x-3 cursor-pointer select-none"
-                title="AeroTeleConsult Secretariat">
+            <div id="brandLogoContainer" class="flex items-center space-x-3 cursor-pointer select-none" title="Double click for Secretariat Console">
                 <div class="p-2 bg-brand-50 border border-brand-100 rounded-xl text-brand-500">
-                    <svg class="w-8 h-8 text-brand-600" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
+                    <svg class="w-8 h-8 text-brand-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z">
                         </path>
@@ -149,22 +144,22 @@
                 </div>
                 <div>
                     <span class="text-lg font-bold text-slate-900 block leading-tight">AeroTeleConsult</span>
-                    <span class="text-[10px] text-slate-500 font-medium uppercase tracking-wider">East Africa Spectrum
-                        Regulatory Practice</span>
+                    <span class="text-[10px] text-slate-500 font-medium uppercase tracking-wider">East Africa Spectrum Regulatory Practice</span>
                 </div>
             </div>
 
             <!-- Desktop Nav -->
             <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
                 <a href="#solutions" class="hover:text-brand-500 transition">Solutions</a>
-                <a href="#intake" class="hover:text-brand-500 transition">Fast-Track Consultation</a>
+                <a href="#intake" class="hover:text-brand-500 transition">Fast-Track Intake</a>
                 <a href="#tracking" class="hover:text-brand-500 transition">Track Application</a>
+                <a href="services.html" class="text-emerald-600 hover:text-emerald-700 font-semibold transition">Tech Services</a>
             </nav>
 
             <div class="hidden md:flex items-center space-x-3">
                 <a href="#intake"
                     class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-slate-900 hover:bg-brand-600 rounded-xl transition duration-300 shadow-sm">
-                    Book Board-Level Review
+                    Book Board Review
                 </a>
             </div>
 
@@ -172,13 +167,10 @@
             <div class="flex md:hidden items-center">
                 <button type="button" id="mobileMenuBtn" aria-label="Toggle navigation menu"
                     class="p-2 text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-100 focus:outline-none transition">
-                    <svg id="hamburgerIcon" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                    <svg id="hamburgerIcon" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
                     </svg>
-                    <svg id="closeMenuIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
+                    <svg id="closeMenuIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
@@ -186,20 +178,16 @@
         </div>
 
         <!-- Mobile Dropdown Menu -->
-        <div id="mobileMenu"
-            class="hidden md:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md px-6 py-5 space-y-4 shadow-xl">
+        <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md px-6 py-5 space-y-4 shadow-xl">
             <nav class="flex flex-col space-y-3 text-sm font-medium text-slate-700">
-                <a href="#solutions" class="mobile-nav-link hover:text-brand-600 py-1 transition">Solutions & Practice
-                    Vectors</a>
-                <a href="#intake" class="mobile-nav-link hover:text-brand-600 py-1 transition">Fast-Track
-                    Consultation</a>
-                <a href="#tracking" class="mobile-nav-link hover:text-brand-600 py-1 transition">Track Application
-                    Status</a>
+                <a href="#solutions" class="mobile-nav-link hover:text-brand-600 py-1 transition">Solutions & Practice Vectors</a>
+                <a href="#intake" class="mobile-nav-link hover:text-brand-600 py-1 transition">Fast-Track Intake</a>
+                <a href="#tracking" class="mobile-nav-link hover:text-brand-600 py-1 transition">Track Application Status</a>
+                <a href="services.html" class="mobile-nav-link text-emerald-600 font-semibold py-1 transition">Tech & IT Services Portal</a>
             </nav>
             <div class="pt-2 border-t border-slate-100 flex flex-col gap-2">
-                <a href="#intake"
-                    class="mobile-nav-link w-full text-center px-4 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition">
-                    Book Board-Level Review
+                <a href="#intake" class="mobile-nav-link w-full text-center px-4 py-3 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition">
+                    Book Board Review
                 </a>
             </div>
         </div>
@@ -207,33 +195,25 @@
 
     <main class="flex-grow">
         <!-- HERO SECTION -->
-        <section
-            class="relative pt-44 pb-24 md:pt-52 md:pb-36 bg-gradient-to-b from-blue-50/50 via-white to-slate-50 overflow-hidden border-b border-slate-200">
-            <div
-                class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60 pointer-events-none">
-            </div>
+        <section class="relative pt-44 pb-24 md:pt-52 md:pb-36 bg-gradient-to-b from-blue-50/50 via-white to-slate-50 overflow-hidden border-b border-slate-200">
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60 pointer-events-none"></div>
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="grid lg:grid-cols-12 gap-12 items-center">
                     <div class="lg:col-span-7 space-y-6">
                         <div class="flex flex-wrap gap-2">
-                            <span
-                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-brand-50 border border-brand-100 text-brand-600 uppercase tracking-widest">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-brand-50 border border-brand-100 text-brand-600 uppercase tracking-widest">
                                 Guaranteed Regulatory Turnaround
                             </span>
-                            <span
-                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-aero-50 border border-aero-100 text-aero-600 uppercase tracking-widest">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-aero-50 border border-aero-100 text-aero-600 uppercase tracking-widest">
                                 End-to-End CA & KCAA Authorization
                             </span>
                         </div>
-                        <h1
-                            class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1]">
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1]">
                             Eliminate Licensing Bottlenecks for Aviation, Telecom & Fleet Operations.
                         </h1>
                         <p class="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed">
-                            We resolve regulatory friction for private charter fleets, enterprise carrier networks, and
-                            satellite operators. Get your frequency allocations, call signs, and station licenses
-                            approved without regulatory delays.
+                            We resolve regulatory friction for private charter fleets, enterprise carrier networks, and satellite operators. Get your frequency allocations, call signs, and station licenses approved without delays.
                         </p>
                         <div class="flex flex-wrap gap-4 pt-2">
                             <a href="#intake"
@@ -248,8 +228,7 @@
                     </div>
 
                     <div class="lg:col-span-5 bg-white border border-slate-200 rounded-3xl p-6 shadow-xl relative">
-                        <div
-                            class="absolute -top-3 left-6 px-3 py-0.5 bg-slate-900 text-white text-[10px] font-bold tracking-widest rounded-full uppercase">
+                        <div class="absolute -top-3 left-6 px-3 py-0.5 bg-slate-900 text-white text-[10px] font-bold tracking-widest rounded-full uppercase">
                             Client Assurance Metrics
                         </div>
                         <h3 class="text-sm font-bold text-slate-800 mb-4 mt-1 flex items-center gap-2">
@@ -257,30 +236,24 @@
                             Why High-Value Operators Partner With Us
                         </h3>
                         <div class="space-y-3 text-xs">
-                            <div
-                                class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
+                            <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
                                 <div>
                                     <div class="font-bold text-slate-900">Zero Technical Rejections</div>
-                                    <div class="text-[11px] text-slate-500">100% compliant engineering documentation
-                                    </div>
+                                    <div class="text-[11px] text-slate-500">100% compliant engineering documentation</div>
                                 </div>
                                 <span class="text-brand-600 font-mono font-bold">Verified</span>
                             </div>
-                            <div
-                                class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
+                            <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
                                 <div>
                                     <div class="font-bold text-slate-900">Commercial Equity Compliance</div>
-                                    <div class="text-[11px] text-slate-500">Structured 30% local shareholding setups
-                                    </div>
+                                    <div class="text-[11px] text-slate-500">Structured 30% local shareholding setups</div>
                                 </div>
                                 <span class="text-slate-700 font-mono font-semibold">Turnkey</span>
                             </div>
-                            <div
-                                class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
+                            <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
                                 <div>
                                     <div class="font-bold text-slate-900">KCAA & CA Dual Alignment</div>
-                                    <div class="text-[11px] text-slate-500">Synchronized airborne & ground frequency
-                                        permits</div>
+                                    <div class="text-[11px] text-slate-500">Synchronized airborne & ground frequency permits</div>
                                 </div>
                                 <span class="text-aero-600 font-mono font-bold">Fast-Track</span>
                             </div>
@@ -290,72 +263,56 @@
             </div>
         </section>
 
-        <!-- CUSTOMER NEED / SOLUTIONS SECTION -->
+        <!-- SOLUTIONS SECTION -->
         <section id="solutions" class="py-20 bg-white border-b border-slate-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-3xl mx-auto text-center mb-16 space-y-3">
-                    <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Tailored Solutions for
-                        Your Operations</h2>
-                    <p class="text-base text-slate-600">Select your sector to view our specialized engineering and
-                        statutory submission vectors.</p>
+                    <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Tailored Solutions for Your Operations</h2>
+                    <p class="text-base text-slate-600">Select your sector to view our specialized engineering and statutory submission vectors.</p>
                 </div>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div
-                        class="p-6 bg-slate-50 border border-slate-200 rounded-2xl hover:border-aero-500 hover:bg-white transition duration-300">
-                        <div
-                            class="w-10 h-10 bg-aero-50 text-aero-600 rounded-xl flex items-center justify-center mb-4">
+                    <div class="p-6 bg-slate-50 border border-slate-200 rounded-2xl hover:border-aero-500 hover:bg-white transition duration-300">
+                        <div class="w-10 h-10 bg-aero-50 text-aero-600 rounded-xl flex items-center justify-center mb-4">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                             </svg>
                         </div>
                         <h3 class="text-base font-bold text-slate-900 mb-2">Aviation Fleet & Aircraft</h3>
-                        <p class="text-xs text-slate-600 leading-relaxed">VHF/HF radio licensing, Mode-S transponders,
-                            ELT registration, and KCAA/CA call-sign synchronization for commercial fleets and private
-                            jets.</p>
+                        <p class="text-xs text-slate-600 leading-relaxed">VHF/HF radio licensing, Mode-S transponders, ELT registration, and KCAA/CA call-sign synchronization for commercial fleets and private jets.</p>
                     </div>
-                    <div
-                        class="p-6 bg-slate-50 border border-slate-200 rounded-2xl hover:border-brand-500 hover:bg-white transition duration-300">
-                        <div
-                            class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center mb-4">
+
+                    <div class="p-6 bg-slate-50 border border-slate-200 rounded-2xl hover:border-brand-500 hover:bg-white transition duration-300">
+                        <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center mb-4">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
-                                </path>
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                             </svg>
                         </div>
                         <h3 class="text-base font-bold text-slate-900 mb-2">Telecom Operators (NFP/ASP)</h3>
-                        <p class="text-xs text-slate-600 leading-relaxed">Turnkey licensing for Tier 1–3 infrastructure
-                            providers, ISPs, dark fiber operators, and MVNO equity structuring.</p>
+                        <p class="text-xs text-slate-600 leading-relaxed">Turnkey licensing for Tier 1–3 infrastructure providers, ISPs, dark fiber operators, and MVNO equity structuring.</p>
                     </div>
-                    <div
-                        class="p-6 bg-slate-50 border border-slate-200 rounded-2xl hover:border-emerald-500 hover:bg-white transition duration-300">
-                        <div
-                            class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-4">
+
+                    <div class="p-6 bg-slate-50 border border-slate-200 rounded-2xl hover:border-emerald-500 hover:bg-white transition duration-300">
+                        <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-4">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 01-2-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01">
-                                </path>
+                                    d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 01-2-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
                             </svg>
                         </div>
                         <h3 class="text-base font-bold text-slate-900 mb-2">Private & Business PMR</h3>
-                        <p class="text-xs text-slate-600 leading-relaxed">VHF/UHF frequency assignments for mining,
-                            logistics, security, and remote wilderness commercial radio networks.</p>
+                        <p class="text-xs text-slate-600 leading-relaxed">VHF/UHF frequency assignments for mining, logistics, security, and remote wilderness commercial radio networks.</p>
                     </div>
-                    <div
-                        class="p-6 bg-slate-50 border border-slate-200 rounded-2xl hover:border-amber-500 hover:bg-white transition duration-300">
-                        <div
-                            class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center mb-4">
+
+                    <div class="p-6 bg-slate-50 border border-slate-200 rounded-2xl hover:border-amber-500 hover:bg-white transition duration-300">
+                        <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center mb-4">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z">
-                                </path>
+                                    d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
                             </svg>
                         </div>
                         <h3 class="text-base font-bold text-slate-900 mb-2">Amateur & Experimental</h3>
-                        <p class="text-xs text-slate-600 leading-relaxed">International reciprocal permits, Class A/B
-                            operator licensing, call-sign reservations, and technical station validation.</p>
+                        <p class="text-xs text-slate-600 leading-relaxed">International reciprocal permits, Class A/B operator licensing, call-sign reservations, and technical station validation.</p>
                     </div>
                 </div>
             </div>
@@ -366,42 +323,29 @@
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 shadow-xl relative">
                     <div class="mb-10 text-center sm:text-left border-b border-slate-200 pb-6">
-                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest block mb-1">Confidential
-                            Engagement</span>
-                        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Initialize Compliance Assessment
-                        </h2>
-                        <p class="text-slate-600 text-sm">Submit your technical requirements below for an expedited
-                            engineering evaluation.</p>
+                        <span class="text-xs font-bold text-brand-600 uppercase tracking-widest block mb-1">Confidential Engagement</span>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Initialize Compliance Assessment</h2>
+                        <p class="text-slate-600 text-sm">Submit your technical requirements below for an expedited engineering evaluation.</p>
                     </div>
 
                     <form id="caSubmissionForm" class="space-y-6">
                         <div>
-                            <label
-                                class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Target
-                                Licensing Sector</label>
+                            <label class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Target Licensing Sector</label>
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                <label
-                                    class="flex flex-col items-center justify-center p-3.5 border border-slate-200 bg-slate-50 rounded-xl cursor-pointer hover:border-brand-500 transition text-center">
-                                    <input type="radio" name="sector_track" value="aviation" checked
-                                        class="w-4 h-4 text-brand-600 mb-2">
+                                <label class="flex flex-col items-center justify-center p-3.5 border border-slate-200 bg-slate-50 rounded-xl cursor-pointer hover:border-brand-500 transition text-center">
+                                    <input type="radio" name="sector_track" value="aviation" checked class="w-4 h-4 text-brand-600 mb-2">
                                     <span class="text-xs font-semibold text-slate-700">Aircraft Station</span>
                                 </label>
-                                <label
-                                    class="flex flex-col items-center justify-center p-3.5 border border-slate-200 bg-slate-50 rounded-xl cursor-pointer hover:border-brand-500 transition text-center">
-                                    <input type="radio" name="sector_track" value="telecom"
-                                        class="w-4 h-4 text-brand-600 mb-2">
+                                <label class="flex flex-col items-center justify-center p-3.5 border border-slate-200 bg-slate-50 rounded-xl cursor-pointer hover:border-brand-500 transition text-center">
+                                    <input type="radio" name="sector_track" value="telecom" class="w-4 h-4 text-brand-600 mb-2">
                                     <span class="text-xs font-semibold text-slate-700">Telecom Carrier</span>
                                 </label>
-                                <label
-                                    class="flex flex-col items-center justify-center p-3.5 border border-slate-200 bg-slate-50 rounded-xl cursor-pointer hover:border-brand-500 transition text-center">
-                                    <input type="radio" name="sector_track" value="radionet"
-                                        class="w-4 h-4 text-brand-600 mb-2">
+                                <label class="flex flex-col items-center justify-center p-3.5 border border-slate-200 bg-slate-50 rounded-xl cursor-pointer hover:border-brand-500 transition text-center">
+                                    <input type="radio" name="sector_track" value="radionet" class="w-4 h-4 text-brand-600 mb-2">
                                     <span class="text-xs font-semibold text-slate-700">Private Radio</span>
                                 </label>
-                                <label
-                                    class="flex flex-col items-center justify-center p-3.5 border border-slate-200 bg-slate-50 rounded-xl cursor-pointer hover:border-brand-500 transition text-center">
-                                    <input type="radio" name="sector_track" value="amateur"
-                                        class="w-4 h-4 text-brand-600 mb-2">
+                                <label class="flex flex-col items-center justify-center p-3.5 border border-slate-200 bg-slate-50 rounded-xl cursor-pointer hover:border-brand-500 transition text-center">
+                                    <input type="radio" name="sector_track" value="amateur" class="w-4 h-4 text-brand-600 mb-2">
                                     <span class="text-xs font-semibold text-slate-700">Amateur Permit</span>
                                 </label>
                             </div>
@@ -409,74 +353,53 @@
 
                         <div class="grid sm:grid-cols-2 gap-6">
                             <div>
-                                <label
-                                    class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Organization
-                                    / Legal Entity</label>
-                                <input type="text" id="company_name" name="company_name" required
-                                    placeholder="Company or Individual Name"
+                                <label class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Organization / Legal Entity</label>
+                                <input type="text" id="company_name" name="company_name" required placeholder="Company or Individual Name"
                                     class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-900 focus:bg-white focus:ring-2 focus:ring-brand-500 outline-none transition">
                             </div>
                             <div>
-                                <label
-                                    class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Primary
-                                    Officer Name</label>
-                                <input type="text" id="contact_name" name="contact_name" required
-                                    placeholder="Full Name"
+                                <label class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Primary Officer Name</label>
+                                <input type="text" id="contact_name" name="contact_name" required placeholder="Full Name"
                                     class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-900 focus:bg-white focus:ring-2 focus:ring-brand-500 outline-none transition">
                             </div>
                         </div>
 
                         <div class="grid sm:grid-cols-2 gap-6">
                             <div>
-                                <label
-                                    class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Official
-                                    Email</label>
+                                <label class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Official Email</label>
                                 <input type="email" id="email" name="email" required placeholder="officer@company.com"
                                     class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-900 focus:bg-white focus:ring-2 focus:ring-brand-500 outline-none transition">
                             </div>
                             <div>
-                                <label
-                                    class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Direct
-                                    Phone / WhatsApp</label>
+                                <label class="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Direct Phone / WhatsApp</label>
                                 <input type="tel" id="phone" name="phone" required placeholder="+254 7XX XXX XXX"
                                     class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm text-slate-900 focus:bg-white focus:ring-2 focus:ring-brand-500 outline-none transition">
                             </div>
                         </div>
 
-                        <!-- SECTOR DYNAMIC PANELS -->
-                        <div id="aviation_parameters_block"
-                            class="space-y-4 bg-slate-50 p-6 border border-slate-200 rounded-2xl">
-                            <h4 class="text-xs font-bold text-aero-600 uppercase tracking-wider">Aeronautical Fleet
-                                Specifications</h4>
+                        <!-- DYNAMIC PANELS -->
+                        <div id="aviation_parameters_block" class="space-y-4 bg-slate-50 p-6 border border-slate-200 rounded-2xl">
+                            <h4 class="text-xs font-bold text-aero-600 uppercase tracking-wider">Aeronautical Fleet Specifications</h4>
                             <div class="grid sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Tail /
-                                        Registration Mark</label>
-                                    <input type="text" id="aircraft_tail" name="aircraft_tail"
-                                        placeholder="e.g., 5Y-ABC"
+                                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Tail / Registration Mark</label>
+                                    <input type="text" id="aircraft_tail" name="aircraft_tail" placeholder="e.g., 5Y-ABC"
                                         class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none uppercase font-mono">
                                 </div>
                                 <div>
-                                    <label
-                                        class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Airframe
-                                        Model & Year</label>
-                                    <input type="text" id="aircraft_model" name="aircraft_model"
-                                        placeholder="e.g., Beechcraft King Air 350"
+                                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Airframe Model & Year</label>
+                                    <input type="text" id="aircraft_model" name="aircraft_model" placeholder="e.g., Beechcraft King Air 350"
                                         class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
                                 </div>
                             </div>
                         </div>
 
-                        <div id="telecom_parameters_block"
-                            class="space-y-4 bg-slate-50 p-6 border border-slate-200 rounded-2xl hidden">
-                            <h4 class="text-xs font-bold text-brand-600 uppercase tracking-wider">Telecom Infrastructure
-                                Framework</h4>
+                        <div id="telecom_parameters_block" class="space-y-4 bg-slate-50 p-6 border border-slate-200 rounded-2xl hidden">
+                            <h4 class="text-xs font-bold text-brand-600 uppercase tracking-wider">Telecom Infrastructure Framework</h4>
                             <div class="grid sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">License
-                                        Category</label>
-                                    <select id="target_framework" name="target_framework"
-                                        class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
+                                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">License Category</label>
+                                    <select id="target_framework" name="target_framework" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
                                         <option value="">Select category...</option>
                                         <option value="nfp_tier1">Network Facilities Provider (Tier 1 National)</option>
                                         <option value="nfp_tier2">Network Facilities Provider (Tier 2 Regional)</option>
@@ -486,11 +409,8 @@
                                 </div>
                                 <div>
                                     <div class="flex justify-between items-center mb-2">
-                                        <label
-                                            class="block text-[11px] font-semibold text-slate-500 uppercase">Estimated
-                                            CAPEX (KES)</label>
-                                        <span id="capexFormatted"
-                                            class="text-[11px] font-mono text-brand-600 font-semibold"></span>
+                                        <label class="block text-[11px] font-semibold text-slate-500 uppercase">Estimated CAPEX (KES)</label>
+                                        <span id="capexFormatted" class="text-[11px] font-mono text-brand-600 font-semibold"></span>
                                     </div>
                                     <input type="number" id="estimated_capex" name="estimated_capex" min="0" value="0"
                                         class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none font-mono">
@@ -498,27 +418,20 @@
                             </div>
                         </div>
 
-                        <div id="radionet_parameters_block"
-                            class="space-y-4 bg-slate-50 p-6 border border-slate-200 rounded-2xl hidden">
-                            <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Radio Network
-                                Parameters</h4>
+                        <div id="radionet_parameters_block" class="space-y-4 bg-slate-50 p-6 border border-slate-200 rounded-2xl hidden">
+                            <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Radio Network Parameters</h4>
                             <div class="grid sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Network
-                                        Deployment Type</label>
-                                    <select id="radionet_type" name="radionet_type"
-                                        class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
+                                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Network Deployment Type</label>
+                                    <select id="radionet_type" name="radionet_type" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
                                         <option value="land_mobile">Land Mobile PMR (Base & Handhelds)</option>
                                         <option value="fixed_link">Fixed Point-to-Point Micro-Link</option>
                                         <option value="marine">Marine Coast Station</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label
-                                        class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Requested
-                                        Band</label>
-                                    <select id="radionet_band" name="radionet_band"
-                                        class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
+                                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Requested Band</label>
+                                    <select id="radionet_band" name="radionet_band" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
                                         <option value="vhf">VHF Band (136 - 174 MHz)</option>
                                         <option value="uhf">UHF Band (400 - 470 MHz)</option>
                                         <option value="hf">HF Band (Long Range)</option>
@@ -527,134 +440,58 @@
                             </div>
                         </div>
 
-                        <div id="amateur_parameters_block"
-                            class="space-y-4 bg-slate-50 p-6 border border-slate-200 rounded-2xl hidden">
-                            <h4 class="text-xs font-bold text-amber-600 uppercase tracking-wider">Amateur Radio Operator
-                            </h4>
+                        <div id="amateur_parameters_block" class="space-y-4 bg-slate-50 p-6 border border-slate-200 rounded-2xl hidden">
+                            <h4 class="text-xs font-bold text-amber-600 uppercase tracking-wider">Amateur Radio Operator</h4>
                             <div class="grid sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Permit
-                                        Class</label>
-                                    <select id="amateur_class" name="amateur_class"
-                                        class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
+                                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Permit Class</label>
+                                    <select id="amateur_class" name="amateur_class" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none">
                                         <option value="class_b">Class B (Restricted)</option>
                                         <option value="class_a">Class A (Full Privileges)</option>
                                         <option value="reciprocal">Foreign Reciprocal Permit</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label
-                                        class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Preferred
-                                        Call Sign Suffix</label>
+                                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-2">Preferred Call Sign Suffix</label>
                                     <input type="text" id="amateur_suffix" name="amateur_suffix" placeholder="e.g., KAA"
                                         class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm outline-none uppercase font-mono">
                                 </div>
                             </div>
                         </div>
 
-                        <!-- DATA PROTECTION CONSENT CHECKBOX -->
+                        <!-- CONSENT -->
                         <div class="pt-2">
                             <label class="flex items-start gap-3 cursor-pointer">
                                 <input type="checkbox" id="data_consent" name="data_consent" required
                                     class="mt-0.5 w-4 h-4 text-brand-600 border-slate-300 rounded focus:ring-brand-500">
                                 <span class="text-xs text-slate-500 leading-relaxed">
-                                    I consent to AeroTeleConsult processing my contact details for regulatory evaluation
-                                    in accordance with the Kenya Data Protection Act (2019).
+                                    I consent to AeroTeleConsult processing my contact details for regulatory evaluation in accordance with the Kenya Data Protection Act (2019).
                                 </span>
                             </label>
                         </div>
 
                         <button type="submit" id="submitBtn"
                             class="w-full py-4 text-center text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition shadow-md focus:outline-none focus:ring-4 focus:ring-brand-100 disabled:opacity-50">
-                            Request Expedited Regulatory Review
+                            Request Expedited Regulatory Review & Open Receipt Modal
                         </button>
-                        <p id="formStatus" class="text-xs text-center font-medium hidden p-3 rounded-xl"></p>
-
-                        <!-- SUCCESS TICKET CONFIRMATION CARD -->
-                        <div id="ticketConfirmationCard"
-                            class="hidden bg-slate-900 text-white rounded-2xl p-6 border border-slate-800 space-y-4 transition-all duration-500 scroll-mt-28">
-                            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                                <div class="flex items-center gap-2">
-                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                                    <span
-                                        class="text-xs font-semibold uppercase tracking-wider text-slate-300">Submission
-                                        Registered & Ticket Issued</span>
-                                </div>
-                                <span class="text-[10px] font-mono text-slate-400" id="confirmTime"></span>
-                            </div>
-                            <div>
-                                <span
-                                    class="text-[10px] uppercase font-bold text-brand-400 tracking-widest block mb-1">Your
-                                    Tracking Reference Ticket</span>
-                                <div
-                                    class="flex flex-wrap items-center justify-between gap-3 bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/60">
-                                    <span id="generatedTicketCode"
-                                        class="text-xl font-mono font-bold text-amber-400 tracking-wider"></span>
-                                    <div class="flex flex-wrap items-center gap-2">
-                                        <button type="button" id="copyTicketBtn"
-                                            class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-xs font-semibold rounded-lg text-slate-200 transition flex items-center gap-1.5">
-                                            <svg class="w-3.5 h-3.5 text-slate-300" fill="none" stroke="currentColor"
-                                                stroke-width="2" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184">
-                                                </path>
-                                            </svg>
-                                            Copy
-                                        </button>
-                                        <button type="button" id="downloadPdfBtn"
-                                            class="px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-xs font-semibold rounded-lg text-white transition flex items-center gap-1.5 shadow-sm">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z">
-                                                </path>
-                                            </svg>
-                                            PDF
-                                        </button>
-                                        <button type="button" id="downloadTicketBtn"
-                                            class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-lg text-slate-300 transition">
-                                            TXT
-                                        </button>
-                                        <a id="followUpWhatsAppBtn" href="#" target="_blank" rel="noopener noreferrer"
-                                            class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold rounded-lg text-white transition flex items-center gap-1.5 shadow-sm">
-                                            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 32 32"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M16 2A13.93 13.93 0 0 0 4 23L2 29l6.21-1.95A13.9 13.9 0 1 0 16 2zm0 25.43a11.44 11.44 0 0 1-5.83-1.59l-.42-.25-3.69 1.16 1.18-3.57-.27-.44A11.46 11.46 0 1 1 16 27.43zm6.3-8.52c-.35-.17-2.05-1-2.37-1.12s-.55-.17-.78.17-.9 1.12-1.1 1.35-.41.26-.75.09a9.5 9.5 0 0 1-2.79-1.72 10.43 10.43 0 0 1-1.93-2.4c-.2-.35 0-.54.15-.71s.35-.41.52-.61a2.33 2.33 0 0 0 .35-.58.65.65 0 0 0 0-.61c-.09-.17-.78-1.88-1.07-2.58s-.57-.59-.78-.6h-.67a1.28 1.28 0 0 0-.93.43 3.9 3.9 0 0 0-1.22 2.9 6.81 6.81 0 0 0 1.43 3.6 15.58 15.58 0 0 0 6 5.28c2.51 1 3 .83 3.56.77a3 3 0 0 0 2-1.4 2.47 2.47 0 0 0 .17-1.4c-.09-.18-.35-.29-.7-.46z" />
-                                            </svg>
-                                            Follow up
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="text-xs text-slate-400 leading-relaxed">
-                                Save this ticket code or download your receipt now. You can check live progress at any
-                                time under the <a href="#tracking" class="text-brand-400 underline">Track
-                                    Application</a> section.
-                            </p>
-                        </div>
                     </form>
                 </div>
             </div>
         </section>
 
-        <!-- APPLICATION STATUS TRACKER UI -->
+        <!-- STATUS TRACKER -->
         <section id="tracking" class="py-20 bg-white border-b border-slate-200">
             <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="bg-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm">
                     <div class="mb-6 text-center">
-                        <span
-                            class="text-[11px] font-bold text-brand-600 uppercase tracking-widest block mb-1">Self-Service
-                            Verification</span>
+                        <span class="text-[11px] font-bold text-brand-600 uppercase tracking-widest block mb-1">Self-Service Verification</span>
                         <h3 class="text-xl sm:text-2xl font-bold text-slate-900">Check Application Status</h3>
-                        <p class="text-xs text-slate-500 mt-1">Enter your reference ticket (e.g., ATC-A1B2C3D4) to track
-                            real-time regulatory progress.</p>
+                        <p class="text-xs text-slate-500 mt-1">Enter your reference ticket (e.g., ATC-A1B2C3D4) to track real-time regulatory progress.</p>
                     </div>
 
-                    <!-- Recent Tickets Chip Container -->
+                    <!-- Recent Lookups -->
                     <div id="recentTicketsContainer" class="hidden mb-4 pb-3 border-b border-slate-200/80">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Recent
-                            Lookups</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Recent Lookups</span>
                         <div id="recentTicketsList" class="flex flex-wrap gap-2"></div>
                     </div>
 
@@ -667,72 +504,47 @@
                         </button>
                     </form>
 
-                    <!-- Result Display Card -->
-                    <div id="statusResult"
-                        class="hidden mt-6 p-5 sm:p-6 bg-white border border-slate-200 rounded-2xl space-y-6 shadow-sm">
+                    <!-- Result Card -->
+                    <div id="statusResult" class="hidden mt-6 p-5 sm:p-6 bg-white border border-slate-200 rounded-2xl space-y-6 shadow-sm">
                         <div class="flex justify-between items-start border-b border-slate-100 pb-3">
                             <div>
                                 <span id="resCompany" class="font-bold text-slate-900 text-sm block"></span>
-                                <span id="resSector"
-                                    class="text-[11px] text-slate-500 font-medium uppercase tracking-wider"></span>
+                                <span id="resSector" class="text-[11px] text-slate-500 font-medium uppercase tracking-wider"></span>
                             </div>
-                            <span id="resStatusBadge"
-                                class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"></span>
+                            <span id="resStatusBadge" class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"></span>
                         </div>
 
-                        <!-- Progress Milestone Stepper -->
+                        <!-- Stepper -->
                         <div>
-                            <span
-                                class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-3">Statutory
-                                Milestone Pathway</span>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-3">Statutory Milestone Pathway</span>
                             <div class="grid grid-cols-4 gap-2 text-center">
-                                <!-- Step 1 -->
                                 <div id="step1" class="flex flex-col items-center">
-                                    <div
-                                        class="step-circle w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono transition">
-                                        1</div>
-                                    <span class="text-[10px] font-medium text-slate-600 mt-1.5 leading-tight">Intake
-                                        Logged</span>
+                                    <div class="step-circle w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono transition">1</div>
+                                    <span class="text-[10px] font-medium text-slate-600 mt-1.5 leading-tight">Intake Logged</span>
                                 </div>
-                                <!-- Step 2 -->
                                 <div id="step2" class="flex flex-col items-center">
-                                    <div
-                                        class="step-circle w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono transition">
-                                        2</div>
-                                    <span
-                                        class="text-[10px] font-medium text-slate-600 mt-1.5 leading-tight">Engineering
-                                        Audit</span>
+                                    <div class="step-circle w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono transition">2</div>
+                                    <span class="text-[10px] font-medium text-slate-600 mt-1.5 leading-tight">Engineering Audit</span>
                                 </div>
-                                <!-- Step 3 -->
                                 <div id="step3" class="flex flex-col items-center">
-                                    <div
-                                        class="step-circle w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono transition">
-                                        3</div>
-                                    <span class="text-[10px] font-medium text-slate-600 mt-1.5 leading-tight">CA/KCAA
-                                        Desk</span>
+                                    <div class="step-circle w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono transition">3</div>
+                                    <span class="text-[10px] font-medium text-slate-600 mt-1.5 leading-tight">CA/KCAA Desk</span>
                                 </div>
-                                <!-- Step 4 -->
                                 <div id="step4" class="flex flex-col items-center">
-                                    <div
-                                        class="step-circle w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono transition">
-                                        4</div>
-                                    <span class="text-[10px] font-medium text-slate-600 mt-1.5 leading-tight">Permit
-                                        Issued</span>
+                                    <div class="step-circle w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono transition">4</div>
+                                    <span class="text-[10px] font-medium text-slate-600 mt-1.5 leading-tight">Permit Issued</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
-                            <span
-                                class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-0.5">Secretariat
-                                Status Note</span>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-0.5">Secretariat Status Note</span>
                             <p id="resNotes" class="text-xs text-slate-700 leading-relaxed"></p>
                         </div>
 
-                        <div
-                            class="flex justify-between items-center text-[10px] text-slate-400 font-mono pt-1 border-t border-slate-100">
+                        <div class="flex justify-between items-center text-[10px] text-slate-400 font-mono pt-1 border-t border-slate-100">
                             <span>Submitted: <span id="resDate"></span></span>
-                            <span id="resTicketCodeRef" class="text-brand-600 font-bold"></span>
+                            <button type="button" id="btnReopenAeroModal" class="text-brand-600 font-bold hover:underline">View Receipt Modal &rarr;</button>
                         </div>
                     </div>
                 </div>
@@ -756,34 +568,26 @@
                         <span class="text-base font-bold text-white tracking-tight">AeroTeleConsult</span>
                     </div>
                     <p class="text-xs text-slate-400 leading-relaxed">
-                        Engineering practice delivering statutory RF spectrum approvals, avionics licensing, and telecom
-                        network authorizations in Kenya.
+                        Engineering practice delivering statutory RF spectrum approvals, avionics licensing, and telecom network authorizations in Kenya.
                     </p>
                 </div>
 
                 <div>
                     <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Practice Vectors</h4>
                     <ul class="space-y-2.5 text-xs">
-                        <li><a href="#solutions" class="hover:text-white transition">Aeronautical VHF/HF Licensing</a>
-                        </li>
-                        <li><a href="#solutions" class="hover:text-white transition">KCAA Airworthiness RF Sign-offs</a>
-                        </li>
-                        <li><a href="#solutions" class="hover:text-white transition">Communications Authority (CA)
-                                NFP/ASP</a></li>
-                        <li><a href="#solutions" class="hover:text-white transition">Commercial Radio Frequency
-                                Allocations</a></li>
+                        <li><a href="#solutions" class="hover:text-white transition">Aeronautical VHF/HF Licensing</a></li>
+                        <li><a href="#solutions" class="hover:text-white transition">KCAA Airworthiness RF Sign-offs</a></li>
+                        <li><a href="#solutions" class="hover:text-white transition">Communications Authority (CA) NFP/ASP</a></li>
+                        <li><a href="services.html" class="text-emerald-400 hover:text-emerald-300 font-semibold transition">Wankilb Tech & Bootcamp</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Regulatory Bodies</h4>
                     <ul class="space-y-2.5 text-xs">
-                        <li><a href="https://www.ca.go.ke" target="_blank" rel="noopener"
-                                class="hover:text-white transition">Communications Authority of Kenya (CA)</a></li>
-                        <li><a href="https://www.kcaa.or.ke" target="_blank" rel="noopener"
-                                class="hover:text-white transition">Kenya Civil Aviation Authority (KCAA)</a></li>
-                        <li><a href="https://www.itu.int" target="_blank" rel="noopener"
-                                class="hover:text-white transition">International Telecommunication Union (ITU)</a></li>
+                        <li><a href="https://www.ca.go.ke" target="_blank" rel="noopener" class="hover:text-white transition">Communications Authority of Kenya (CA)</a></li>
+                        <li><a href="https://www.kcaa.or.ke" target="_blank" rel="noopener" class="hover:text-white transition">Kenya Civil Aviation Authority (KCAA)</a></li>
+                        <li><a href="https://www.itu.int" target="_blank" rel="noopener" class="hover:text-white transition">International Telecommunication Union (ITU)</a></li>
                     </ul>
                 </div>
 
@@ -791,7 +595,10 @@
                     <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Secretariat Operations</h4>
                     <p class="text-xs leading-relaxed text-slate-400 mb-2">Nairobi, Kenya</p>
                     <p class="text-xs font-mono text-slate-300">Phone: +254 726 661 849</p>
-                    <p class="text-xs font-mono text-slate-300">Email: info@aeroteleconsult.co.ke</p>
+                    <p class="text-xs font-mono text-slate-300 mb-3">Email: info@aeroteleconsult.co.ke</p>
+                    <a href="admin.html" class="inline-flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-brand-400 font-medium transition">
+                        <span>🔒</span> Secretariat Staff Portal &rarr;
+                    </a>
                 </div>
             </div>
 
@@ -799,10 +606,11 @@
                 <div class="space-y-1 text-center sm:text-left">
                     <p>&copy; 2024 - <span id="currentYear">2026</span> AeroTeleConsult. All rights reserved.</p>
                     <p class="text-[11px] text-slate-500">
-                        Website designed and developed by
-                        <a href="https://engineer-david-portfolio.kiuradavis.workers.dev/" target="_blank"
-                            rel="noopener noreferrer"
-                            class="text-brand-400 hover:text-brand-300 font-medium underline underline-offset-2 transition">
+                        Website designed and developed by 
+                        <a href="https://engineer-david-portfolio.kiuradavis.workers.dev/" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="text-brand-400 hover:text-brand-300 font-medium underline underline-offset-2 transition">
                             Wankilb Software Solutions
                         </a>
                     </p>
@@ -815,31 +623,138 @@
         </div>
     </footer>
 
-    <!-- OPTIMIZED FLOATING WHATSAPP BUTTON -->
-    <a href="https://wa.me/254726661849?text=Hello%20AeroTeleConsult,%20I%20would%20like%20to%20inquire%20about%20regulatory%20compliance%20services."
-        target="_blank" rel="noopener noreferrer"
-        class="fixed bottom-6 right-6 z-50 flex items-center justify-center gap-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-3 px-4 sm:px-5 rounded-full shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-300"
-        aria-label="Chat on WhatsApp">
-        <svg class="w-6 h-6 shrink-0 fill-current" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M16 2A13.93 13.93 0 0 0 4 23L2 29l6.21-1.95A13.9 13.9 0 1 0 16 2zm0 25.43a11.44 11.44 0 0 1-5.83-1.59l-.42-.25-3.69 1.16 1.18-3.57-.27-.44A11.46 11.46 0 1 1 16 27.43zm6.3-8.52c-.35-.17-2.05-1-2.37-1.12s-.55-.17-.78.17-.9 1.12-1.1 1.35-.41.26-.75.09a9.5 9.5 0 0 1-2.79-1.72 10.43 10.43 0 0 1-1.93-2.4c-.2-.35 0-.54.15-.71s.35-.41.52-.61a2.33 2.33 0 0 0 .35-.58.65.65 0 0 0 0-.61c-.09-.17-.78-1.88-1.07-2.58s-.57-.59-.78-.6h-.67a1.28 1.28 0 0 0-.93.43 3.9 3.9 0 0 0-1.22 2.9 6.81 6.81 0 0 0 1.43 3.6 15.58 15.58 0 0 0 6 5.28c2.51 1 3 .83 3.56.77a3 3 0 0 0 2-1.4 2.47 2.47 0 0 0 .17-1.4c-.09-.18-.35-.29-.7-.46z" />
-        </svg>
-        <span class="hidden sm:inline text-xs font-semibold tracking-wide">Direct WhatsApp Consult</span>
-    </a>
+    <!-- INTERACTIVE INTAKE RECEIPT MODAL (AUTO-TUNED FOR A4 & EPOS THERMAL 80MM) -->
+    <div id="aeroReceiptModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center hidden p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-6 relative border border-slate-200 my-8">
+            
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4 no-print">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-brand-500 animate-pulse"></span>
+                    <h3 class="text-sm font-bold text-slate-900">Official Regulatory Intake Slip</h3>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <div class="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200 text-[11px] font-semibold">
+                        <button type="button" id="btnAeroStandard" onclick="setAeroLayout('standard')"
+                            class="px-3 py-1 rounded-lg bg-white shadow-sm text-slate-900 font-bold transition">
+                            📄 Standard A4
+                        </button>
+                        <button type="button" id="btnAeroEpos" onclick="setAeroLayout('epos')"
+                            class="px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition font-mono">
+                            🧾 EPOS 80mm Slip
+                        </button>
+                    </div>
+
+                    <button onclick="closeAeroModal()" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-xl hover:bg-slate-100 transition">
+                        ✕
+                    </button>
+                </div>
+            </div>
+
+            <!-- PRINTABLE CONTENT CONTAINER -->
+            <div id="printableAeroReceiptArea" class="space-y-5 transition-all">
+                
+                <!-- STANDARD LAYOUT -->
+                <div id="aeroStandardContent" class="space-y-5">
+                    <div class="flex justify-between items-start border-b border-slate-200 pb-4">
+                        <div>
+                            <span class="text-xs font-black text-brand-600 uppercase tracking-widest block">AEROTELECONSULT KENYA</span>
+                            <h4 class="text-base font-bold text-slate-900">Regulatory Intake & Evaluation Ticket</h4>
+                            <p class="text-[11px] text-slate-500 font-mono">CA & KCAA Compliance Secretariat</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] uppercase font-mono text-slate-400 block">Reference Ticket</span>
+                            <span id="aeroModalTicket" class="font-mono text-sm font-bold text-brand-600"></span>
+                            <span id="aeroModalDate" class="text-[10px] text-slate-400 font-mono block"></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
+                        <div>
+                            <span class="text-slate-400 font-medium block">Applicant Entity:</span>
+                            <span id="aeroModalCompany" class="font-bold text-slate-900"></span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 font-medium block">Lead Contact:</span>
+                            <span id="aeroModalContact" class="font-semibold text-slate-900"></span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 font-medium block">Sector Track:</span>
+                            <span id="aeroModalSector" class="font-semibold text-slate-800 uppercase"></span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 font-medium block">Phone / WhatsApp:</span>
+                            <span id="aeroModalPhone" class="font-mono font-semibold text-slate-800"></span>
+                        </div>
+                    </div>
+
+                    <div class="p-3.5 bg-blue-50/60 border border-blue-100 rounded-xl text-xs text-blue-900 space-y-1">
+                        <div class="font-bold flex items-center gap-1.5 text-blue-700">
+                            <span>ℹ️</span> Self-Service Tracking Instructions
+                        </div>
+                        <p class="text-[11px] text-blue-800/80 leading-relaxed">
+                            Visit <strong>https://aeroteleconsult.co.ke/#tracking</strong> and enter your reference code to view real-time CA/KCAA board stage updates.
+                        </p>
+                    </div>
+
+                    <div class="text-[10px] text-slate-400 border-t border-slate-200 pt-3 flex justify-between">
+                        <span>AeroTeleConsult Kenya • Statutory Practice</span>
+                        <span>Hotline: +254 726 661 849</span>
+                    </div>
+                </div>
+
+                <!-- EPOS THERMAL 80MM SIMULATION LAYOUT -->
+                <div id="aeroEposContent" class="hidden epos-mode rounded-xl space-y-2 text-center text-black">
+                    <div class="font-bold text-sm uppercase tracking-tight">*** AEROTELECONSULT ***</div>
+                    <div class="text-[10px]">CA & KCAA Regulatory Secretariat</div>
+                    <div class="text-[10px]">Nairobi, Kenya • Tel: +254 726 661 849</div>
+                    <div class="border-t border-dashed border-black my-1"></div>
+                    
+                    <div class="text-left space-y-1">
+                        <div><strong>TICKET :</strong> <span id="aeroEposTicket" class="font-bold"></span></div>
+                        <div><strong>DATE   :</strong> <span id="aeroEposDate"></span></div>
+                        <div><strong>ENTITY :</strong> <span id="aeroEposCompany"></span></div>
+                        <div><strong>OFFICER:</strong> <span id="aeroEposContact"></span></div>
+                        <div><strong>SECTOR :</strong> <span id="aeroEposSector"></span></div>
+                        <div><strong>PHONE  :</strong> <span id="aeroEposPhone"></span></div>
+                    </div>
+
+                    <div class="border-t border-dashed border-black my-1"></div>
+                    <div class="font-bold text-center">STATUS: UNDER EVALUATION</div>
+                    <div class="text-[9px] text-center mt-2">Track online: aeroteleconsult.co.ke/#tracking</div>
+                    <div class="border-b border-dashed border-black pt-2"></div>
+                </div>
+
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-200 no-print">
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" onclick="window.print()"
+                        class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                        🖨️ Print Slip
+                    </button>
+                    <button type="button" id="aeroModalPdfBtn"
+                        class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                        📄 Download PDF
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <a id="aeroModalWaBtn" href="#" target="_blank" rel="noopener noreferrer"
+                        class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                        💬 WhatsApp Follow-up
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
     <!-- FRONTEND APP CONTROLLER -->
     <script>
-        // Production Environment Variables Configuration Injection
-        const CONFIG = {
-            SUPABASE_URL: window.ENV_SUPABASE_URL || "https://tfetuykairghymxmknxc.supabase.co",
-            SUPABASE_ANON_KEY: window.ENV_SUPABASE_ANON_KEY || "sb_publishable_9ITJB3dba8vSDsZzcF3psw_YPIdstSx"
-        };
+        const supabaseClient = window.getSupabaseClient();
 
-        const supabaseClient = (window.supabase && CONFIG.SUPABASE_URL.indexOf("YOUR_SUPABASE") === -1)
-            ? window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY)
-            : null;
-
-        // Secret Admin Access (Ctrl+Shift+A or Logo Double-Click)
         function redirectToAdmin() {
             showToast({
                 title: 'Secretariat Access',
@@ -847,9 +762,7 @@
                 type: 'info',
                 duration: 1500
             });
-            setTimeout(() => {
-                window.location.href = 'admin.html';
-            }, 600);
+            setTimeout(() => { window.location.href = 'admin.html'; }, 600);
         }
 
         window.addEventListener('keydown', (e) => {
@@ -861,12 +774,10 @@
 
         const brandLogo = document.getElementById('brandLogoContainer');
         if (brandLogo) {
-            brandLogo.addEventListener('dblclick', () => {
-                redirectToAdmin();
-            });
+            brandLogo.addEventListener('dblclick', () => redirectToAdmin());
         }
 
-        // Mobile Navigation Drawer Toggle
+        // Mobile Menu
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
         const hamburgerIcon = document.getElementById('hamburgerIcon');
@@ -895,19 +806,14 @@
             });
         }
 
-        // Dynamic Year Helper
         window.addEventListener('DOMContentLoaded', () => {
             const currentYearEl = document.getElementById('currentYear');
             if (currentYearEl) currentYearEl.innerText = new Date().getFullYear();
         });
 
-        // Smart Input Formatters
+        // Smart Formatters
         const tailInput = document.getElementById('aircraft_tail');
-        if (tailInput) {
-            tailInput.addEventListener('input', (e) => {
-                e.target.value = e.target.value.toUpperCase();
-            });
-        }
+        if (tailInput) tailInput.addEventListener('input', (e) => { e.target.value = e.target.value.toUpperCase(); });
 
         const phoneInput = document.getElementById('phone');
         if (phoneInput) {
@@ -928,7 +834,7 @@
             });
         }
 
-        // Dynamic Sector Form Switcher
+        // Dynamic Sector Switcher
         const radios = document.querySelectorAll('input[name="sector_track"]');
         const blocks = {
             aviation: document.getElementById('aviation_parameters_block'),
@@ -940,16 +846,13 @@
         radios.forEach(radio => {
             radio.addEventListener('change', (e) => {
                 Object.keys(blocks).forEach(key => {
-                    if (key === e.target.value) {
-                        blocks[key].classList.remove('hidden');
-                    } else {
-                        blocks[key].classList.add('hidden');
-                    }
+                    if (key === e.target.value) blocks[key].classList.remove('hidden');
+                    else blocks[key].classList.add('hidden');
                 });
             });
         });
 
-        // Toast Notification System
+        // Toast System
         function showToast({ title, message, ticketCode, actionBtnText, onAction, duration = 6500, type = 'success' }) {
             const container = document.getElementById('toastContainer');
             if (!container) return;
@@ -957,48 +860,21 @@
             const toast = document.createElement('div');
             toast.className = 'toast-enter pointer-events-auto bg-slate-900/95 border border-slate-700/80 text-white rounded-2xl p-4 shadow-2xl backdrop-blur-md flex flex-col gap-2.5';
 
-            const iconSvg = type === 'success' ? `
-                <div class="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
-                    </svg>
-                </div>` : (type === 'error' ? `
-                <div class="w-8 h-8 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center shrink-0">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"></path>
-                    </svg>
-                </div>` : `
-                <div class="w-8 h-8 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center shrink-0">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"></path>
-                    </svg>
-                </div>`);
-
             toast.innerHTML = `
                 <div class="flex items-start gap-3">
-                    ${iconSvg}
+                    <div class="w-8 h-8 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center shrink-0">✓</div>
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center justify-between gap-2">
                             <h4 class="text-xs font-bold text-white tracking-tight">${title}</h4>
-                            <button type="button" class="closeToastBtn text-slate-400 hover:text-white p-0.5 transition">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                            </button>
+                            <button type="button" class="closeToastBtn text-slate-400 hover:text-white p-0.5 transition">✕</button>
                         </div>
                         <p class="text-[11px] text-slate-300 mt-0.5 leading-snug">${message}</p>
                     </div>
                 </div>
                 ${ticketCode ? `
                 <div class="flex items-center justify-between bg-slate-950/70 border border-slate-800 rounded-xl px-3 py-2 mt-0.5">
-                    <div class="flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                        <span class="font-mono text-xs font-bold text-amber-400 tracking-wider">${ticketCode}</span>
-                    </div>
-                    ${actionBtnText ? `
-                    <button type="button" class="toastActionBtn text-[11px] font-semibold text-brand-400 hover:text-brand-300 transition">
-                        ${actionBtnText}
-                    </button>` : ''}
+                    <span class="font-mono text-xs font-bold text-amber-400">${ticketCode}</span>
+                    ${actionBtnText ? `<button type="button" class="toastActionBtn text-[11px] font-semibold text-brand-400">${actionBtnText}</button>` : ''}
                 </div>` : ''}
             `;
 
@@ -1007,29 +883,63 @@
             const removeToast = () => {
                 toast.classList.remove('toast-enter');
                 toast.classList.add('toast-exit');
-                setTimeout(() => {
-                    if (toast.parentElement) toast.parentElement.removeChild(toast);
-                }, 300);
+                setTimeout(() => { if (toast.parentElement) toast.parentElement.removeChild(toast); }, 300);
             };
 
-            const closeBtn = toast.querySelector('.closeToastBtn');
-            if (closeBtn) closeBtn.addEventListener('click', removeToast);
+            toast.querySelector('.closeToastBtn').addEventListener('click', removeToast);
+            if (duration > 0) setTimeout(removeToast, duration);
+        }
 
-            const actionBtn = toast.querySelector('.toastActionBtn');
-            if (actionBtn && onAction) {
-                actionBtn.addEventListener('click', () => {
-                    onAction();
-                    actionBtn.innerText = "Copied!";
-                    setTimeout(removeToast, 1200);
-                });
-            }
+        // Aero Modal Controls & Layout Switcher
+        const aeroModal = document.getElementById('aeroReceiptModal');
+        const aeroStandard = document.getElementById('aeroStandardContent');
+        const aeroEpos = document.getElementById('aeroEposContent');
+        const btnAeroStd = document.getElementById('btnAeroStandard');
+        const btnAeroPos = document.getElementById('btnAeroEpos');
+        let currentAeroSubmission = null;
 
-            if (duration > 0) {
-                setTimeout(removeToast, duration);
+        function setAeroLayout(mode) {
+            if (mode === 'epos') {
+                aeroStandard.classList.add('hidden');
+                aeroEpos.classList.remove('hidden');
+                btnAeroPos.className = "px-3 py-1 rounded-lg bg-white shadow-sm text-slate-900 font-bold transition font-mono";
+                btnAeroStd.className = "px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition";
+            } else {
+                aeroStandard.classList.remove('hidden');
+                aeroEpos.classList.add('hidden');
+                btnAeroStd.className = "px-3 py-1 rounded-lg bg-white shadow-sm text-slate-900 font-bold transition";
+                btnAeroPos.className = "px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition font-mono";
             }
         }
 
-        // Recent Tickets Memory Storage
+        function openAeroModal(data) {
+            currentAeroSubmission = data;
+
+            document.getElementById('aeroModalTicket').innerText = data.ticket;
+            document.getElementById('aeroModalDate').innerText = data.date;
+            document.getElementById('aeroModalCompany').innerText = data.company;
+            document.getElementById('aeroModalContact').innerText = data.contact;
+            document.getElementById('aeroModalSector').innerText = (data.sector || '') + ' Track';
+            document.getElementById('aeroModalPhone').innerText = data.phone;
+
+            document.getElementById('aeroEposTicket').innerText = data.ticket;
+            document.getElementById('aeroEposDate').innerText = data.date;
+            document.getElementById('aeroEposCompany').innerText = data.company;
+            document.getElementById('aeroEposContact').innerText = data.contact;
+            document.getElementById('aeroEposSector').innerText = (data.sector || '').toUpperCase();
+            document.getElementById('aeroEposPhone').innerText = data.phone;
+
+            const msg = `Hello AeroTeleConsult, I have submitted application ticket ${data.ticket} for ${data.company} (${data.sector} track). Looking forward to the compliance assessment.`;
+            document.getElementById('aeroModalWaBtn').href = `https://wa.me/254726661849?text=${encodeURIComponent(msg)}`;
+
+            aeroModal.classList.remove('hidden');
+        }
+
+        function closeAeroModal() {
+            aeroModal.classList.add('hidden');
+        }
+
+        // Recent Lookups
         function saveRecentTicket(ticket) {
             if (!ticket || ticket === "N/A") return;
             try {
@@ -1039,20 +949,7 @@
                 if (recents.length > 4) recents = recents.slice(0, 4);
                 localStorage.setItem('ATC_RECENT_TICKETS', JSON.stringify(recents));
                 renderRecentTickets();
-            } catch (e) {
-                console.warn(e);
-            }
-        }
-
-        function removeRecentTicket(ticket) {
-            try {
-                let recents = JSON.parse(localStorage.getItem('ATC_RECENT_TICKETS') || '[]');
-                recents = recents.filter(t => t !== ticket);
-                localStorage.setItem('ATC_RECENT_TICKETS', JSON.stringify(recents));
-                renderRecentTickets();
-            } catch (e) {
-                console.warn(e);
-            }
+            } catch (e) {}
         }
 
         function renderRecentTickets() {
@@ -1064,27 +961,20 @@
                 const recents = JSON.parse(localStorage.getItem('ATC_RECENT_TICKETS') || '[]');
                 if (recents.length === 0) {
                     container.classList.add('hidden');
-                    list.innerHTML = '';
                     return;
                 }
-
                 container.classList.remove('hidden');
                 list.innerHTML = recents.map(t => `
                     <div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white hover:bg-brand-50 border border-slate-200 rounded-lg text-xs font-mono text-slate-700 shadow-sm transition">
                         <button type="button" onclick="selectRecentTicket('${t}')" class="font-bold text-slate-800 hover:text-brand-600">
                             ${t}
                         </button>
-                        <button type="button" onclick="event.stopPropagation(); removeRecentTicket('${t}')" class="text-slate-400 hover:text-rose-500 pl-1" title="Remove">
-                            ✕
-                        </button>
                     </div>
                 `).join('');
-            } catch (e) {
-                container.classList.add('hidden');
-            }
+            } catch (e) { container.classList.add('hidden'); }
         }
 
-        window.selectRecentTicket = function (ticket) {
+        window.selectRecentTicket = function(ticket) {
             const input = document.getElementById('ticketInput');
             if (input) {
                 input.value = ticket;
@@ -1092,7 +982,6 @@
             }
         };
 
-        // Stepper Visuals Updater
         function updateTimelineStepper(status) {
             const steps = [
                 document.getElementById('step1'),
@@ -1103,18 +992,14 @@
 
             steps.forEach(st => {
                 if (!st) return;
-                const circle = st.querySelector('.step-circle');
-                const label = st.querySelector('span');
-                circle.className = "step-circle w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono bg-slate-100 text-slate-400 border border-slate-200";
-                label.className = "text-[10px] font-medium text-slate-400 mt-1.5 leading-tight";
+                st.querySelector('.step-circle').className = "step-circle w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono bg-slate-100 text-slate-400 border border-slate-200";
+                st.querySelector('span').className = "text-[10px] font-medium text-slate-400 mt-1.5 leading-tight";
             });
 
             const activeCircleClass = "step-circle w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono bg-brand-600 text-white shadow-md ring-4 ring-brand-100";
             const completedCircleClass = "step-circle w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono bg-emerald-500 text-white";
-            const alertCircleClass = "step-circle w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono bg-rose-500 text-white ring-4 ring-rose-100";
 
             const s = (status || 'under_review').toLowerCase();
-
             if (s === 'under_review') {
                 setStep(0, completedCircleClass, "text-emerald-700 font-semibold");
                 setStep(1, activeCircleClass, "text-brand-600 font-bold");
@@ -1124,13 +1009,6 @@
                 setStep(2, activeCircleClass, "text-brand-600 font-bold");
             } else if (s === 'approved') {
                 steps.forEach((_, idx) => setStep(idx, completedCircleClass, "text-emerald-700 font-bold"));
-            } else if (s === 'action_required') {
-                setStep(0, completedCircleClass, "text-emerald-700 font-semibold");
-                setStep(1, completedCircleClass, "text-emerald-700 font-semibold");
-                setStep(2, alertCircleClass, "text-rose-600 font-bold");
-            } else if (s === 'rejected') {
-                setStep(0, completedCircleClass, "text-slate-600");
-                setStep(1, alertCircleClass, "text-rose-600 font-bold");
             }
 
             function setStep(index, circleCls, labelCls) {
@@ -1140,55 +1018,17 @@
             }
         }
 
-        // Intake Form Elements
+        // Intake Form Submit
         const form = document.getElementById('caSubmissionForm');
-        const statusText = document.getElementById('formStatus');
         const submitBtn = document.getElementById('submitBtn');
-        const ticketCard = document.getElementById('ticketConfirmationCard');
-        const generatedTicketCode = document.getElementById('generatedTicketCode');
-        const copyTicketBtn = document.getElementById('copyTicketBtn');
-        const downloadTicketBtn = document.getElementById('downloadTicketBtn');
-        const downloadPdfBtn = document.getElementById('downloadPdfBtn');
-        const followUpWhatsAppBtn = document.getElementById('followUpWhatsAppBtn');
-        const confirmTime = document.getElementById('confirmTime');
-
-        let currentSubmission = null;
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-
             submitBtn.disabled = true;
-            submitBtn.innerHTML = `
-                <span class="inline-flex items-center gap-2">
-                    <svg class="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Encrypting & Transmitting Assessment...
-                </span>
-            `;
+            submitBtn.innerHTML = `Encrypting & Transmitting Assessment...`;
 
             const formData = new FormData(form);
             const selectedSector = formData.get('sector_track');
-
-            const sectorDetailsMap = {
-                aviation: {
-                    aircraft_tail: formData.get('aircraft_tail'),
-                    aircraft_model: formData.get('aircraft_model')
-                },
-                telecom: {
-                    target_framework: formData.get('target_framework'),
-                    estimated_capex: formData.get('estimated_capex')
-                },
-                radionet: {
-                    radionet_type: formData.get('radionet_type'),
-                    radionet_band: formData.get('radionet_band')
-                },
-                amateur: {
-                    amateur_class: formData.get('amateur_class'),
-                    amateur_suffix: formData.get('amateur_suffix')
-                }
-            };
 
             const payload = {
                 company_name: formData.get('company_name'),
@@ -1196,16 +1036,14 @@
                 email: formData.get('email'),
                 phone: formData.get('phone'),
                 sector_track: selectedSector,
-                sector_details: sectorDetailsMap[selectedSector] || {}
+                sector_details: {}
             };
 
             try {
-                if (!supabaseClient) {
-                    throw new Error("Supabase client is not initialized. Please verify your CONFIG parameters.");
-                }
+                if (!supabaseClient) throw new Error("Supabase client not initialized.");
 
                 const { data, error } = await supabaseClient
-                    .from('intake_submissions')
+                    .from(window.APP_CONFIG.TABLE_SUBMISSIONS)
                     .insert([payload])
                     .select('tracking_ticket')
                     .single();
@@ -1215,7 +1053,7 @@
                 const returnedTicket = data ? data.tracking_ticket : "N/A";
                 const issuedTimestamp = new Date().toLocaleString();
 
-                currentSubmission = {
+                const subData = {
                     ticket: returnedTicket,
                     company: payload.company_name,
                     contact: payload.contact_name,
@@ -1226,237 +1064,270 @@
                 };
 
                 saveRecentTicket(returnedTicket);
-
-                statusText.className = "text-xs text-center font-medium text-emerald-800 bg-emerald-50 border border-emerald-200 block";
-                statusText.innerText = "Assessment received. Your reference ticket has been issued below.";
-
-                generatedTicketCode.innerText = returnedTicket;
-                confirmTime.innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-                if (followUpWhatsAppBtn) {
-                    const msg = `Hello AeroTeleConsult, I have submitted application ticket ${returnedTicket} for ${payload.company_name} (${selectedSector} track). Looking forward to the compliance assessment.`;
-                    followUpWhatsAppBtn.href = `https://wa.me/254726661849?text=${encodeURIComponent(msg)}`;
-                }
-
-                ticketCard.classList.remove('hidden');
-
-                document.getElementById('ticketInput').value = returnedTicket;
-
-                setTimeout(() => {
-                    ticketCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 100);
+                openAeroModal(subData);
 
                 showToast({
                     title: 'Application Registered!',
-                    message: 'Your tracking reference ticket has been issued.',
-                    ticketCode: returnedTicket,
-                    actionBtnText: 'Copy Code',
-                    onAction: () => {
-                        navigator.clipboard.writeText(returnedTicket);
-                    }
+                    message: 'Your tracking reference ticket has been issued in receipt modal.',
+                    ticketCode: returnedTicket
                 });
 
                 form.reset();
             } catch (err) {
-                console.error(err);
-                statusText.className = "text-xs text-center font-medium text-rose-800 bg-rose-50 border border-rose-200 block";
-                statusText.innerText = "Submission Notice: " + err.message;
-
-                showToast({
-                    title: 'Submission Notice',
-                    message: err.message,
-                    type: 'error'
-                });
+                showToast({ title: 'Submission Error', message: err.message, type: 'error' });
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.innerText = "Request Expedited Regulatory Review";
+                submitBtn.innerText = "Request Expedited Regulatory Review & Open Receipt Modal";
             }
         });
 
-        // Copy Ticket Handler
-        copyTicketBtn.addEventListener('click', () => {
-            const ticket = generatedTicketCode.innerText;
-            if (ticket) {
-                navigator.clipboard.writeText(ticket);
-                copyTicketBtn.innerHTML = `
-                    <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
-                    </svg>
-                    Copied!
-                `;
-                showToast({
-                    title: 'Copied to Clipboard',
-                    message: `Ticket ${ticket} copied.`,
-                    duration: 3000,
-                    type: 'info'
-                });
-                setTimeout(() => {
-                    copyTicketBtn.innerHTML = `
-                        <svg class="w-3.5 h-3.5 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"></path>
-                        </svg>
-                        Copy
-                    `;
-                }, 2000);
-            }
-        });
-
-        // PDF Ticket Generator Handler
-        downloadPdfBtn.addEventListener('click', () => {
-            if (!currentSubmission) return;
+        // PDF Generator with Professional Corporate A4 Standard
+        document.getElementById('aeroModalPdfBtn').addEventListener('click', () => {
+            if (!currentAeroSubmission) return;
 
             try {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
-                // Header Banner
-                doc.setFillColor(15, 23, 42);
-                doc.rect(0, 0, 210, 32, 'F');
+                // 1. Brand Banner Header (Executive Navy)
+                doc.setFillColor(15, 23, 42); // slate-900
+                doc.rect(0, 0, 210, 28, 'F');
 
+                // Accent Top Border Strip (Cobalt Blue)
+                doc.setFillColor(37, 99, 235); // blue-600
+                doc.rect(0, 0, 210, 3, 'F');
+
+                // Brand Name & Subtext
                 doc.setTextColor(255, 255, 255);
                 doc.setFont('helvetica', 'bold');
                 doc.setFontSize(16);
-                doc.text('AeroTeleConsult Kenya', 15, 14);
+                doc.text('AEROTELECONSULT KENYA', 15, 14);
 
                 doc.setFont('helvetica', 'normal');
                 doc.setFontSize(8.5);
                 doc.setTextColor(148, 163, 184);
-                doc.text('Direct CA & KCAA Engineering Compliance Secretariat', 15, 22);
+                doc.text('Direct CA & KCAA Engineering Compliance Secretariat | Aviation & Telecom Advisory', 15, 21);
 
-                // Document Title
-                doc.setTextColor(15, 23, 42);
+                // Top Right Contact Badge
                 doc.setFont('helvetica', 'bold');
-                doc.setFontSize(13);
-                doc.text('OFFICIAL REGULATORY INTAKE RECEIPT', 15, 46);
+                doc.setFontSize(8.5);
+                doc.setTextColor(96, 165, 250); // blue-400
+                doc.text('SECRETARIAT: +254 726 661 849', 195, 14, { align: 'right' });
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(203, 213, 225);
+                doc.text('info@aeroteleconsult.co.ke', 195, 21, { align: 'right' });
 
-                // Ticket Box
+                // 2. SEPARATE STANDALONE DOCUMENT TITLE BAR (BELOW BRAND HEADER)
+                doc.setFillColor(241, 245, 249); // slate-100
+                doc.setDrawColor(203, 213, 225); // slate-300
+                doc.roundedRect(15, 33, 180, 16, 2, 2, 'FD');
+
+                // Left Title in Document Title Bar
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(12);
+                doc.setTextColor(15, 23, 42); // slate-900
+                doc.text('OFFICIAL REGULATORY INTAKE ACKNOWLEDGEMENT', 20, 42);
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(7.5);
+                doc.setTextColor(100, 116, 139); // slate-500
+                doc.text('COMMUNICATIONS AUTHORITY (CA) & KCAA SPECTRUM LIAISON', 20, 46.5);
+
+                // Right Status Badge in Title Bar
+                doc.setFillColor(239, 246, 255); // blue-50
+                doc.setDrawColor(191, 219, 254); // blue-200
+                doc.roundedRect(148, 36.5, 42, 9, 2, 2, 'FD');
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(7.5);
+                doc.setTextColor(37, 99, 235); // blue-600
+                doc.text('● INTAKE REGISTERED', 169, 42.5, { align: 'center' });
+
+                // 3. Tracking & Reference Meta Card
                 doc.setFillColor(248, 250, 252);
                 doc.setDrawColor(226, 232, 240);
-                doc.roundedRect(15, 53, 180, 24, 3, 3, 'FD');
+                doc.roundedRect(15, 53, 180, 20, 2, 2, 'FD');
 
-                doc.setFontSize(8);
                 doc.setFont('helvetica', 'bold');
-                doc.setTextColor(37, 99, 235);
-                doc.text('TRACKING TICKET REFERENCE', 22, 61);
+                doc.setFontSize(7.5);
+                doc.setTextColor(100, 116, 139);
+                doc.text('SECRETARIAT TRACKING TICKET NO.', 22, 60);
 
-                doc.setFontSize(14);
+                doc.setFont('courier', 'bold');
+                doc.setFontSize(13);
+                doc.setTextColor(37, 99, 235);
+                doc.text(currentAeroSubmission.ticket || 'ATC-N/A', 22, 68);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(7.5);
+                doc.setTextColor(100, 116, 139);
+                doc.text('DATE / TIME ISSUED', 115, 60);
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(9);
+                doc.setTextColor(15, 23, 42);
+                doc.text(currentAeroSubmission.date || new Date().toLocaleString(), 115, 67);
+
+                // 4. Entity & Secretariat Details Card
+                doc.setFillColor(255, 255, 255);
+                doc.setDrawColor(226, 232, 240);
+                doc.roundedRect(15, 77, 180, 42, 2, 2, 'FD');
+
+                // Section Label
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8);
+                doc.setTextColor(15, 23, 42);
+                doc.text('APPLICANT ENTITY & LIAISON OFFICER DETAILS', 20, 84);
+                doc.setDrawColor(241, 245, 249);
+                doc.line(20, 86, 190, 86);
+
+                // Col 1
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8);
+                doc.setTextColor(100, 116, 139);
+                doc.text('Organization / Entity:', 20, 93);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(15, 23, 42);
+                doc.text(currentAeroSubmission.company || 'N/A', 60, 93);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(100, 116, 139);
+                doc.text('Primary Liaison Officer:', 20, 100);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(15, 23, 42);
+                doc.text(currentAeroSubmission.contact || 'N/A', 60, 100);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(100, 116, 139);
+                doc.text('Direct Phone / WhatsApp:', 20, 107);
                 doc.setFont('courier', 'bold');
                 doc.setTextColor(15, 23, 42);
-                doc.text(currentSubmission.ticket || 'ATC-N/A', 22, 70);
+                doc.text(currentAeroSubmission.phone || 'N/A', 60, 107);
 
-                // Status Badge
-                doc.setFillColor(254, 243, 199);
-                doc.setDrawColor(251, 191, 36);
-                doc.roundedRect(142, 59, 45, 12, 2, 2, 'FD');
-                doc.setFontSize(7.5);
                 doc.setFont('helvetica', 'bold');
-                doc.setTextColor(180, 83, 9);
-                doc.text('STATUS: UNDER REVIEW', 145, 66.5);
+                doc.setTextColor(100, 116, 139);
+                doc.text('Official Email Address:', 20, 114);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(15, 23, 42);
+                doc.text(currentAeroSubmission.email || 'N/A', 60, 114);
 
-                // Table Rows
-                let y = 92;
-                const fields = [
-                    ['Organization / Legal Entity', currentSubmission.company],
-                    ['Primary Officer Name', currentSubmission.contact],
-                    ['Official Email', currentSubmission.email],
-                    ['Direct Phone / WhatsApp', currentSubmission.phone],
-                    ['Target Sector Track', (currentSubmission.sector || '').toUpperCase() + ' TRACK'],
-                    ['Date & Time Issued', currentSubmission.date]
+                // Col 2
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(100, 116, 139);
+                doc.text('Regulatory Track:', 120, 93);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(37, 99, 235);
+                doc.text((currentAeroSubmission.sector || 'GENERAL').toUpperCase() + ' COMPLIANCE', 152, 93);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(100, 116, 139);
+                doc.text('Secretariat Lead:', 120, 100);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(15, 23, 42);
+                doc.text('Technical Director', 152, 100);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(100, 116, 139);
+                doc.text('Review SLA:', 120, 107);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(15, 23, 42);
+                doc.text('24-48 Business Hours', 152, 107);
+
+                // 5. Itemized Regulatory Milestone Schedule Table
+                let yTable = 126;
+                doc.setFillColor(15, 23, 42);
+                doc.rect(15, yTable, 180, 8, 'F');
+
+                doc.setTextColor(255, 255, 255);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8);
+                doc.text('COMPLIANCE MILESTONE & STATUTORY PROCEDURES', 20, yTable + 5.5);
+                doc.text('EST. DURATION', 130, yTable + 5.5);
+                doc.text('STATUS', 190, yTable + 5.5, { align: 'right' });
+
+                const milestones = [
+                    ['Stage 1: Preliminary Technical Audit & Frequency Clearance', '2 - 3 Days', 'INITIATED'],
+                    ['Stage 2: Statutory CA / KCAA Engineering Filing & Secretariat Review', '5 - 7 Days', 'PENDING'],
+                    ['Stage 3: Spectrum Coordination & Type Approval Verification', '3 - 5 Days', 'QUEUED'],
+                    ['Stage 4: Official Gazettement, Final Licensing & Station Authorization', 'Final Issuance', 'QUEUED']
                 ];
 
-                fields.forEach(([label, val], idx) => {
+                yTable += 8;
+                milestones.forEach(([mName, dur, stat], idx) => {
                     if (idx % 2 === 0) {
                         doc.setFillColor(248, 250, 252);
-                        doc.rect(15, y - 4.5, 180, 10, 'F');
+                        doc.rect(15, yTable, 180, 9, 'F');
                     }
+                    doc.setDrawColor(226, 232, 240);
+                    doc.rect(15, yTable, 180, 9, 'D');
+
                     doc.setFont('helvetica', 'bold');
-                    doc.setFontSize(9);
-                    doc.setTextColor(100, 116, 139);
-                    doc.text(label, 20, y + 2);
+                    doc.setFontSize(7.5);
+                    doc.setTextColor(idx === 0 ? 37 : 71, idx === 0 ? 99 : 85, idx === 0 ? 235 : 105);
+                    doc.text(mName, 20, yTable + 6);
 
                     doc.setFont('helvetica', 'normal');
-                    doc.setFontSize(9);
-                    doc.setTextColor(15, 23, 42);
-                    doc.text(String(val || 'N/A'), 85, y + 2);
+                    doc.setFontSize(7.5);
+                    doc.setTextColor(100, 116, 139);
+                    doc.text(dur, 130, yTable + 6);
 
-                    y += 10;
+                    doc.setFont('courier', 'bold');
+                    doc.setFontSize(7.5);
+                    doc.setTextColor(idx === 0 ? 5 : 100, idx === 0 ? 150 : 116, idx === 0 ? 105 : 139);
+                    doc.text(stat, 190, yTable + 6, { align: 'right' });
+
+                    yTable += 9;
                 });
 
-                // Tracking Box
-                y += 6;
-                doc.setFillColor(240, 249, 255);
-                doc.setDrawColor(186, 230, 253);
-                doc.roundedRect(15, y, 180, 30, 2, 2, 'FD');
+                // 6. Regulatory Notes Box
+                let yNotes = yTable + 6;
+                doc.setFillColor(250, 250, 250);
+                doc.setDrawColor(226, 232, 240);
+                doc.roundedRect(15, yNotes, 180, 24, 2, 2, 'FD');
 
                 doc.setFont('helvetica', 'bold');
-                doc.setFontSize(9);
-                doc.setTextColor(2, 132, 199);
-                doc.text('HOW TO TRACK YOUR APPLICATION STATUS', 20, y + 8);
+                doc.setFontSize(7.5);
+                doc.setTextColor(15, 23, 42);
+                doc.text('REGULATORY & SECRETARIAT ADVISORY:', 20, yNotes + 5.5);
 
                 doc.setFont('helvetica', 'normal');
-                doc.setFontSize(8.5);
-                doc.setTextColor(51, 65, 85);
-                doc.text('1. Visit https://aeroteleconsult.co.ke/#tracking', 20, y + 16);
-                doc.text('2. Enter your reference ticket code: ' + currentSubmission.ticket, 20, y + 22);
+                doc.setFontSize(7);
+                doc.setTextColor(100, 116, 139);
+                doc.text('• All filings conform strictly to Kenya Information and Communications Act & KCAA CARs Part 5.', 20, yNotes + 10.5);
+                doc.text('• Technical dockets remain active for statutory review for 90 days from the filing date.', 20, yNotes + 15);
+                doc.text('• Direct inquiries should reference the official Tracking Ticket Number above.', 20, yNotes + 19.5);
 
-                // Footer
+                // 7. Signature / Seal Line
+                let ySign = yNotes + 30;
+                doc.setDrawColor(203, 213, 225);
+                doc.line(20, ySign + 14, 80, ySign + 14);
+                doc.line(130, ySign + 14, 190, ySign + 14);
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(7.5);
+                doc.setTextColor(100, 116, 139);
+                doc.text('Applicant Authorized Officer', 20, ySign + 18);
+                doc.text('AeroTeleConsult Chief Registrar', 130, ySign + 18);
+
+                // 8. Footer Strip
                 doc.setDrawColor(226, 232, 240);
-                doc.line(15, 260, 195, 260);
+                doc.line(15, 275, 195, 275);
 
-                doc.setFontSize(8);
+                doc.setFontSize(7.5);
                 doc.setFont('helvetica', 'normal');
                 doc.setTextColor(148, 163, 184);
-                doc.text('AeroTeleConsult Kenya | info@aeroteleconsult.co.ke | +254 726 661 849', 15, 267);
-                doc.text('This is a computer-generated intake document issued upon statutory submission registration.', 15, 272);
+                doc.text('AeroTeleConsult Kenya • Official Regulatory Intake Voucher • Certified Engineering Secretariat.', 15, 281);
+                doc.text('Page 1 of 1', 195, 281, { align: 'right' });
 
-                doc.save(`AeroTeleConsult_Ticket_${currentSubmission.ticket}.pdf`);
+                // Save PDF
+                doc.save(`AeroTeleConsult_Intake_${currentAeroSubmission.ticket}.pdf`);
             } catch (err) {
-                console.error("PDF generation failed:", err);
-                alert("Could not generate PDF directly. Please use the TXT download option.");
+                console.error(err);
+                alert("Could not generate PDF. Please use the Print option.");
             }
         });
 
-        // Transient TXT Receipt File Generator Handler
-        downloadTicketBtn.addEventListener('click', () => {
-            if (!currentSubmission) return;
-
-            const content =
-                `==================================================
-      AEROTELECONSULT REGULATORY COMPLIANCE
-             OFFICIAL INTAKE RECEIPT
-==================================================
-
-TRACKING TICKET : ${currentSubmission.ticket}
-ORGANIZATION    : ${currentSubmission.company}
-OFFICER NAME    : ${currentSubmission.contact}
-OFFICIAL EMAIL  : ${currentSubmission.email}
-PHONE NUMBER    : ${currentSubmission.phone}
-SECTOR TRACK    : ${currentSubmission.sector.toUpperCase()}
-DATE ISSUED     : ${currentSubmission.date}
-
-STATUS: UNDER REVIEW
-
-Instructions:
-Keep this document for your records. You can check the live
-status of your regulatory review at any time by entering your
-tracking ticket at https://aeroteleconsult.co.ke/#tracking
-
---------------------------------------------------
-AeroTeleConsult Kenya | info@aeroteleconsult.co.ke
-==================================================`;
-
-            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const downloadLink = document.createElement('a');
-            downloadLink.href = url;
-            downloadLink.download = `AeroTeleConsult_Ticket_${currentSubmission.ticket}.txt`;
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-            URL.revokeObjectURL(url);
-        });
-
-        // Status Check Form Handler
+        // Status Check
         const statusForm = document.getElementById('statusCheckForm');
         const ticketInput = document.getElementById('ticketInput');
         const statusResult = document.getElementById('statusResult');
@@ -1469,22 +1340,15 @@ AeroTeleConsult Kenya | info@aeroteleconsult.co.ke
             trackBtn.innerText = 'Checking...';
 
             try {
-                if (!supabaseClient) {
-                    throw new Error("Supabase client is not initialized. Please verify your CONFIG parameters.");
-                }
+                if (!supabaseClient) throw new Error("Database client not available.");
 
                 const { data, error } = await supabaseClient.rpc('check_application_status', {
                     ticket_number: ticket
                 });
 
                 if (error) throw error;
-
                 if (!data || data.length === 0) {
-                    showToast({
-                        title: 'No Application Found',
-                        message: 'Please check your ticket reference and try again.',
-                        type: 'error'
-                    });
+                    showToast({ title: 'No Application Found', message: 'Please check your ticket reference.', type: 'error' });
                     statusResult.classList.add('hidden');
                     return;
                 }
@@ -1494,38 +1358,28 @@ AeroTeleConsult Kenya | info@aeroteleconsult.co.ke
 
                 document.getElementById('resCompany').innerText = record.company_name;
                 document.getElementById('resSector').innerText = (record.sector_track || 'General') + ' Track';
-                document.getElementById('resNotes').innerText = record.status_notes || 'Your submission has been received and routed for compliance evaluation.';
+                document.getElementById('resNotes').innerText = record.status_notes || 'Your submission is under compliance evaluation.';
                 document.getElementById('resDate').innerText = new Date(record.created_at).toLocaleString();
-                document.getElementById('resTicketCodeRef').innerText = ticket;
 
                 const badge = document.getElementById('resStatusBadge');
-                const statusMap = {
-                    under_review: { label: 'Under Review', class: 'bg-amber-50 text-amber-700 border border-amber-200' },
-                    processing: { label: 'In Processing', class: 'bg-blue-50 text-blue-700 border border-blue-200' },
-                    approved: { label: 'Approved', class: 'bg-emerald-50 text-emerald-700 border border-emerald-200' },
-                    action_required: { label: 'Action Required', class: 'bg-rose-50 text-rose-700 border border-rose-200' },
-                    rejected: { label: 'Rejected', class: 'bg-slate-100 text-slate-700 border border-slate-200' }
-                };
+                badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-amber-50 text-amber-700 border border-amber-200";
+                badge.innerText = record.status || 'under_review';
 
-                const currentStatus = record.status || 'under_review';
-                const statusInfo = statusMap[currentStatus] || { label: currentStatus, class: 'bg-slate-100 text-slate-700 border border-slate-200' };
-                badge.className = `px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${statusInfo.class}`;
-                badge.innerText = statusInfo.label;
-
-                updateTimelineStepper(currentStatus);
-
+                updateTimelineStepper(record.status);
                 statusResult.classList.remove('hidden');
 
-                setTimeout(() => {
-                    statusResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 100);
-
+                document.getElementById('btnReopenAeroModal').onclick = () => {
+                    openAeroModal({
+                        ticket: ticket,
+                        company: record.company_name,
+                        contact: record.contact_name || 'Officer',
+                        phone: record.phone || 'N/A',
+                        sector: record.sector_track || 'General',
+                        date: new Date(record.created_at).toLocaleString()
+                    });
+                };
             } catch (err) {
-                showToast({
-                    title: 'Query Error',
-                    message: err.message,
-                    type: 'error'
-                });
+                showToast({ title: 'Query Error', message: err.message, type: 'error' });
             } finally {
                 trackBtn.disabled = false;
                 trackBtn.innerText = 'Track Status';
@@ -1539,29 +1393,8 @@ AeroTeleConsult Kenya | info@aeroteleconsult.co.ke
             queryTicketStatus(ticket);
         });
 
-        // Initialize Recent Tickets and Deep-Link Auto-Tracker on load
         window.addEventListener('DOMContentLoaded', () => {
             renderRecentTickets();
-
-            // Deep-link check (e.g. ?ticket=ATC-123456 or #tracking?ticket=ATC-123456)
-            const urlParams = new URLSearchParams(window.location.search);
-            const hash = window.location.hash;
-            let ticketParam = urlParams.get('ticket');
-
-            if (!ticketParam && hash.includes('ticket=')) {
-                const match = hash.match(/ticket=([^&]+)/);
-                if (match) ticketParam = decodeURIComponent(match[1]);
-            }
-
-            if (ticketParam) {
-                const cleaned = ticketParam.trim().toUpperCase();
-                ticketInput.value = cleaned;
-                setTimeout(() => {
-                    const trackSec = document.getElementById('tracking');
-                    if (trackSec) trackSec.scrollIntoView({ behavior: 'smooth' });
-                    queryTicketStatus(cleaned);
-                }, 400);
-            }
         });
     </script>
 </body>
