@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Client Portal — AeroTeleConsult</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="config.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+          colors: {
+            brand: { 50:'#f0f9ff', 100:'#e0f2fe', 200:'#bae6fd', 500:'#0ea5e9', 600:'#0284c7', 700:'#0369a1', 800:'#075985', 900:'#0c4a6e' },
+            navy: { 900:'#0f172a', 800:'#1e293b', 700:'#334155' }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    * { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .modal-enter { animation: modalIn 0.3s cubic-bezier(0.16,1,0.3,1) forwards; }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(24px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .toast-enter { animation: toastIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
+    .toast-exit  { animation: toastOut 0.3s ease-in forwards; }
+    @keyframes toastIn  { from { opacity:0; transform:translateX(110%); } to { opacity:1; transform:translateX(0); } }
+    @keyframes toastOut { from { opacity:1; transform:translateX(0); }    to { opacity:0; transform:translateX(110%); } }
+    .step-line::after { content:''; position:absolute; top:50%; left:50%; width:100%; height:2px; background:#e2e8f0; transform:translateY(-50%); z-index:0; }
+    .step-active .step-dot  { background:#0284c7; border-color:#0284c7; color:#fff; }
+    .step-done  .step-dot  { background:#16a34a; border-color:#16a34a; color:#fff; }
+    .step-inactive .step-dot { background:#fff; border-color:#cbd5e1; color:#94a3b8; }
+    ::-webkit-scrollbar { width:6px; height:6px; }
+    ::-webkit-scrollbar-track { background:#f1f5f9; }
+    ::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:3px; }
+    ::-webkit-scrollbar-thumb:hover { background:#94a3b8; }
+    .chat-bubble-client { background:linear-gradient(135deg,#0284c7,#0369a1); }
+    .drop-zone-active { border-color:#0284c7!important; background:#f0f9ff!important; }
+    .progress-ring-circle { transition: stroke-dashoffset 0.8s cubic-bezier(0.4,0,0.2,1); transform: rotate(-90deg); transform-origin: 50% 50%; }
+    #dashboard { display:none; }
+    #invalid-link { display:none; }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800">
+
+<!-- ===== TOAST CONTAINER ===== -->
+<div id="toast-container" class="fixed top-5 right-5 z-[9999] flex flex-col gap-2 w-80 pointer-events-none"></div>
+
+<!-- ===== CLIENT PORTAL GATEWAY / TICKET LOOKUP SCREEN ===== -->
+<div id="invalid-link" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 text-slate-100">
+  <div class="w-full max-w-lg bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+    <div class="absolute -top-24 -right-24 w-60 h-60 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -left-24 w-60 h-60 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="text-center relative z-10 space-y-3 mb-8">
+      <div class="inline-flex p-3 bg-brand-500/10 border border-brand-500/20 rounded-2xl text-brand-400 shadow-inner">
+        <svg class="w-8 h-8 text-brand-400" viewBox="0 0 40 40" fill="none">
+          <path d="M20 4L36 12V22C36 30.837 28.837 38 20 38C11.163 38 4 30.837 4 22V12L20 4Z" fill="rgba(14,165,233,0.15)" stroke="#38bdf8" stroke-width="2"/>
+          <path d="M13 21L18 26L27 17" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1 class="text-2xl font-bold text-white tracking-tight">Client Application Portal</h1>
+      <p class="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">Enter your reference ticket to track regulatory evaluation, review engineering milestones, submit documents, or message your assigned secretariat officer.</p>
+    </div>
+
+    <!-- Ticket Entry Form -->
+    <form id="gateway-ticket-form" onsubmit="event.preventDefault(); submitGatewayTicket();" class="space-y-4 relative z-10">
+      <div>
+        <label for="gateway-ticket-input" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Reference Ticket Number</label>
+        <div class="relative">
+          <input id="gateway-ticket-input" type="text" placeholder="ATC-XXXXXX" maxlength="15" autofocus
+            class="w-full px-4 py-3.5 bg-slate-950 border border-slate-700/80 rounded-2xl text-base font-mono uppercase text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition tracking-wider" />
+          <button type="button" onclick="pasteTicketToGateway()" title="Paste from clipboard"
+            class="absolute right-3 top-1/2 -translate-y-1/2 px-2.5 py-1 text-[11px] font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition border border-slate-700">
+            Paste
+          </button>
+        </div>
+      </div>
+
+      <!-- Recent Lookups Pill List -->
+      <div id="gateway-recent-container" class="hidden pt-1">
+        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1.5">Recent Tickets:</span>
+        <div id="gateway-recent-list" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <button type="submit" id="btn-gateway-submit"
+        class="w-full bg-brand-600 hover:bg-brand-500 active:scale-[0.99] text-white rounded-2xl px-5 py-3.5 font-bold text-sm transition shadow-lg shadow-brand-600/25 flex items-center justify-center gap-2">
+        <span>Enter Client Portal</span>
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </button>
+    </form>
+
+    <div class="mt-6 pt-5 border-t border-slate-800 text-center flex flex-wrap items-center justify-between text-xs text-slate-400 gap-2 relative z-10">
+      <a href="index.html" class="inline-flex items-center gap-1.5 hover:text-white transition">
+        <span>&larr;</span> Back to Home
+      </a>
+      <div class="flex items-center gap-3">
+        <a href="tel:+254723489194" class="hover:text-brand-400 transition flex items-center gap-1">
+          <span>📞</span> +254 723 489 194
+        </a>
+        <a href="https://wa.me/254723489194" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1 font-semibold">
+          <span>💬</span> WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AUTH GATE MODAL ===== -->
+<div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(15,23,42,0.85);backdrop-filter:blur(8px);">
+  <div class="modal-enter bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+    <!-- Modal Header -->
+    <div class="bg-gradient-to-br from-brand-800 to-brand-900 p-8 text-center">
+      <div class="flex items-center justify-center gap-2 mb-2">
+        <svg class="w-8 h-8 text-white" viewBox="0 0 40 40" fill="none">
+          <path d="M20 4L36 12V22C36 30.837 28.837 38 20 38C11.163 38 4 30.837 4 22V12L20 4Z" fill="rgba(255,255,255,0.2)" stroke="white" stroke-width="1.5"/>
+          <path d="M13 21L18 26L27 17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="text-xl font-bold text-white">AeroTeleConsult</span>
+      </div>
+      <p class="text-brand-200 text-sm font-medium">Client Portal</p>
+      <div class="mt-4 inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-1.5 border border-white/20">
+        <svg class="w-3.5 h-3.5 text-brand-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg>
+        <span class="text-white text-xs mono font-medium" id="auth-ticket-display">Loading...</span>
+      </div>
+    </div>
+    <!-- Modal Body -->
+    <div class="p-8">
+      <h2 class="text-lg font-bold text-slate-800 mb-1 text-center">Sign in to access your application</h2>
+      <p class="text-slate-500 text-sm text-center mb-6">Your data is securely protected. Choose a sign-in method below.</p>
+
+      <!-- Google Sign In -->
+      <div id="auth-google-section">
+        <button id="btn-google-signin" onclick="signInWithGoogle()" class="w-full flex items-center justify-center gap-3 border-2 border-slate-200 rounded-xl px-4 py-3.5 font-semibold text-slate-700 hover:border-brand-500 hover:bg-brand-50 transition-all duration-200 group mb-3">
+          <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          <span id="google-btn-text">Continue with Google</span>
+        </button>
+
+        <div class="relative my-5">
+          <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-200"></div></div>
+          <div class="relative flex justify-center"><span class="bg-white px-3 text-xs text-slate-400 font-medium">OR</span></div>
+        </div>
+      </div>
+
+      <!-- Phone OTP -->
+      <div id="auth-phone-section">
+        <div id="phone-input-step">
+          <label class="block text-sm font-medium text-slate-700 mb-1.5">Phone Number</label>
+          <div class="flex gap-2">
+            <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-3 text-slate-500 text-sm font-mono whitespace-nowrap">🇰🇪 +254</div>
+            <input id="phone-input" type="tel" placeholder="7XX XXX XXX" class="flex-1 border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all" />
+          </div>
+          <button onclick="sendOTP()" class="mt-3 w-full bg-brand-600 text-white rounded-xl px-4 py-3 font-semibold hover:bg-brand-700 active:scale-95 transition-all duration-150 flex items-center justify-center gap-2" id="btn-send-otp">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+            Send OTP Code
+          </button>
+        </div>
+        <div id="otp-input-step" style="display:none;">
+          <p class="text-sm text-slate-600 mb-3 text-center">Enter the 6-digit code sent to <span id="otp-phone-display" class="font-semibold text-slate-800"></span></p>
+          <input id="otp-input" type="text" maxlength="6" placeholder="000000" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3.5 text-center text-2xl font-mono tracking-[0.5em] focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all" />
+          <button onclick="verifyOTP()" class="mt-3 w-full bg-brand-600 text-white rounded-xl px-4 py-3 font-semibold hover:bg-brand-700 active:scale-95 transition-all duration-150 flex items-center justify-center gap-2" id="btn-verify-otp">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Verify & Sign In
+          </button>
+          <button onclick="resetPhoneStep()" class="mt-2 w-full text-sm text-slate-500 hover:text-slate-700 py-2">← Use a different number</button>
+        </div>
+      </div>
+      <p id="auth-error" class="mt-4 text-sm text-red-500 text-center hidden"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PROFILE SETUP MODAL ===== -->
+<div id="profile-modal" class="fixed inset-0 z-40 flex items-center justify-center p-4 hidden" style="background:rgba(15,23,42,0.6);backdrop-filter:blur(4px);">
+  <div class="modal-enter bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+    <div class="flex items-center justify-between p-6 border-b border-slate-100">
+      <div>
+        <h2 class="text-xl font-bold text-slate-800">Complete Your Profile</h2>
+        <p class="text-sm text-slate-500 mt-0.5">This information helps us serve you better.</p>
+      </div>
+      <button onclick="closeProfileModal()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="p-6 space-y-5">
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1.5">Full Name <span class="text-red-400">*</span></label>
+        <input id="profile-name" type="text" placeholder="Jane Wanjiku" class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1.5">Company / Organization</label>
+        <input id="profile-company" type="text" placeholder="Skyward Aviation Ltd." class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1.5">Phone Number</label>
+        <input id="profile-phone" type="tel" placeholder="+254 7XX XXX XXX" class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1.5">Supporting Documents <span class="text-slate-400 font-normal">(optional)</span></label>
+        <div id="profile-drop-zone" class="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center cursor-pointer hover:border-brand-400 hover:bg-brand-50 transition-all duration-200" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" onclick="document.getElementById('profile-file-input').click()">
+          <svg class="w-8 h-8 text-slate-300 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+          <p class="text-sm text-slate-500 font-medium">Drop files here or click to browse</p>
+          <p class="text-xs text-slate-400 mt-1">PDF, JPG, PNG accepted</p>
+          <input id="profile-file-input" type="file" multiple accept=".pdf,.jpg,.jpeg,.png" class="hidden" onchange="handleFileSelect(event)" />
+        </div>
+        <div id="profile-file-list" class="mt-3 space-y-2"></div>
+      </div>
+      <p id="profile-error" class="text-sm text-red-500 hidden"></p>
+      <button onclick="saveProfile()" id="btn-save-profile" class="w-full bg-brand-600 text-white rounded-xl px-4 py-3 font-semibold hover:bg-brand-700 active:scale-95 transition-all duration-150 flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        Save Profile &amp; Continue
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN DASHBOARD ===== -->
+<div id="dashboard">
+  <!-- Fixed Header -->
+  <header class="fixed top-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-2.5 group" title="Return to AeroTeleConsult Homepage">
+          <div class="p-1.5 rounded-xl bg-brand-50 border border-brand-100 group-hover:bg-brand-100 transition">
+            <svg class="w-6 h-6 text-brand-700" viewBox="0 0 40 40" fill="none">
+              <path d="M20 4L36 12V22C36 30.837 28.837 38 20 38C11.163 38 4 30.837 4 22V12L20 4Z" fill="#dbeafe" stroke="#0369a1" stroke-width="2"/>
+              <path d="M13 21L18 26L27 17" stroke="#0369a1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <span class="font-bold text-slate-900 text-sm leading-none block">AeroTeleConsult</span>
+            <span class="text-[11px] text-slate-500 font-medium leading-none">Client Portal</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Ticket Badge with Copy Button -->
+      <div class="flex items-center gap-2">
+        <div class="inline-flex items-center bg-slate-100 hover:bg-brand-50 border border-slate-200 hover:border-brand-300 rounded-full pl-3 pr-1 py-1 transition cursor-pointer" onclick="copyTicketCode()" title="Click to copy ticket code">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2 animate-pulse"></span>
+          <span id="header-ticket-badge" class="mono text-xs font-bold text-slate-800 mr-2">ATC-XXXXXX</span>
+          <span id="copy-ticket-pill" class="text-[10px] bg-white border border-slate-200 text-slate-600 font-semibold px-2 py-0.5 rounded-full shadow-2xs hover:bg-brand-600 hover:text-white transition">Copy</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="https://wa.me/254723489194" target="_blank" rel="noopener noreferrer"
+          class="hidden md:inline-flex items-center gap-1.5 text-xs text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-1.5 rounded-xl font-semibold transition">
+          <span>💬</span> Secretariat Desk
+        </a>
+
+        <div class="flex items-center gap-2 pl-2 border-l border-slate-200">
+          <div id="user-avatar" class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center text-white text-xs font-bold shadow-2xs">?</div>
+          <span id="user-name-display" class="hidden sm:block text-xs font-semibold text-slate-700 max-w-[130px] truncate">Client</span>
+        </div>
+
+        <button onclick="signOut()" class="flex items-center gap-1.5 text-xs text-slate-600 hover:text-rose-600 hover:bg-rose-50 px-2.5 py-1.5 rounded-xl transition font-medium border border-slate-200 hover:border-rose-200">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          <span class="hidden sm:inline">Sign Out</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard Body -->
+  <main class="pt-24 pb-12 max-w-7xl mx-auto px-4 sm:px-6">
+
+    <!-- Loading State -->
+    <div id="dashboard-loading" class="flex flex-col items-center justify-center py-24 gap-4">
+      <div class="w-10 h-10 border-4 border-brand-200 border-t-brand-600 rounded-full animate-spin"></div>
+      <p class="text-slate-500 text-sm">Loading your application data…</p>
+    </div>
+
+    <!-- Ticket Not Found -->
+    <div id="ticket-not-found" class="hidden text-center py-20 bg-white rounded-3xl border border-slate-200 p-8 shadow-xs max-w-xl mx-auto">
+      <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </div>
+      <h2 class="text-2xl font-bold text-slate-800 mb-2">Ticket Not Found</h2>
+      <p class="text-slate-500 mb-2">We couldn't find an application matching your ticket code in our active records.</p>
+      <p class="text-slate-500 text-xs mb-6">Double check your ticket code or contact our compliance desk directly.</p>
+      <div class="flex items-center justify-center gap-3 flex-wrap">
+        <a href="client.html" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold hover:bg-brand-700 transition">Enter Another Ticket</a>
+        <a href="tel:+254723489194" class="px-4 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">📞 +254 723 489 194</a>
+      </div>
+    </div>
+
+    <!-- Actual Content -->
+    <div id="dashboard-content" class="hidden space-y-6">
+
+      <!-- Hero Stats Row -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 p-5 hover:border-brand-300 transition">
+          <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">Regulatory Status</p>
+          <div id="stat-status-badge" class="inline-flex items-center gap-1.5 text-sm font-semibold rounded-full px-3 py-1 bg-amber-100 text-amber-700">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse inline-block"></span>
+            Under Review
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 p-5 flex items-center gap-4 hover:border-brand-300 transition">
+          <div class="relative w-14 h-14 flex-shrink-0">
+            <svg class="w-14 h-14 -rotate-90" viewBox="0 0 56 56">
+              <circle cx="28" cy="28" r="22" fill="none" stroke="#f1f5f9" stroke-width="5"/>
+              <circle id="progress-ring" cx="28" cy="28" r="22" fill="none" stroke="#0284c7" stroke-width="5" stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="138.2" class="progress-ring-circle"/>
+            </svg>
+            <span id="progress-pct-text" class="absolute inset-0 flex items-center justify-center text-xs font-bold text-brand-700">0%</span>
+          </div>
+          <div>
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Board Pathway</p>
+            <p id="progress-step-label" class="text-sm font-semibold text-slate-800 mt-0.5">Intake</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 p-5 hover:border-brand-300 transition">
+          <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">Technical Documents</p>
+          <p id="stat-docs-count" class="text-3xl font-extrabold font-mono text-slate-800">0</p>
+          <p class="text-xs text-slate-400 mt-1">verified on record</p>
+        </div>
+        <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 p-5 hover:border-brand-300 transition">
+          <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">Days Active</p>
+          <p id="stat-days-active" class="text-3xl font-extrabold font-mono text-slate-800">0</p>
+          <p class="text-xs text-slate-400 mt-1">regulatory lifecycle</p>
+        </div>
+      </div>
+
+      <!-- Progress Stepper -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 p-6">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide">Statutory Licensing Milestones</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Step-by-step progress through Communications Authority &amp; KCAA verification.</p>
+          </div>
+          <span class="text-xs font-medium bg-brand-50 text-brand-700 px-3 py-1 rounded-full border border-brand-200">Official Tracking</span>
+        </div>
+        <div class="flex items-start justify-between relative pt-2" id="stepper-container">
+          <!-- Steps injected by JS -->
+        </div>
+      </div>
+
+      <!-- Two-Column Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Left: Application Details & Proforma Invoicing -->
+        <div class="space-y-6">
+          <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+              <h3 class="font-bold text-slate-800 text-sm">Application Details</h3>
+              <span id="detail-sector-badge" class="text-xs font-semibold bg-brand-50 text-brand-700 border border-brand-200 rounded-full px-3 py-1 uppercase">—</span>
+            </div>
+            <div class="p-6 space-y-3" id="detail-fields">
+              <div class="text-center py-8">
+                <div class="w-6 h-6 border-2 border-brand-200 border-t-brand-600 rounded-full animate-spin mx-auto"></div>
+              </div>
+            </div>
+            <div class="px-6 pb-6 pt-2 flex gap-3 flex-wrap border-t border-slate-100 bg-slate-50/30">
+              <button onclick="downloadProformaInvoice()" class="flex items-center gap-2 bg-brand-600 text-white rounded-xl px-4 py-2.5 text-xs font-bold hover:bg-brand-700 transition shadow-sm">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                Download Proforma Invoice (PDF)
+              </button>
+              <button onclick="confirmOrder()" id="btn-confirm-order" class="flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl px-4 py-2.5 text-xs font-bold hover:bg-emerald-100 transition">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Confirm Engagement
+              </button>
+            </div>
+          </div>
+
+          <!-- Settlement / Payment Instructions Card -->
+          <div class="bg-gradient-to-br from-slate-900 to-slate-950 rounded-2xl p-6 text-white border border-slate-800 shadow-md">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <span class="p-1.5 bg-emerald-500/20 text-emerald-400 rounded-lg text-sm">💳</span>
+                <h4 class="font-bold text-sm">Payment &amp; Remittance Details</h4>
+              </div>
+              <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">Official Accounts</span>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-3 text-xs mb-4">
+              <div class="p-3 bg-slate-800/80 border border-slate-700/80 rounded-xl">
+                <p class="text-slate-400 text-[10px] uppercase font-semibold">M-PESA Paybill</p>
+                <p class="text-white font-mono font-bold text-sm mt-0.5">247247</p>
+                <p class="text-slate-400 text-[11px] mt-1">Acc: <span class="text-brand-300 font-mono font-semibold" id="paybill-account-ref">ATC-TICKET</span></p>
+              </div>
+              <div class="p-3 bg-slate-800/80 border border-slate-700/80 rounded-xl">
+                <p class="text-slate-400 text-[10px] uppercase font-semibold">Bank Wire Transfer</p>
+                <p class="text-white font-semibold text-xs mt-0.5">Equity Bank Kenya</p>
+                <p class="text-slate-400 text-[11px] mt-1">Branch: Nairobi Executive</p>
+              </div>
+            </div>
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              Once payment is remitted, please notify your assigned secretariat officer via chat or send proof to <a href="mailto:kilbdynamicsltd@gmail.com" class="text-brand-400 hover:underline">kilbdynamicsltd@gmail.com</a> for immediate statutory filing clearance.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Realtime Chat Panel -->
+        <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 flex flex-col h-full min-h-[540px] overflow-hidden">
+          <div class="px-6 py-4 border-b border-slate-100 flex items-center gap-3 bg-slate-50/50">
+            <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center shadow-xs">
+              <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-slate-900 text-sm">Secretariat Direct Line</h3>
+              <p class="text-[11px] text-slate-500">Live communication with your regulatory engineer</p>
+            </div>
+            <div class="ml-auto flex items-center gap-1.5 bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full text-xs font-semibold border border-emerald-200">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Online</span>
+            </div>
+          </div>
+
+          <!-- Messages Container -->
+          <div id="chat-messages" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3 bg-slate-50/30">
+            <div class="text-center py-12 text-slate-400 text-xs" id="chat-empty">
+              <div class="w-12 h-12 bg-brand-50 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-2 text-xl">👋</div>
+              <p class="font-semibold text-slate-600">No messages yet.</p>
+              <p class="mt-0.5 text-slate-400">Ask your officer any question regarding your application status or documentation.</p>
+            </div>
+          </div>
+
+          <!-- Quick Suggestion Chips -->
+          <div class="px-4 py-2 bg-white border-t border-slate-100 flex items-center gap-1.5 overflow-x-auto text-[11px]">
+            <span class="text-slate-400 text-[10px] uppercase font-bold shrink-0">Quick:</span>
+            <button type="button" onclick="insertQuickChat('Could you please provide an update on my statutory evaluation?')"
+              class="shrink-0 px-2.5 py-1 bg-slate-100 hover:bg-brand-50 hover:text-brand-700 text-slate-600 rounded-lg transition border border-slate-200">
+              Status update?
+            </button>
+            <button type="button" onclick="insertQuickChat('I have uploaded the requested compliance documents.')"
+              class="shrink-0 px-2.5 py-1 bg-slate-100 hover:bg-brand-50 hover:text-brand-700 text-slate-600 rounded-lg transition border border-slate-200">
+              Documents uploaded
+            </button>
+            <button type="button" onclick="insertQuickChat('Please verify the proforma invoice settlement.')"
+              class="shrink-0 px-2.5 py-1 bg-slate-100 hover:bg-brand-50 hover:text-brand-700 text-slate-600 rounded-lg transition border border-slate-200">
+              Invoice inquiry
+            </button>
+          </div>
+
+          <!-- Input Bar -->
+          <div class="px-4 pb-4 pt-2 bg-white border-t border-slate-100">
+            <div class="flex gap-2 items-center">
+              <input id="chat-input" type="text" placeholder="Type a message to your officer…" maxlength="500"
+                class="flex-1 border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition"
+                onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChatMessage();}" />
+              <button onclick="sendChatMessage()" class="w-11 h-11 bg-brand-600 rounded-xl flex items-center justify-center text-white hover:bg-brand-700 active:scale-95 transition flex-shrink-0 shadow-sm" title="Send message">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+              </button>
+            </div>
+            <p class="text-[10px] text-slate-400 mt-1 pl-1">Press Enter to send • 500 characters max</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Documents Section -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+          <div>
+            <h3 class="font-bold text-slate-800 text-sm">Technical &amp; Statutory Documents</h3>
+            <p class="text-xs text-slate-400">Upload frequency allocations, equipment specs, and corporate certificates.</p>
+          </div>
+          <button onclick="document.getElementById('doc-upload-input').click()" class="flex items-center gap-1.5 text-xs text-white bg-brand-600 hover:bg-brand-700 font-bold px-4 py-2 rounded-xl transition shadow-xs">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+            Upload File
+          </button>
+          <input id="doc-upload-input" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.docx" class="hidden" onchange="uploadDocuments(event)" />
+        </div>
+
+        <div id="documents-grid" class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="col-span-full text-center py-10 text-slate-400 text-xs" id="docs-empty">
+            <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-2 text-slate-400">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+            </div>
+            <p class="font-semibold text-slate-600">No documents uploaded yet.</p>
+            <p class="mt-0.5 text-slate-400">Upload technical specifications, aircraft radio certificates, or ID copies.</p>
+          </div>
+        </div>
+      </div>
+    </div><!-- /dashboard-content -->
+  </main>
+</div><!-- /dashboard -->
+
+<script>
+// ============================================================
+// GLOBALS
+// ============================================================
+let supabase = null;
+let currentUser = null;
+let ticketCode = null;
+let submissionData = null;
+let clientProfile = null;
+let selectedProfileFiles = [];
+let chatChannel = null;
+
+const CFG = window.APP_CONFIG;
+
+// ============================================================
+// INIT
+// ============================================================
+(async function init() {
+  const params = new URLSearchParams(window.location.search);
+  ticketCode = params.get('ticket');
+
+  if (!ticketCode || !ticketCode.startsWith('ATC-')) {
+    document.getElementById('auth-modal').style.display = 'none';
+    document.getElementById('invalid-link').style.display = 'flex';
+    renderGatewayRecents();
+    return;
+  }
+
+  // Save validated ticket to recent lookups
+  try {
+    let recents = JSON.parse(localStorage.getItem('ATC_RECENT_TICKETS') || '[]');
+    recents = recents.filter(t => t !== ticketCode);
+    recents.unshift(ticketCode);
+    if (recents.length > 5) recents = recents.slice(0, 5);
+    localStorage.setItem('ATC_RECENT_TICKETS', JSON.stringify(recents));
+  } catch(e) {}
+
+  document.getElementById('auth-ticket-display').textContent = ticketCode;
+  document.getElementById('header-ticket-badge').textContent = ticketCode;
+  const paybillRef = document.getElementById('paybill-account-ref');
+  if (paybillRef) paybillRef.textContent = ticketCode;
+
+  try {
+    supabase = window.supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY);
+  } catch(e) {
+    showToast('Failed to connect to server. Please refresh.', 'error');
+    return;
+  }
+
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) {
+    currentUser = session.user;
+    showDashboard();
+  }
+
+  supabase.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN' && session) {
+      currentUser = session.user;
+      document.getElementById('auth-modal').style.display = 'none';
+      showDashboard();
+    }
+    if (event === 'SIGNED_OUT') {
+      window.location.reload();
+    }
+  });
+})();
+
+// ============================================================
+// GATEWAY & TICKET HELPERS
+// ============================================================
+function submitGatewayTicket() {
+  const input = document.getElementById('gateway-ticket-input');
+  if (!input) return;
+  const code = input.value.trim().toUpperCase();
+  if (!code.startsWith('ATC-') || code.length < 5) {
+    showToast('Please enter a valid ticket code starting with ATC-', 'error');
+    input.focus();
+    return;
+  }
+  const url = new URL(window.location.href);
+  url.searchParams.set('ticket', code);
+  window.location.href = url.toString();
+}
+
+function pasteTicketToGateway() {
+  if (navigator.clipboard && navigator.clipboard.readText) {
+    navigator.clipboard.readText().then(text => {
+      text = text.trim().toUpperCase();
+      const input = document.getElementById('gateway-ticket-input');
+      if (input) {
+        input.value = text;
+        submitGatewayTicket();
+      }
+    }).catch(() => {
+      showToast('Clipboard access denied. Please type your ticket code.', 'info');
+    });
+  }
+}
+
+function renderGatewayRecents() {
+  try {
+    const recents = JSON.parse(localStorage.getItem('ATC_RECENT_TICKETS') || '[]');
+    const container = document.getElementById('gateway-recent-container');
+    const list = document.getElementById('gateway-recent-list');
+    if (!container || !list) return;
+    if (recents.length === 0) {
+      container.classList.add('hidden');
+      return;
+    }
+    container.classList.remove('hidden');
+    list.innerHTML = recents.map(t => `
+      <button type="button" onclick="selectGatewayTicket('${t}')" class="px-2.5 py-1 bg-slate-800 hover:bg-brand-600 hover:text-white border border-slate-700 rounded-lg text-xs font-mono text-slate-300 transition">
+        ${t}
+      </button>
+    `).join('');
+  } catch(e) {}
+}
+
+function selectGatewayTicket(t) {
+  const input = document.getElementById('gateway-ticket-input');
+  if (input) {
+    input.value = t;
+    submitGatewayTicket();
+  }
+}
+
+function copyTicketCode() {
+  if (!ticketCode) return;
+  navigator.clipboard.writeText(ticketCode).then(() => {
+    const pill = document.getElementById('copy-ticket-pill');
+    if (pill) {
+      pill.textContent = 'Copied!';
+      pill.className = "text-[10px] bg-emerald-600 text-white font-semibold px-2 py-0.5 rounded-full shadow-2xs transition";
+      setTimeout(() => {
+        pill.textContent = 'Copy';
+        pill.className = "text-[10px] bg-white border border-slate-200 text-slate-600 font-semibold px-2 py-0.5 rounded-full shadow-2xs hover:bg-brand-600 hover:text-white transition";
+      }, 2000);
+    }
+    showToast(`Ticket ${ticketCode} copied to clipboard`, 'success');
+  }).catch(() => {
+    showToast(ticketCode, 'info');
+  });
+}
+
+function insertQuickChat(text) {
+  const input = document.getElementById('chat-input');
+  if (input) {
+    input.value = text;
+    input.focus();
+  }
+}
+
+// ============================================================
+// AUTH FUNCTIONS
+// ============================================================
+async function signInWithGoogle() {
+  const btn = document.getElementById('btn-google-signin');
+  const txt = document.getElementById('google-btn-text');
+  btn.disabled = true;
+  txt.textContent = 'Redirecting…';
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.href }
+  });
+  if (error) {
+    showAuthError(error.message);
+    btn.disabled = false;
+    txt.textContent = 'Continue with Google';
+  }
+}
+
+async function sendOTP() {
+  const rawPhone = document.getElementById('phone-input').value.trim().replace(/\s/g,'');
+  if (!rawPhone) { showAuthError('Please enter your phone number.'); return; }
+  const phone = '+254' + rawPhone.replace(/^0/, '').replace(/^\+254/, '');
+  setLoading('btn-send-otp', true, 'Sending…');
+  clearAuthError();
+  const { error } = await supabase.auth.signInWithOtp({ phone });
+  setLoading('btn-send-otp', false, 'Send OTP Code');
+  if (error) { showAuthError(error.message); return; }
+  document.getElementById('otp-phone-display').textContent = phone;
+  document.getElementById('phone-input-step').style.display = 'none';
+  document.getElementById('otp-input-step').style.display = 'block';
+  document.getElementById('otp-input').focus();
+  showToast('OTP sent! Check your SMS.', 'success');
+}
+
+async function verifyOTP() {
+  const token = document.getElementById('otp-input').value.trim();
+  const phone = '+254' + document.getElementById('phone-input').value.trim().replace(/\s/g,'').replace(/^0/, '').replace(/^\+254/, '');
+  if (!token || token.length < 6) { showAuthError('Enter the 6-digit OTP code.'); return; }
+  setLoading('btn-verify-otp', true, 'Verifying…');
+  clearAuthError();
+  const { error } = await supabase.auth.verifyOtp({ phone, token, type: 'sms' });
+  setLoading('btn-verify-otp', false, 'Verify & Sign In');
+  if (error) { showAuthError(error.message); }
+}
+
+function resetPhoneStep() {
+  document.getElementById('phone-input-step').style.display = 'block';
+  document.getElementById('otp-input-step').style.display = 'none';
+  document.getElementById('otp-input').value = '';
+  clearAuthError();
+}
+
+async function signOut() {
+  await supabase.auth.signOut();
+}
+
+// ============================================================
+// PROFILE MODAL
+// ============================================================
+function showProfileModal() {
+  const modal = document.getElementById('profile-modal');
+  modal.classList.remove('hidden');
+  if (currentUser?.phone) {
+    document.getElementById('profile-phone').value = currentUser.phone;
+  }
+  if (currentUser?.user_metadata?.full_name) {
+    document.getElementById('profile-name').value = currentUser.user_metadata.full_name;
+  }
+}
+
+function closeProfileModal() {
+  document.getElementById('profile-modal').classList.add('hidden');
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('profile-drop-zone').classList.add('drop-zone-active');
+}
+
+function handleDragLeave(e) {
+  document.getElementById('profile-drop-zone').classList.remove('drop-zone-active');
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('profile-drop-zone').classList.remove('drop-zone-active');
+  const files = Array.from(e.dataTransfer.files).filter(f => /\.(pdf|jpe?g|png)$/i.test(f.name));
+  files.forEach(f => { if (!selectedProfileFiles.find(x => x.name === f.name)) selectedProfileFiles.push(f); });
+  renderProfileFileList();
+}
+
+function handleFileSelect(e) {
+  const files = Array.from(e.target.files);
+  files.forEach(f => { if (!selectedProfileFiles.find(x => x.name === f.name)) selectedProfileFiles.push(f); });
+  renderProfileFileList();
+}
+
+function renderProfileFileList() {
+  const container = document.getElementById('profile-file-list');
+  container.innerHTML = selectedProfileFiles.map((f, i) => `
+    <div class="flex items-center gap-2 p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+      <svg class="w-4 h-4 text-brand-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      <span class="flex-1 text-xs text-slate-700 truncate font-medium">${f.name}</span>
+      <span class="text-xs text-slate-400">${(f.size/1024).toFixed(0)}KB</span>
+      <button onclick="removeProfileFile(${i})" class="text-slate-400 hover:text-red-500 transition-colors"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+  `).join('');
+}
+
+function removeProfileFile(index) {
+  selectedProfileFiles.splice(index, 1);
+  renderProfileFileList();
+}
+
+async function saveProfile() {
+  const name = document.getElementById('profile-name').value.trim();
+  const company = document.getElementById('profile-company').value.trim();
+  const phone = document.getElementById('profile-phone').value.trim();
+  const errEl = document.getElementById('profile-error');
+
+  if (!name) { errEl.textContent = 'Full name is required.'; errEl.classList.remove('hidden'); return; }
+  errEl.classList.add('hidden');
+  setLoading('btn-save-profile', true, 'Saving…');
+
+  // Upsert to clients table
+  const { error: dbError } = await supabase.from(CFG.TABLE_CLIENTS).upsert({
+    user_id: currentUser.id,
+    ticket_code: ticketCode,
+    full_name: name,
+    company,
+    phone,
+    updated_at: new Date().toISOString()
+  }, { onConflict: 'user_id,ticket_code' });
+
+  if (dbError) {
+    setLoading('btn-save-profile', false, 'Save Profile & Continue');
+    errEl.textContent = 'Failed to save profile: ' + dbError.message;
+    errEl.classList.remove('hidden');
+    return;
+  }
+
+  // Upload files to storage
+  for (const file of selectedProfileFiles) {
+    const path = `${ticketCode}/${file.name}`;
+    const { error: upErr } = await supabase.storage.from('client-documents').upload(path, file, { upsert: true });
+    if (upErr) console.warn('File upload warning:', upErr.message);
+    else {
+      await supabase.from(CFG.TABLE_DOCUMENTS).insert({
+        ticket_code: ticketCode,
+        uploaded_by: currentUser.id,
+        filename: file.name,
+        storage_path: path,
+        file_size: file.size
+      });
+    }
+  }
+
+  clientProfile = { full_name: name, company, phone };
+  setLoading('btn-save-profile', false, 'Save Profile & Continue');
+  closeProfileModal();
+  updateUserUI(name);
+  showToast('Profile saved successfully!', 'success');
+  await loadDocuments();
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+async function showDashboard() {
+  document.getElementById('auth-modal').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('dashboard-loading').style.display = 'flex';
+
+  // Load submission
+  const { data: submission, error: subErr } = await supabase
+    .from(CFG.TABLE_SUBMISSIONS)
+    .select('*')
+    .eq('ticket_code', ticketCode)
+    .single();
+
+  document.getElementById('dashboard-loading').style.display = 'none';
+
+  if (subErr || !submission) {
+    document.getElementById('ticket-not-found').classList.remove('hidden');
+    return;
+  }
+
+  submissionData = submission;
+  document.getElementById('dashboard-content').classList.remove('hidden');
+
+  // Load client profile
+  const { data: profile } = await supabase
+    .from(CFG.TABLE_CLIENTS)
+    .select('*')
+    .eq('user_id', currentUser.id)
+    .eq('ticket_code', ticketCode)
+    .single();
+
+  clientProfile = profile;
+
+  const displayName = profile?.full_name
+    || currentUser?.user_metadata?.full_name
+    || currentUser?.email?.split('@')[0]
+    || 'Client';
+
+  updateUserUI(displayName);
+
+  if (!profile || !profile.full_name) {
+    showProfileModal();
+  }
+
+  renderStats(submission);
+  renderStepper(submission);
+  renderDetails(submission);
+  await loadChat();
+  await loadDocuments();
+}
+
+function updateUserUI(name) {
+  const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  document.getElementById('user-avatar').textContent = initials;
+  document.getElementById('user-name-display').textContent = name;
+}
+
+function renderStats(sub) {
+  const statusMap = {
+    'under_review':  { label:'Under Review',  cls:'bg-amber-100 text-amber-700',  dot:'bg-amber-500',  pct:25, step:'Intake Logged' },
+    'processing':    { label:'Processing',     cls:'bg-blue-100 text-blue-700',    dot:'bg-blue-500',   pct:50, step:'Engineering Audit' },
+    'board_review':  { label:'Board Review',   cls:'bg-purple-100 text-purple-700',dot:'bg-purple-500', pct:75, step:'CA/KCAA Board Desk' },
+    'approved':      { label:'Approved ✓',     cls:'bg-green-100 text-green-700',  dot:'bg-green-500',  pct:100,step:'Permit Issued' },
+  };
+  const rawStatus = sub.status || 'under_review';
+  const s = statusMap[rawStatus] || statusMap['under_review'];
+
+  document.getElementById('stat-status-badge').className = `inline-flex items-center gap-1.5 text-sm font-semibold rounded-full px-3 py-1 ${s.cls}`;
+  document.getElementById('stat-status-badge').innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${s.dot} inline-block"></span> ${s.label}`;
+
+  const pct = s.pct;
+  const circumference = 138.2;
+  const offset = circumference - (pct / 100) * circumference;
+  setTimeout(() => {
+    document.getElementById('progress-ring').style.strokeDashoffset = offset;
+    document.getElementById('progress-pct-text').textContent = pct + '%';
+    document.getElementById('progress-step-label').textContent = s.step;
+  }, 300);
+
+  const created = sub.created_at ? new Date(sub.created_at) : new Date();
+  const days = Math.floor((Date.now() - created.getTime()) / 86400000);
+  document.getElementById('stat-days-active').textContent = days;
+}
+
+function renderStepper(sub) {
+  const steps = [
+    { label: 'Intake Logged', icon: '📥' },
+    { label: 'Engineering Audit', icon: '🔬' },
+    { label: 'CA/KCAA Board Desk', icon: '🏛️' },
+    { label: 'Permit Issued', icon: '📜' },
+  ];
+  const statusStep = { under_review: 0, processing: 1, board_review: 2, approved: 3 };
+  const current = statusStep[sub.status] ?? 0;
+
+  const container = document.getElementById('stepper-container');
+  container.innerHTML = steps.map((step, i) => {
+    let state = i < current ? 'step-done' : i === current ? 'step-active' : 'step-inactive';
+    let dotContent = i < current ? '✓' : (i + 1);
+    return `
+      <div class="flex flex-col items-center flex-1 relative ${i < steps.length - 1 ? 'step-line' : ''}">
+        <div class="step-dot ${state} relative z-10 w-9 h-9 rounded-full border-2 flex items-center justify-center text-sm font-bold transition-all
+          ${i < current ? 'bg-green-500 border-green-500 text-white' : i === current ? 'bg-brand-600 border-brand-600 text-white' : 'bg-white border-slate-200 text-slate-400'}">
+          ${dotContent}
+        </div>
+        <p class="text-xs font-medium mt-2 text-center px-1
+          ${i < current ? 'text-green-600' : i === current ? 'text-brand-700' : 'text-slate-400'}">
+          ${step.label}
+        </p>
+      </div>
+    `;
+  }).join('');
+
+  // Draw connector lines
+  const items = container.querySelectorAll('.step-line');
+  items.forEach(el => {
+    const after = document.createElement('div');
+    after.className = 'absolute top-4 left-[calc(50%+1.125rem)] right-0 h-0.5 bg-slate-200 z-0';
+    el.style.position = 'relative';
+    el.appendChild(after);
+  });
+}
+
+function renderDetails(sub) {
+  const sector = sub.sector || sub.service_sector || '—';
+  document.getElementById('detail-sector-badge').textContent = sector;
+  const submittedDate = sub.created_at ? new Date(sub.created_at).toLocaleDateString('en-KE', { year:'numeric', month:'long', day:'numeric' }) : '—';
+  const fields = [
+    { label: 'Company', value: sub.company_name || sub.company || '—' },
+    { label: 'Contact Person', value: sub.contact_name || sub.contact_person || '—' },
+    { label: 'Email', value: sub.email || '—' },
+    { label: 'Phone', value: sub.phone || sub.contact_phone || '—' },
+    { label: 'Service Sector', value: sector },
+    { label: 'Submitted', value: submittedDate },
+    { label: 'Assigned Officer', value: sub.assigned_officer || 'Pending Assignment' },
+  ];
+  document.getElementById('detail-fields').innerHTML = fields.map(f => `
+    <div class="flex items-start justify-between gap-4 py-2 border-b border-slate-50 last:border-0">
+      <span class="text-sm text-slate-400 font-medium flex-shrink-0 w-36">${f.label}</span>
+      <span class="text-sm text-slate-700 font-medium text-right">${f.value}</span>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// CHAT
+// ============================================================
+async function loadChat() {
+  const { data: messages, error } = await supabase
+    .from(CFG.TABLE_CHAT)
+    .select('*')
+    .eq('ticket_code', ticketCode)
+    .order('created_at', { ascending: true });
+
+  if (error) { console.error('Chat load error:', error); return; }
+  renderChatMessages(messages || []);
+  subscribeToChatUpdates();
+}
+
+function renderChatMessages(messages) {
+  const container = document.getElementById('chat-messages');
+  const empty = document.getElementById('chat-empty');
+
+  if (!messages || messages.length === 0) {
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+
+  const existing = container.querySelectorAll('.chat-msg');
+  existing.forEach(el => el.remove());
+
+  messages.forEach(msg => appendChatBubble(msg));
+  container.scrollTop = container.scrollHeight;
+}
+
+function appendChatBubble(msg) {
+  const container = document.getElementById('chat-messages');
+  const empty = document.getElementById('chat-empty');
+  if (empty) empty.style.display = 'none';
+
+  const isClient = msg.sender_role === 'client';
+  const time = msg.created_at ? new Date(msg.created_at).toLocaleTimeString('en-KE', { hour:'2-digit', minute:'2-digit' }) : '';
+  const div = document.createElement('div');
+  div.className = `chat-msg flex ${isClient ? 'justify-end' : 'justify-start'} items-end gap-2`;
+  div.innerHTML = isClient
+    ? `<div class="max-w-[80%]">
+        <p class="text-xs text-slate-400 text-right mb-1">${msg.sender_name || 'You'} · ${time}</p>
+        <div class="chat-bubble-client text-white rounded-2xl rounded-br-sm px-4 py-2.5 text-sm leading-relaxed shadow-sm">${escapeHtml(msg.message)}</div>
+      </div>`
+    : `<div class="w-7 h-7 rounded-full bg-brand-100 flex items-center justify-center text-xs font-bold text-brand-700 flex-shrink-0">O</div>
+       <div class="max-w-[80%]">
+        <p class="text-xs text-slate-400 mb-1">${msg.sender_name || 'Officer'} · ${time}</p>
+        <div class="bg-slate-100 text-slate-800 rounded-2xl rounded-bl-sm px-4 py-2.5 text-sm leading-relaxed">${escapeHtml(msg.message)}</div>
+      </div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function subscribeToChatUpdates() {
+  if (chatChannel) supabase.removeChannel(chatChannel);
+  chatChannel = supabase
+    .channel(`chat:${ticketCode}`)
+    .on('postgres_changes', {
+      event: 'INSERT',
+      schema: 'public',
+      table: CFG.TABLE_CHAT,
+      filter: `ticket_code=eq.${ticketCode}`
+    }, payload => {
+      if (payload.new.sender_role !== 'client') {
+        appendChatBubble(payload.new);
+        showToast('New message from your officer!', 'info');
+      }
+    })
+    .subscribe();
+}
+
+async function sendChatMessage() {
+  const input = document.getElementById('chat-input');
+  const message = input.value.trim();
+  if (!message) return;
+
+  const senderName = clientProfile?.full_name
+    || currentUser?.user_metadata?.full_name
+    || 'Client';
+
+  input.value = '';
+  const { error } = await supabase.from(CFG.TABLE_CHAT).insert({
+    ticket_code: ticketCode,
+    sender_role: 'client',
+    sender_name: senderName,
+    message,
+    user_id: currentUser.id
+  });
+  if (error) { showToast('Failed to send message.', 'error'); input.value = message; return; }
+
+  // Optimistically render
+  appendChatBubble({
+    ticket_code: ticketCode,
+    sender_role: 'client',
+    sender_name: senderName,
+    message,
+    created_at: new Date().toISOString()
+  });
+}
+
+// ============================================================
+// DOCUMENTS
+// ============================================================
+async function loadDocuments() {
+  const { data: docs, error } = await supabase
+    .from(CFG.TABLE_DOCUMENTS)
+    .select('*')
+    .eq('ticket_code', ticketCode)
+    .order('created_at', { ascending: false });
+
+  if (error) { console.error('Docs load error:', error); return; }
+  document.getElementById('stat-docs-count').textContent = (docs || []).length;
+  renderDocuments(docs || []);
+}
+
+function renderDocuments(docs) {
+  const grid = document.getElementById('documents-grid');
+  const empty = document.getElementById('docs-empty');
+
+  if (!docs || docs.length === 0) {
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+
+  grid.innerHTML = docs.map(doc => {
+    const ext = (doc.filename || '').split('.').pop().toUpperCase();
+    const extColor = { PDF:'text-red-500 bg-red-50', JPG:'text-amber-500 bg-amber-50', JPEG:'text-amber-500 bg-amber-50', PNG:'text-purple-500 bg-purple-50', DOCX:'text-blue-500 bg-blue-50' }[ext] || 'text-slate-500 bg-slate-50';
+    const date = doc.created_at ? new Date(doc.created_at).toLocaleDateString('en-KE') : '—';
+    return `
+      <div class="flex items-center gap-3 p-3.5 border border-slate-200 rounded-xl hover:border-brand-200 hover:bg-brand-50/30 transition-colors group">
+        <div class="w-10 h-10 rounded-lg ${extColor} flex items-center justify-center text-xs font-bold flex-shrink-0">${ext}</div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-medium text-slate-700 truncate">${doc.filename || 'Untitled'}</p>
+          <p class="text-xs text-slate-400">${date} · ${doc.file_size ? Math.round(doc.file_size/1024)+'KB' : ''}</p>
+        </div>
+        <button onclick="downloadDocument('${doc.storage_path}','${doc.filename}')" class="opacity-0 group-hover:opacity-100 w-7 h-7 flex items-center justify-center rounded-lg hover:bg-brand-100 transition-all text-brand-600">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        </button>
+      </div>
+    `;
+  }).join('');
+}
+
+async function downloadDocument(storagePath, filename) {
+  const { data, error } = await supabase.storage.from('client-documents').download(storagePath);
+  if (error) { showToast('Download failed: ' + error.message, 'error'); return; }
+  const url = URL.createObjectURL(data);
+  const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+async function uploadDocuments(event) {
+  const files = Array.from(event.target.files);
+  if (!files.length) return;
+  let uploaded = 0;
+  for (const file of files) {
+    const path = `${ticketCode}/${file.name}`;
+    const { error: upErr } = await supabase.storage.from('client-documents').upload(path, file, { upsert: true });
+    if (upErr) { showToast(`Failed to upload ${file.name}`, 'error'); continue; }
+    await supabase.from(CFG.TABLE_DOCUMENTS).insert({
+      ticket_code: ticketCode,
+      uploaded_by: currentUser.id,
+      filename: file.name,
+      storage_path: path,
+      file_size: file.size
+    });
+    uploaded++;
+  }
+  if (uploaded > 0) {
+    showToast(`${uploaded} file(s) uploaded successfully!`, 'success');
+    await loadDocuments();
+  }
+  event.target.value = '';
+}
+
+// ============================================================
+// PROFORMA INVOICE (jsPDF)
+// ============================================================
+function downloadProformaInvoice() {
+  if (!submissionData) { showToast('Application data not loaded yet.', 'error'); return; }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+  const W = 210; const margin = 20;
+  const sub = submissionData;
+  const clientName = clientProfile?.full_name || sub.contact_name || 'Valued Client';
+  const company = clientProfile?.company || sub.company_name || sub.company || '—';
+  const email = sub.email || currentUser?.email || '—';
+  const sector = (sub.sector || sub.service_sector || 'Telecom').toLowerCase();
+
+  const priceMap = { aviation: 85000, telecom: 150000, 'private radio': 45000, amateur: 25000, 'amateur radio': 25000 };
+  const price = priceMap[sector] || 75000;
+  const tax = Math.round(price * 0.16);
+  const total = price + tax;
+  const invoiceNo = `PI-${ticketCode}`;
+  const today = new Date().toLocaleDateString('en-KE', { year:'numeric', month:'long', day:'numeric' });
+
+  // Brand Header Background
+  doc.setFillColor(7, 89, 133);
+  doc.rect(0, 0, W, 45, 'F');
+
+  // Logo Area
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(18);
+  doc.setFont('helvetica','bold');
+  doc.text('AeroTeleConsult', margin, 20);
+  doc.setFontSize(9);
+  doc.setFont('helvetica','normal');
+  doc.text('Regulatory & Telecom Licensing Consultants', margin, 28);
+  doc.text('Nairobi, Kenya | kilbdynamicsltd@gmail.com | +254 723 489 194', margin, 35);
+
+  // Invoice Label
+  doc.setFontSize(22);
+  doc.setFont('helvetica','bold');
+  doc.setTextColor(255,255,255);
+  doc.text('PROFORMA INVOICE', W - margin, 25, { align: 'right' });
+  doc.setFontSize(10);
+  doc.setFont('helvetica','normal');
+  doc.text(invoiceNo, W - margin, 34, { align: 'right' });
+
+  // Meta block
+  doc.setTextColor(30,41,59);
+  let y = 58;
+  doc.setFontSize(9);
+  doc.setFont('helvetica','bold');
+  doc.text('DATE:', margin, y); doc.setFont('helvetica','normal'); doc.text(today, margin + 20, y);
+  y += 6;
+  doc.setFont('helvetica','bold');
+  doc.text('TICKET:', margin, y); doc.setFont('helvetica','normal'); doc.text(ticketCode, margin + 20, y);
+  y += 6;
+  doc.setFont('helvetica','bold');
+  doc.text('VALID:', margin, y); doc.setFont('helvetica','normal'); doc.text('30 days from date of issue', margin + 20, y);
+
+  // Bill To
+  y = 58;
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(9);
+  doc.setTextColor(2, 132, 199);
+  doc.text('BILL TO', W/2, y);
+  doc.setTextColor(30,41,59);
+  doc.setFont('helvetica','bold');
+  y += 6;
+  doc.text(clientName, W/2, y);
+  doc.setFont('helvetica','normal');
+  y += 5; doc.text(company, W/2, y);
+  y += 5; doc.text(email, W/2, y);
+  y += 5; doc.text('Kenya', W/2, y);
+
+  // Table Header
+  y = 100;
+  doc.setFillColor(241, 245, 249);
+  doc.rect(margin, y, W - margin*2, 8, 'F');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(9);
+  doc.setTextColor(71, 85, 105);
+  doc.text('DESCRIPTION', margin + 3, y + 5.5);
+  doc.text('QTY', 130, y + 5.5);
+  doc.text('UNIT PRICE (KES)', 145, y + 5.5);
+  doc.text('TOTAL (KES)', W - margin - 3, y + 5.5, { align: 'right' });
+
+  // Table Row
+  y += 14;
+  doc.setFont('helvetica','normal');
+  doc.setTextColor(30,41,59);
+  const desc = `${sector.charAt(0).toUpperCase() + sector.slice(1)} Regulatory Licensing & Permit Processing\n(CA/KCAA Compliance, Application Submission, Follow-up)`;
+  doc.text(desc, margin + 3, y, { maxWidth: 100 });
+  doc.text('1', 133, y);
+  doc.text(price.toLocaleString(), 148, y);
+  doc.text(price.toLocaleString(), W - margin - 3, y, { align: 'right' });
+
+  // Separator
+  y += 18;
+  doc.setDrawColor(226, 232, 240);
+  doc.line(margin, y, W - margin, y);
+
+  // Totals
+  y += 8;
+  const drawTotal = (label, value, bold, color) => {
+    if (bold) doc.setFont('helvetica','bold'); else doc.setFont('helvetica','normal');
+    if (color) doc.setTextColor(...color); else doc.setTextColor(71, 85, 105);
+    doc.text(label, W - margin - 60, y);
+    if (bold) doc.setTextColor(30,41,59); else doc.setTextColor(71, 85, 105);
+    doc.text(`KES ${value.toLocaleString()}`, W - margin - 3, y, { align:'right' });
+    y += 7;
+  };
+  drawTotal('Subtotal:', price, false);
+  drawTotal('VAT (16%):', tax, false);
+  doc.setFillColor(7, 89, 133);
+  doc.rect(W - margin - 65, y - 4, 65, 10, 'F');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(10);
+  doc.setTextColor(255,255,255);
+  doc.text('TOTAL DUE:', W - margin - 60, y + 3);
+  doc.text(`KES ${total.toLocaleString()}`, W - margin - 3, y + 3, { align:'right' });
+
+  // Payment Instructions
+  y += 22;
+  doc.setFillColor(240, 249, 255);
+  doc.rect(margin, y, W - margin*2, 40, 'F');
+  doc.setDrawColor(186, 230, 253);
+  doc.rect(margin, y, W - margin*2, 40, 'S');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(9);
+  doc.setTextColor(2, 132, 199);
+  doc.text('PAYMENT INSTRUCTIONS', margin + 5, y + 7);
+  doc.setFont('helvetica','normal');
+  doc.setTextColor(30,41,59);
+  doc.text('Bank: Kenya Commercial Bank (KCB)', margin + 5, y + 15);
+  doc.text('Account Name: AeroTeleConsult Limited', margin + 5, y + 21);
+  doc.text('Account Number: 1234567890', margin + 5, y + 27);
+  doc.text('Branch: Westlands, Nairobi | Swift: KCBLKENX', margin + 5, y + 33);
+  doc.text('M-Pesa Paybill: 522533 | Account: ' + ticketCode, W/2 + 5, y + 15);
+  doc.text('Reference: ' + invoiceNo, W/2 + 5, y + 21);
+
+  // Footer
+  y = 275;
+  doc.setDrawColor(226, 232, 240);
+  doc.line(margin, y, W - margin, y);
+  y += 5;
+  doc.setFontSize(7.5);
+  doc.setTextColor(148, 163, 184);
+  doc.text('This proforma invoice is valid for 30 days. Payment confirms your order. For queries contact kilbdynamicsltd@gmail.com', margin, y, { maxWidth: W - margin*2, align:'center' });
+  doc.text('AeroTeleConsult | Regulatory & Telecom Licensing | Nairobi, Kenya', W/2, y + 5, { align:'center' });
+
+  doc.save(`Proforma-Invoice-${ticketCode}.pdf`);
+  showToast('Proforma Invoice downloaded!', 'success');
+}
+
+// ============================================================
+// CONFIRM ORDER
+// ============================================================
+async function confirmOrder() {
+  const btn = document.getElementById('btn-confirm-order');
+  const prev = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<div class="w-4 h-4 border-2 border-green-300 border-t-green-700 rounded-full animate-spin"></div> Confirming…';
+
+  const { error } = await supabase.from(CFG.TABLE_INVOICES).upsert({
+    ticket_code: ticketCode,
+    confirmed: true,
+    confirmed_at: new Date().toISOString(),
+    confirmed_by: currentUser.id
+  }, { onConflict: 'ticket_code' });
+
+  if (error) {
+    showToast('Failed to confirm order: ' + error.message, 'error');
+    btn.disabled = false;
+    btn.innerHTML = prev;
+    return;
+  }
+
+  btn.innerHTML = `<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Order Confirmed`;
+  btn.className = btn.className.replace('green', 'slate');
+  showToast('Order confirmed! Our team will be in touch shortly.', 'success');
+}
+
+// ============================================================
+// TOAST NOTIFICATIONS
+// ============================================================
+function showToast(message, type = 'info') {
+  const colors = {
+    success: 'bg-green-50 border-green-200 text-green-800',
+    error:   'bg-red-50 border-red-200 text-red-800',
+    info:    'bg-brand-50 border-brand-200 text-brand-800',
+  };
+  const icons = {
+    success: '<svg class="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>',
+    error:   '<svg class="w-4 h-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>',
+    info:    '<svg class="w-4 h-4 text-brand-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 110 20A10 10 0 0112 2z"/></svg>',
+  };
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = `toast-enter pointer-events-auto flex items-start gap-3 p-4 rounded-xl border shadow-lg ${colors[type] || colors.info}`;
+  toast.innerHTML = `${icons[type] || icons.info}<p class="text-sm font-medium flex-1">${message}</p>`;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.remove('toast-enter');
+    toast.classList.add('toast-exit');
+    setTimeout(() => toast.remove(), 300);
+  }, 4000);
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function showAuthError(msg) {
+  const el = document.getElementById('auth-error');
+  el.textContent = msg;
+  el.classList.remove('hidden');
+}
+
+function clearAuthError() {
+  document.getElementById('auth-error').classList.add('hidden');
+}
+
+function setLoading(id, loading, text) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.disabled = loading;
+  if (loading) {
+    btn.dataset.original = btn.innerHTML;
+    btn.innerHTML = `<div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> ${text}`;
+  } else {
+    btn.innerHTML = btn.dataset.original || text;
+  }
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

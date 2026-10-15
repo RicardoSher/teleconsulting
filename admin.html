@@ -109,6 +109,9 @@
 
 <body class="h-full font-sans text-slate-100 antialiased flex flex-col selection:bg-brand-500 selection:text-white bg-slate-950">
 
+    <!-- TOAST CONTAINER -->
+    <div id="adminToastContainer" class="fixed top-5 right-5 z-[9999] flex flex-col gap-2 w-80 pointer-events-none"></div>
+
     <!-- 1. AUTHENTICATION / LOGIN GATE -->
     <div id="loginScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950">
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(37,99,235,0.18),rgba(255,255,255,0))] pointer-events-none"></div>
@@ -374,7 +377,14 @@
                     <h3 class="text-base font-bold text-white">Update Regulatory Evaluation</h3>
                     <p id="modalTicketCode" class="text-xs font-mono text-amber-400 mt-0.5"></p>
                 </div>
-                <button id="closeModalBtn" type="button" class="text-slate-400 hover:text-white p-1">✕</button>
+                <div class="flex items-center gap-2">
+                    <a id="modalOpenClientPortalLink" href="#" target="_blank"
+                        class="px-2.5 py-1 text-xs font-semibold bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white border border-brand-500/30 rounded-lg transition flex items-center gap-1 shadow-xs"
+                        title="View client portal in new tab">
+                        🌐 Client Portal
+                    </a>
+                    <button id="closeModalBtn" type="button" class="text-slate-400 hover:text-white p-1">✕</button>
+                </div>
             </div>
 
             <form id="updateForm" class="space-y-4">
@@ -500,7 +510,7 @@
                         <div>
                             <span class="text-xs font-black text-emerald-700 uppercase tracking-widest block">WANKILB PROTECH & SKILLS</span>
                             <h4 class="text-base font-bold text-slate-900">Official Work Order Receipt</h4>
-                            <p class="text-[11px] text-slate-500 font-mono">Hotline: +254 726 661 849</p>
+                            <p class="text-[11px] text-slate-500 font-mono">Hotline: +254 723 489 194 • kilbdynamicsltd@gmail.com</p>
                         </div>
                         <div class="text-right">
                             <span class="text-[10px] uppercase font-mono text-slate-400 block">Ticket Reference</span>
@@ -558,7 +568,7 @@
                 <div id="admEposView" class="hidden epos-mode rounded-xl space-y-2 text-center text-black">
                     <div class="font-bold text-sm uppercase tracking-tight">*** WANKILB PROTECH ***</div>
                     <div class="text-[10px]">Tech Fix • Mount • Bootcamp</div>
-                    <div class="text-[10px]">Tel: +254 726 661 849</div>
+                    <div class="text-[10px]">Tel: +254 723 489 194 • kilbdynamicsltd@gmail.com</div>
                     <div class="border-t border-dashed border-black my-1"></div>
                     
                     <div class="text-left space-y-1">
@@ -860,20 +870,48 @@
                 const email = item.email || '';
                 const sectorName = item.sector_track || 'General';
                 const formattedDate = item.created_at ? new Date(item.created_at).toLocaleDateString() : 'N/A';
-                const currentStatus = item.status || 'under_review';
+                const currentStatus = (item.status || 'under_review').toLowerCase();
                 const rowId = item.id || ticket;
+
+                let statusBadgeCls = "bg-slate-800 text-slate-300 border-slate-700";
+                let statusDotCls = "bg-slate-400";
+                if (currentStatus === 'under_review' || currentStatus === 'pending') {
+                    statusBadgeCls = "bg-amber-500/10 text-amber-300 border-amber-500/30";
+                    statusDotCls = "bg-amber-400 animate-pulse";
+                } else if (currentStatus === 'processing') {
+                    statusBadgeCls = "bg-blue-500/10 text-blue-300 border-blue-500/30";
+                    statusDotCls = "bg-blue-400";
+                } else if (currentStatus === 'action_required') {
+                    statusBadgeCls = "bg-rose-500/10 text-rose-300 border-rose-500/30";
+                    statusDotCls = "bg-rose-400";
+                } else if (currentStatus === 'approved') {
+                    statusBadgeCls = "bg-emerald-500/10 text-emerald-300 border-emerald-500/30";
+                    statusDotCls = "bg-emerald-400";
+                }
 
                 return `
                 <tr class="hover:bg-slate-800/40 transition">
-                    <td class="px-5 py-3.5 font-mono text-amber-400 font-bold">${ticket}</td>
+                    <td class="px-5 py-3.5 font-mono text-amber-400 font-bold whitespace-nowrap">
+                        <span>${ticket}</span>
+                        <button onclick="copyAdminTicket('${ticket}')" class="text-slate-500 hover:text-amber-300 ml-1.5 transition text-xs" title="Copy Ticket">📋</button>
+                    </td>
                     <td class="px-5 py-3.5">
                         <div class="font-semibold text-slate-100">${company}</div>
                         <div class="text-[11px] text-slate-400">${contact}${email ? ` (${email})` : ''}</div>
                     </td>
                     <td class="px-5 py-3.5 text-slate-300 capitalize font-medium">${sectorName} Track</td>
-                    <td class="px-5 py-3.5 font-mono text-slate-400">${formattedDate}</td>
-                    <td class="px-5 py-3.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-slate-800 text-slate-300">${currentStatus}</span></td>
-                    <td class="px-5 py-3.5 text-right">
+                    <td class="px-5 py-3.5 font-mono text-slate-400 text-xs">${formattedDate}</td>
+                    <td class="px-5 py-3.5">
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase border ${statusBadgeCls}">
+                            <span class="w-1.5 h-1.5 rounded-full ${statusDotCls}"></span>
+                            ${currentStatus.replace('_', ' ')}
+                        </span>
+                    </td>
+                    <td class="px-5 py-3.5 text-right space-x-1.5 whitespace-nowrap">
+                        <a href="client.html?ticket=${encodeURIComponent(ticket)}" target="_blank"
+                            class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 rounded-lg text-xs font-semibold transition" title="Open Client Portal in New Tab">
+                            🌐 Portal
+                        </a>
                         <button onclick="openUpdateModal('${rowId}')" class="px-3 py-1 bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white border border-brand-500/30 rounded-lg text-xs font-semibold transition">
                             Manage
                         </button>
@@ -1039,10 +1077,10 @@
                 doc.setFont('helvetica', 'bold');
                 doc.setFontSize(8.5);
                 doc.setTextColor(52, 211, 153);
-                doc.text('HOTLINE: +254 726 661 849', 195, 14, { align: 'right' });
+                doc.text('HOTLINE: +254 723 489 194', 195, 14, { align: 'right' });
                 doc.setFont('helvetica', 'normal');
                 doc.setTextColor(203, 213, 225);
-                doc.text('support@aeroteleconsult.co.ke', 195, 21, { align: 'right' });
+                doc.text('kilbdynamicsltd@gmail.com', 195, 21, { align: 'right' });
 
                 // 2. SEPARATE STANDALONE DOCUMENT TITLE BAR (BELOW BRAND HEADER)
                 doc.setFillColor(241, 245, 249);
@@ -1248,6 +1286,35 @@
             }
         });
 
+        window.showAdminToast = function(message, type = 'info') {
+            const container = document.getElementById('adminToastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            const bgClass = type === 'success' ? 'bg-emerald-950/95 border-emerald-700/80 text-emerald-200' :
+                            type === 'error'   ? 'bg-rose-950/95 border-rose-700/80 text-rose-200' :
+                                                 'bg-slate-900/95 border-slate-700/80 text-slate-200';
+            toast.className = `pointer-events-auto p-3.5 rounded-2xl border shadow-xl backdrop-blur-md flex items-center justify-between gap-3 text-xs font-medium animate-fadeInUp ${bgClass}`;
+            toast.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span>${type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ'}</span>
+                    <span>${message}</span>
+                </div>
+                <button type="button" class="text-slate-400 hover:text-white p-0.5 ml-2">✕</button>
+            `;
+            toast.querySelector('button').onclick = () => toast.remove();
+            container.appendChild(toast);
+            setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3500);
+        };
+
+        window.copyAdminTicket = function(ticket) {
+            if (!ticket) return;
+            navigator.clipboard.writeText(ticket).then(() => {
+                showAdminToast(`Ticket ${ticket} copied to clipboard`, 'success');
+            }).catch(() => {
+                showAdminToast(ticket, 'info');
+            });
+        };
+
         window.openUpdateModal = function (id) {
             const record = applicationsData.find(a => (a.id === id || a.tracking_ticket === id));
             if (!record) return;
@@ -1257,6 +1324,11 @@
             document.getElementById('modalCompanyName').innerText = record.company_name || 'Applicant Entity';
             document.getElementById('modalStatusSelect').value = record.status || 'under_review';
             document.getElementById('modalNotesInput').value = record.status_notes || '';
+
+            const portalLink = document.getElementById('modalOpenClientPortalLink');
+            if (portalLink) {
+                portalLink.href = `client.html?ticket=${encodeURIComponent(record.tracking_ticket || '')}`;
+            }
 
             document.getElementById('updateModal').classList.remove('hidden');
         };
@@ -1273,8 +1345,29 @@
             try {
                 await dbClient.from(window.APP_CONFIG.TABLE_SUBMISSIONS).update({ status: newStatus, status_notes: newNotes }).eq('id', id);
                 document.getElementById('updateModal').classList.add('hidden');
+                showAdminToast('Compliance status updated successfully', 'success');
                 await fetchAllData();
-            } catch (err) { alert(err.message); }
+            } catch (err) {
+                showAdminToast(err.message, 'error');
+            }
+        });
+
+        // Global Keyboard Shortcuts (Press '/' to focus search, 'Escape' to close modals)
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('updateModal').classList.add('hidden');
+                document.getElementById('serviceUpdateModal').classList.add('hidden');
+                document.getElementById('configModal').classList.add('hidden');
+                document.getElementById('adminReceiptModal').classList.add('hidden');
+            } else if (e.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
+                e.preventDefault();
+                const activeTab = sectionRegulatory.classList.contains('hidden') ? 'services' : 'regulatory';
+                if (activeTab === 'regulatory') {
+                    searchInput.focus();
+                } else {
+                    searchServicesInput.focus();
+                }
+            }
         });
 
         function exportDataToCsv() {
@@ -1339,6 +1432,326 @@
             if (y) y.innerText = new Date().getFullYear();
             checkExistingSession();
         });
+
+        // ── Client Communication Hub (Chat + Documents) ──────────────────────
+        let chatTicketCode = null;
+        let chatRealtimeChannel = null;
+        let chatOfficerName = 'Secretariat Officer';
+
+        window.openClientHub = async function(id) {
+            const record = applicationsData.find(a => (a.id === id || a.tracking_ticket === id));
+            if (!record) return;
+
+            chatTicketCode = record.tracking_ticket || record.id;
+            const session = JSON.parse(sessionStorage.getItem('ATC_ADMIN_SESSION') || '{}');
+            chatOfficerName = localStorage.getItem('ATC_OFFICER_NAME') || (session.email ? session.email.split('@')[0] : 'Officer');
+
+            // Populate hub header
+            document.getElementById('hubTicketCode').innerText = chatTicketCode;
+            document.getElementById('hubCompany').innerText = record.company_name || 'Client';
+            document.getElementById('hubSector').innerText = (record.sector_track || 'general').toUpperCase();
+            document.getElementById('hubClientPortalLink').href = `client.html?ticket=${chatTicketCode}`;
+            document.getElementById('hubStatus').innerText = (record.status || 'under_review').replace('_', ' ');
+
+            // Show modal
+            document.getElementById('clientHubModal').classList.remove('hidden');
+            document.getElementById('hubChatMessages').innerHTML = `<div class="text-center text-slate-500 text-xs py-4 font-mono">Loading messages...</div>`;
+
+            // Load chat messages
+            await loadHubMessages();
+
+            // Load documents
+            await loadHubDocuments();
+
+            // Subscribe to realtime
+            if (chatRealtimeChannel) chatRealtimeChannel.unsubscribe();
+            chatRealtimeChannel = dbClient.channel(`chat:${chatTicketCode}`)
+                .on('postgres_changes', {
+                    event: 'INSERT', schema: 'public',
+                    table: window.APP_CONFIG.TABLE_CHAT,
+                    filter: `ticket_code=eq.${chatTicketCode}`
+                }, (payload) => {
+                    appendHubMessage(payload.new);
+                })
+                .subscribe();
+        };
+
+        async function loadHubMessages() {
+            if (!dbClient || !chatTicketCode) return;
+            try {
+                const { data } = await dbClient
+                    .from(window.APP_CONFIG.TABLE_CHAT)
+                    .select('*')
+                    .eq('ticket_code', chatTicketCode)
+                    .order('created_at', { ascending: true });
+
+                const container = document.getElementById('hubChatMessages');
+                if (!data || data.length === 0) {
+                    container.innerHTML = `<div class="text-center text-slate-500 text-xs py-8 font-mono">No messages yet. Start the conversation.</div>`;
+                    return;
+                }
+                container.innerHTML = '';
+                data.forEach(msg => appendHubMessage(msg, false));
+                container.scrollTop = container.scrollHeight;
+            } catch(e) { console.warn(e); }
+        }
+
+        function appendHubMessage(msg, scroll = true) {
+            const container = document.getElementById('hubChatMessages');
+            const isOfficer = msg.sender_role === 'officer';
+            const time = msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : '';
+            const el = document.createElement('div');
+            el.className = `flex ${isOfficer ? 'justify-end' : 'justify-start'} mb-3`;
+            el.innerHTML = `
+                <div class="max-w-[75%]">
+                    <div class="text-[10px] font-semibold mb-1 ${isOfficer ? 'text-right text-brand-400' : 'text-left text-emerald-400'}">
+                        ${msg.sender_name || (isOfficer ? 'Officer' : 'Client')}
+                    </div>
+                    <div class="px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed ${isOfficer ? 'bg-brand-600 text-white rounded-tr-sm' : 'bg-slate-800 text-slate-200 rounded-tl-sm'}">
+                        ${msg.message}
+                    </div>
+                    <div class="text-[10px] text-slate-500 mt-1 font-mono ${isOfficer ? 'text-right' : 'text-left'}">${time}</div>
+                </div>`;
+            container.appendChild(el);
+            if (scroll) container.scrollTop = container.scrollHeight;
+        }
+
+        async function loadHubDocuments() {
+            if (!dbClient || !chatTicketCode) return;
+            try {
+                const { data } = await dbClient
+                    .from(window.APP_CONFIG.TABLE_DOCUMENTS)
+                    .select('*')
+                    .eq('ticket_code', chatTicketCode)
+                    .order('uploaded_at', { ascending: false });
+
+                const container = document.getElementById('hubDocsList');
+                if (!data || data.length === 0) {
+                    container.innerHTML = `<p class="text-slate-500 text-xs font-mono text-center py-4">No documents uploaded yet.</p>`;
+                    return;
+                }
+                container.innerHTML = data.map(doc => {
+                    const ext = (doc.file_name || '').split('.').pop().toLowerCase();
+                    const extColors = { pdf:'bg-rose-500/10 text-rose-400 border-rose-500/20', jpg:'bg-purple-500/10 text-purple-400 border-purple-500/20', jpeg:'bg-purple-500/10 text-purple-400 border-purple-500/20', png:'bg-blue-500/10 text-blue-400 border-blue-500/20' };
+                    const badgeClass = extColors[ext] || 'bg-slate-700 text-slate-300 border-slate-600';
+                    const date = doc.uploaded_at ? new Date(doc.uploaded_at).toLocaleDateString() : 'N/A';
+                    return `
+                        <div class="flex items-center justify-between p-2.5 bg-slate-800/60 border border-slate-700/60 rounded-xl">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <span class="px-1.5 py-0.5 rounded-md text-[10px] font-bold uppercase border ${badgeClass} flex-shrink-0">${ext}</span>
+                                <div class="min-w-0">
+                                    <div class="text-xs font-medium text-slate-200 truncate">${doc.file_name || 'document'}</div>
+                                    <div class="text-[10px] text-slate-500 font-mono">${date}</div>
+                                </div>
+                            </div>
+                            ${doc.file_url ? `<a href="${doc.file_url}" target="_blank" class="ml-2 px-2 py-1 text-[10px] font-semibold bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white rounded-lg transition flex-shrink-0">View</a>` : ''}
+                        </div>`;
+                }).join('');
+            } catch(e) { console.warn(e); }
+        }
+
+        window.sendHubMessage = async function() {
+            const input = document.getElementById('hubMessageInput');
+            const msg = input.value.trim();
+            if (!msg || !chatTicketCode || !dbClient) return;
+
+            const btn = document.getElementById('hubSendBtn');
+            btn.disabled = true;
+            input.disabled = true;
+
+            try {
+                await dbClient.from(window.APP_CONFIG.TABLE_CHAT).insert({
+                    ticket_code: chatTicketCode,
+                    sender_role: 'officer',
+                    sender_name: chatOfficerName,
+                    message: msg
+                });
+                input.value = '';
+            } catch(e) { console.warn('Chat send error:', e); }
+            finally {
+                btn.disabled = false;
+                input.disabled = false;
+                input.focus();
+            }
+        };
+
+        window.closeClientHub = function() {
+            document.getElementById('clientHubModal').classList.add('hidden');
+            if (chatRealtimeChannel) {
+                chatRealtimeChannel.unsubscribe();
+                chatRealtimeChannel = null;
+            }
+            chatTicketCode = null;
+        };
+
+        // Override renderRegulatoryTable to add Chat Hub button
+        const _origRenderRegulatory = window.renderRegulatoryTable;
+        function renderRegulatoryTableWithHub() {
+            const query = (searchInput.value || '').toLowerCase().trim();
+            const sector = filterSector.value;
+            const status = filterStatus.value;
+
+            const filtered = applicationsData.filter(item => {
+                const itemStatus = (item.status || 'under_review').toLowerCase();
+                const ticket = (item.tracking_ticket || item.id || '').toString().toLowerCase();
+                const company = (item.company_name || '').toString().toLowerCase();
+                const contact = (item.contact_name || '').toString().toLowerCase();
+                const itemSector = (item.sector_track || '').toString().toLowerCase();
+                const matchesQuery = !query || ticket.includes(query) || company.includes(query) || contact.includes(query);
+                const matchesSector = sector === 'all' || itemSector === sector.toLowerCase();
+                const matchesStatus = status === 'all' || itemStatus === status.toLowerCase();
+                return matchesQuery && matchesSector && matchesStatus;
+            });
+
+            if (filtered.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-slate-500 font-mono">No matching records found.</td></tr>`;
+                return;
+            }
+
+            const statusStyles = {
+                under_review: 'bg-amber-500/10 text-amber-400 border border-amber-500/20',
+                processing: 'bg-blue-500/10 text-blue-400 border border-blue-500/20',
+                action_required: 'bg-rose-500/10 text-rose-400 border border-rose-500/20',
+                approved: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
+                rejected: 'bg-slate-700 text-slate-400',
+            };
+
+            tableBody.innerHTML = filtered.map(item => {
+                const ticket = item.tracking_ticket || (item.id ? String(item.id).substring(0, 8) : 'N/A');
+                const company = item.company_name || 'Unnamed Organization';
+                const contact = item.contact_name || 'No contact';
+                const email = item.email || '';
+                const sectorName = item.sector_track || 'General';
+                const formattedDate = item.created_at ? new Date(item.created_at).toLocaleDateString() : 'N/A';
+                const currentStatus = item.status || 'under_review';
+                const rowId = item.id || ticket;
+                const badgeClass = statusStyles[currentStatus] || 'bg-slate-700 text-slate-400';
+
+                return `
+                <tr class="hover:bg-slate-800/40 transition">
+                    <td class="px-5 py-3.5 font-mono text-amber-400 font-bold text-[11px]">${ticket}</td>
+                    <td class="px-5 py-3.5">
+                        <div class="font-semibold text-slate-100">${company}</div>
+                        <div class="text-[11px] text-slate-400">${contact}${email ? ` · ${email}` : ''}</div>
+                    </td>
+                    <td class="px-5 py-3.5 text-slate-300 capitalize font-medium text-xs">${sectorName}</td>
+                    <td class="px-5 py-3.5 font-mono text-slate-400 text-xs">${formattedDate}</td>
+                    <td class="px-5 py-3.5">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${badgeClass}">${currentStatus.replace('_',' ')}</span>
+                    </td>
+                    <td class="px-5 py-3.5 text-right space-x-1.5">
+                        <button onclick="openClientHub('${rowId}')" class="px-2.5 py-1 bg-emerald-600/15 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/25 rounded-lg text-xs font-semibold transition" title="Open Chat & Documents">
+                            💬 Chat
+                        </button>
+                        <button onclick="openUpdateModal('${rowId}')" class="px-2.5 py-1 bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white border border-brand-500/30 rounded-lg text-xs font-semibold transition">
+                            Manage
+                        </button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        // Replace the global renderRegulatoryTable with the enhanced version
+        window.renderRegulatoryTable = renderRegulatoryTableWithHub;
+        // Ensure filters call the new version
+        searchInput.addEventListener('input', renderRegulatoryTableWithHub);
+        filterSector.addEventListener('change', renderRegulatoryTableWithHub);
+        filterStatus.addEventListener('change', renderRegulatoryTableWithHub);
+    </script>
+
+    <!-- ── Client Communication Hub Modal ─────────────────────────────────── -->
+    <div id="clientHubModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-3xl shadow-2xl flex flex-col" style="max-height:90vh;">
+
+            <!-- Hub Header -->
+            <div class="flex items-center justify-between p-5 border-b border-slate-800 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-emerald-600/15 border border-emerald-500/20 rounded-xl">
+                        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-sm font-bold text-white">Client Communication Hub</h3>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20" id="hubTicketCode">ATC-XXXXXX</span>
+                        </div>
+                        <div class="flex items-center gap-2 mt-0.5">
+                            <span class="text-xs text-slate-400" id="hubCompany">Company Name</span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 bg-slate-800 px-1.5 py-0.5 rounded" id="hubSector">AVIATION</span>
+                            <span class="text-[10px] text-slate-500">·</span>
+                            <span class="text-[10px] capitalize text-slate-400" id="hubStatus">Under Review</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a id="hubClientPortalLink" href="#" target="_blank"
+                        class="px-3 py-1.5 text-xs font-semibold bg-brand-600/15 hover:bg-brand-600 text-brand-300 hover:text-white border border-brand-500/25 rounded-xl transition flex items-center gap-1.5">
+                        🔗 Client Portal
+                    </a>
+                    <button onclick="closeClientHub()" class="p-1.5 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition">✕</button>
+                </div>
+            </div>
+
+            <!-- Hub Body: Chat + Documents tabs -->
+            <div class="flex border-b border-slate-800 flex-shrink-0">
+                <button onclick="switchHubTab('chat')" id="hubTabChat"
+                    class="flex-1 py-2.5 text-xs font-semibold text-white bg-slate-800 border-b-2 border-emerald-500 transition">
+                    💬 Messages
+                </button>
+                <button onclick="switchHubTab('docs')" id="hubTabDocs"
+                    class="flex-1 py-2.5 text-xs font-semibold text-slate-400 hover:text-white transition border-b-2 border-transparent">
+                    📎 Documents
+                </button>
+            </div>
+
+            <!-- Chat Panel -->
+            <div id="hubPanelChat" class="flex flex-col flex-1 overflow-hidden">
+                <div id="hubChatMessages" class="flex-1 overflow-y-auto p-4 space-y-1" style="min-height:200px;max-height:calc(90vh - 260px);">
+                    <div class="text-center text-slate-500 text-xs py-8 font-mono">Loading messages...</div>
+                </div>
+                <div class="p-4 border-t border-slate-800 flex gap-2 flex-shrink-0">
+                    <input id="hubMessageInput" type="text" placeholder="Type your message to the client..."
+                        class="flex-grow px-3.5 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendHubMessage();}">
+                    <button id="hubSendBtn" onclick="sendHubMessage()"
+                        class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex-shrink-0 disabled:opacity-50">
+                        Send
+                    </button>
+                </div>
+            </div>
+
+            <!-- Documents Panel -->
+            <div id="hubPanelDocs" class="hidden flex-1 overflow-y-auto p-4 space-y-2" style="max-height:calc(90vh - 200px);">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-semibold text-slate-300">Uploaded Documents</span>
+                    <button onclick="loadHubDocuments()" class="text-xs text-brand-400 hover:text-brand-300 transition">↺ Refresh</button>
+                </div>
+                <div id="hubDocsList">
+                    <p class="text-slate-500 text-xs font-mono text-center py-4">No documents uploaded yet.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchHubTab(tab) {
+            const chatPanel = document.getElementById('hubPanelChat');
+            const docsPanel = document.getElementById('hubPanelDocs');
+            const chatTab   = document.getElementById('hubTabChat');
+            const docsTab   = document.getElementById('hubTabDocs');
+
+            if (tab === 'chat') {
+                chatPanel.classList.remove('hidden');
+                docsPanel.classList.add('hidden');
+                chatTab.className = 'flex-1 py-2.5 text-xs font-semibold text-white bg-slate-800 border-b-2 border-emerald-500 transition';
+                docsTab.className = 'flex-1 py-2.5 text-xs font-semibold text-slate-400 hover:text-white transition border-b-2 border-transparent';
+            } else {
+                chatPanel.classList.add('hidden');
+                docsPanel.classList.remove('hidden');
+                docsTab.className = 'flex-1 py-2.5 text-xs font-semibold text-white bg-slate-800 border-b-2 border-brand-500 transition';
+                chatTab.className = 'flex-1 py-2.5 text-xs font-semibold text-slate-400 hover:text-white transition border-b-2 border-transparent';
+                loadHubDocuments();
+            }
+        }
     </script>
 </body>
 
