@@ -5,6 +5,9 @@
  */
 window.APP_CONFIG = {
     // ── Supabase Database & Auth Configuration ──────────────────────────────
+    // ⚠️  SUPABASE_ANON_KEY must be the "anon public" JWT from:
+    //     Supabase Dashboard → Settings → API → Project API Keys
+    //     It starts with: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     SUPABASE_URL: window.ENV_SUPABASE_URL || localStorage.getItem('SP_URL') || "https://tfetuykairghymxmknxc.supabase.co",
     SUPABASE_ANON_KEY: window.ENV_SUPABASE_ANON_KEY || localStorage.getItem('SP_KEY') || "sb_publishable_9ITJB3dba8vSDsZzcF3psw_YPIdstSx",
 

@@ -59,6 +59,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="config.js"></script>
 
+    <!-- Supabase OAuth Redirect Interceptor -->
+    <script>
+        (function() {
+            var hash = window.location.hash || '';
+            var search = window.location.search || '';
+            if (hash && (hash.indexOf('access_token=') !== -1 || hash.indexOf('error=') !== -1 || hash.indexOf('type=') !== -1)) {
+                var pendingTicket = '';
+                try { pendingTicket = localStorage.getItem('ATC_OAUTH_PENDING_TICKET') || ''; } catch(e){}
+                var target = 'client.html' + (pendingTicket ? ('?ticket=' + encodeURIComponent(pendingTicket)) : '') + hash;
+                window.location.replace(target);
+            } else if (search && search.indexOf('code=') !== -1) {
+                var pendingTicket = '';
+                try { pendingTicket = localStorage.getItem('ATC_OAUTH_PENDING_TICKET') || ''; } catch(e){}
+                var target = 'client.html' + search + (pendingTicket && search.indexOf('ticket=') === -1 ? ('&ticket=' + encodeURIComponent(pendingTicket)) : '') + hash;
+                window.location.replace(target);
+            }
+        })();
+    </script>
+
     <style>
         /* ── Animations ─────────────────────────────────────────────────── */
         @keyframes slideInRight {
