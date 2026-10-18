@@ -773,14 +773,63 @@
             } catch (e) {}
         }
 
+        let pollingIntervalTimer = null;
+        let globalRealtimeChannel = null;
+
+        function startLivePolling() {
+            stopLivePolling();
+
+            // Fallback polling interval every 15 seconds
+            pollingIntervalTimer = setInterval(() => {
+                fetchAllData(true);
+            }, 15000);
+
+            // Supabase Realtime subscription on submissions and work orders
+            subscribeToGlobalRealtime();
+        }
+
+        function stopLivePolling() {
+            if (pollingIntervalTimer) {
+                clearInterval(pollingIntervalTimer);
+                pollingIntervalTimer = null;
+            }
+            if (globalRealtimeChannel && dbClient) {
+                try { dbClient.removeChannel(globalRealtimeChannel); } catch (e) {}
+                globalRealtimeChannel = null;
+            }
+        }
+
+        function subscribeToGlobalRealtime() {
+            if (!dbClient) dbClient = (window.getDb ? window.getDb() : null) || window.getSupabaseClient();
+            if (!dbClient) return;
+
+            try {
+                if (globalRealtimeChannel) {
+                    try { dbClient.removeChannel(globalRealtimeChannel); } catch(e){}
+                }
+                globalRealtimeChannel = dbClient.channel('admin_global_tickets')
+                    .on('postgres_changes', { event: '*', schema: 'public', table: window.APP_CONFIG.TABLE_SUBMISSIONS }, () => {
+                        fetchAllData(true);
+                    })
+                    .on('postgres_changes', { event: '*', schema: 'public', table: window.APP_CONFIG.TABLE_WORK_ORDERS }, () => {
+                        fetchAllData(true);
+                    })
+                    .subscribe();
+            } catch (err) {
+                console.warn("Realtime subscription fallback to polling:", err);
+            }
+        }
+
         function showAuthenticatedDashboard(email) {
             loginScreen.classList.add('hidden');
             adminDashboard.classList.remove('hidden');
             updateOfficerDisplay(email);
             fetchAllData();
+            startLivePolling();
         }
 
         function handleLogout() {
+            stopLivePolling();
             sessionStorage.removeItem('ATC_ADMIN_SESSION');
             try { if (dbClient) dbClient.auth.signOut(); } catch(e) {}
             window.location.reload();
@@ -789,21 +838,25 @@
         adminLoginForm.addEventListener('submit', handleLogin);
         logoutBtn.addEventListener('click', handleLogout);
 
-        async function fetchAllData() {
-            if (!dbClient) dbClient = window.getSupabaseClient();
+        async function fetchAllData(isBackgroundSync = false) {
+            if (!dbClient) dbClient = (window.getDb ? window.getDb() : null) || window.getSupabaseClient();
             if (!dbClient) return;
 
             // 1. Fetch Regulatory
             try {
-                let { data } = await dbClient
+                let { data, error } = await dbClient
                     .from(window.APP_CONFIG.TABLE_SUBMISSIONS)
                     .select('*')
                     .order('created_at', { ascending: false });
 
-                applicationsData = (data || []).filter(item => item.sector_track !== 'tech_service');
-                tabCountRegulatory.innerText = applicationsData.length;
-                updateStatCounters(applicationsData);
-                renderRegulatoryTable();
+                if (!error && data) {
+                    applicationsData = data.filter(item => item.sector_track !== 'tech_service');
+                    tabCountRegulatory.innerText = applicationsData.length;
+                    updateStatCounters(applicationsData);
+                    renderRegulatoryTable();
+                } else if (error) {
+                    console.warn("Regulatory fetch error:", error);
+                }
             } catch (e) { console.warn(e); }
 
             // 2. Fetch Tech Services

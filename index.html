@@ -1342,19 +1342,39 @@
             const formData      = new FormData(form);
             const selectedSector = formData.get('sector_track');
 
+            // Capture sector-specific metadata dynamically
+            const sectorDetails = {};
+            if (selectedSector === 'aviation') {
+                const tail = formData.get('aircraft_tail');
+                const model = formData.get('aircraft_model');
+                if (tail) sectorDetails.aircraft_tail = tail.trim().toUpperCase();
+                if (model) sectorDetails.aircraft_model = model.trim();
+            } else if (selectedSector === 'telecom') {
+                sectorDetails.target_framework = formData.get('target_framework') || '';
+                sectorDetails.estimated_capex = Number(formData.get('estimated_capex') || 0);
+            } else if (selectedSector === 'radionet') {
+                sectorDetails.radionet_type = formData.get('radionet_type') || '';
+                sectorDetails.radionet_band = formData.get('radionet_band') || '';
+            } else if (selectedSector === 'amateur') {
+                sectorDetails.amateur_class = formData.get('amateur_class') || '';
+                const suffix = formData.get('amateur_suffix');
+                if (suffix) sectorDetails.amateur_suffix = suffix.trim().toUpperCase();
+            }
+
             const payload = {
-                company_name:   formData.get('company_name'),
-                contact_name:   formData.get('contact_name'),
-                email:          formData.get('email'),
-                phone:          formData.get('phone'),
+                company_name:   (formData.get('company_name') || '').trim(),
+                contact_name:   (formData.get('contact_name') || '').trim(),
+                email:          (formData.get('email') || '').trim(),
+                phone:          (formData.get('phone') || '').trim(),
                 sector_track:   selectedSector,
-                sector_details: {}
+                sector_details: sectorDetails
             };
 
             try {
-                if (!supabaseClient) throw new Error("Supabase client not initialized.");
+                const client = (window.getDb ? window.getDb() : null) || (window.getSupabaseClient ? window.getSupabaseClient() : supabaseClient);
+                if (!client) throw new Error("Supabase client not initialized. Please refresh and try again.");
 
-                const { data, error } = await supabaseClient
+                const { data, error } = await client
                     .from(window.APP_CONFIG.TABLE_SUBMISSIONS)
                     .insert([payload])
                     .select('tracking_ticket')
@@ -1377,36 +1397,20 @@
 
                 saveRecentTicket(returnedTicket);
 
-                // ── Attempt Edge Function notification (silent fallback) ──
+                // ── Attempt Edge Function notification (silent background) ──
                 const SUPABASE_URL = (window.APP_CONFIG && window.APP_CONFIG.SUPABASE_URL)
                     ? window.APP_CONFIG.SUPABASE_URL
                     : (typeof SUPABASE_URL_GLOBAL !== 'undefined' ? SUPABASE_URL_GLOBAL : null);
 
                 if (SUPABASE_URL) {
                     try {
-                        const edgeRes = await fetch(`${SUPABASE_URL}/functions/v1/notify-new-ticket`, {
+                        await fetch(`${SUPABASE_URL}/functions/v1/notify-new-ticket`, {
                             method:  'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body:    JSON.stringify({ ticket: returnedTicket, ...subData })
                         });
-                        // If edge function is not available (404/5xx), silently ignore
-                        if (!edgeRes.ok && (edgeRes.status === 404 || edgeRes.status >= 500)) {
-                            // Fallback: open mailto as last resort
-                            const mailSubject = encodeURIComponent(`New ATC Ticket: ${returnedTicket} — ${payload.company_name}`);
-                            const mailBody    = encodeURIComponent(
-                                `New compliance intake submitted.\n\nTicket: ${returnedTicket}\nCompany: ${payload.company_name}\nContact: ${payload.contact_name}\nEmail: ${payload.email}\nPhone: ${payload.phone}\nSector: ${payload.sector_track}\nTimestamp: ${issuedTimestamp}`
-                            );
-                            window.open(`mailto:kilbdynamicsltd@gmail.com?subject=${mailSubject}&body=${mailBody}`, '_blank');
-                        }
                     } catch (_edgeErr) {
-                        // Network-level failure — open mailto fallback
-                        try {
-                            const mailSubject = encodeURIComponent(`New ATC Ticket: ${returnedTicket} — ${payload.company_name}`);
-                            const mailBody    = encodeURIComponent(
-                                `New compliance intake submitted.\n\nTicket: ${returnedTicket}\nCompany: ${payload.company_name}\nContact: ${payload.contact_name}\nEmail: ${payload.email}\nPhone: ${payload.phone}\nSector: ${payload.sector_track}\nTimestamp: ${issuedTimestamp}`
-                            );
-                            window.open(`mailto:kilbdynamicsltd@gmail.com?subject=${mailSubject}&body=${mailBody}`, '_blank');
-                        } catch (_) {}
+                        // Silent background failure - primary database record was already safely committed
                     }
                 }
 

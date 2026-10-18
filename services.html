@@ -1569,9 +1569,10 @@ Notes: ${data.notes || 'Standard callout'}`;
             };
 
             // Database capture payload
-            if (dbClient) {
+            const client = (window.getDb ? window.getDb() : null) || (window.getSupabaseClient ? window.getSupabaseClient() : dbClient);
+            if (client) {
                 try {
-                    let { error } = await dbClient.from(window.APP_CONFIG.TABLE_WORK_ORDERS).insert([{
+                    let { error } = await client.from(window.APP_CONFIG.TABLE_WORK_ORDERS).insert([{
                         ticket_number: code,
                         client_name: name,
                         phone: phone,
@@ -1583,7 +1584,8 @@ Notes: ${data.notes || 'Standard callout'}`;
                     }]);
 
                     if (error) {
-                        await dbClient.from(window.APP_CONFIG.TABLE_SUBMISSIONS).insert([{
+                        console.warn("Work orders insert fallback to submissions table:", error);
+                        await client.from(window.APP_CONFIG.TABLE_SUBMISSIONS).insert([{
                             tracking_ticket: code,
                             company_name: name,
                             contact_name: name,
@@ -1592,7 +1594,11 @@ Notes: ${data.notes || 'Standard callout'}`;
                             sector_details: { location: loc, service: serviceName, rate: rateFormatted, schedule: sched, scope: notes }
                         }]);
                     }
-                } catch (dbErr) { console.warn(dbErr); }
+                } catch (dbErr) {
+                    console.error("Database capture failed for work order:", dbErr);
+                }
+            } else {
+                console.warn("Database client not available for work order capture.");
             }
 
             openReceiptModal(ticketData);
