@@ -157,15 +157,16 @@
     <!-- Main Navigation Header -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <a href="services.html" class="flex items-center space-x-3 group">
-                <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-2xl border border-emerald-100 shadow-xs group-hover:bg-emerald-100 transition">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.67 2.67 0 0021 17.25l-5.83-5.83M11.42 15.17l2.496-3.03c.315-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5"></path>
-                    </svg>
+            <a href="services.html" class="flex items-center space-x-3.5 group">
+                <div class="w-11 h-11 rounded-2xl overflow-hidden shadow-xs ring-1 ring-slate-900/10 group-hover:scale-105 transition-transform duration-200 shrink-0">
+                    <img src="assets/logo-icon.svg" alt="Wankilb ProTech Logo" class="w-full h-full object-cover">
                 </div>
                 <div>
-                    <span class="text-xl font-extrabold text-slate-900 tracking-tight block">WANKILB <span class="text-emerald-600">PROTECH</span></span>
-                    <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Hardware • Web • Training • Systems</span>
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-xl font-black text-slate-900 tracking-tight block">WANKILB <span class="text-emerald-600">PROTECH</span></span>
+                        <span class="px-1.5 py-0.5 rounded-md text-[9px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">NAIROBI</span>
+                    </div>
+                    <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Hardware • Smart Mount • Web • Skills Academy</span>
                 </div>
             </a>
 
@@ -235,30 +236,52 @@
 
     <main class="flex-grow">
         <!-- HERO SECTION -->
-        <section class="relative pt-20 pb-24 bg-gradient-to-b from-emerald-50/50 via-white to-slate-50 border-b border-slate-200/80 overflow-hidden">
-            <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-50 pointer-events-none"></div>
+        <section class="relative pt-20 pb-24 bg-gradient-to-b from-emerald-50/70 via-white to-slate-50 border-b border-slate-200/80 overflow-hidden">
+            <!-- Ambient Radial Glow Mesh -->
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_-10%,rgba(16,185,129,0.18),transparent_75%)] pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 pointer-events-none"></div>
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold tracking-wide border border-emerald-200 shadow-2xs">
-                    <span>⚡</span> Certified On-Demand Engineering &amp; Accredited Skills Academy
+                <!-- Status & Quality Pill -->
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50/90 text-emerald-900 text-xs font-mono font-bold tracking-wide border border-emerald-300 shadow-sm backdrop-blur-md">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-sm shadow-emerald-500/50"></span>
+                    <span>⚡ On-Demand Nairobi Engineering • Certified Tech Dispatch &amp; Skills Hub</span>
                 </div>
                 
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight max-w-4xl mx-auto leading-[1.15]">
-                    Computer Repairs, TV Wall Mountings, Web Portals &amp; Skills Training.
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight max-w-4xl mx-auto leading-[1.12]">
+                    Precision Computer Repairs, Smart TV Mountings &amp; <span class="bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-700 bg-clip-text text-transparent">Career Tech Skills.</span>
                 </h1>
                 
                 <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                    Reliable on-demand technical engineering and certified training in Nairobi. Click any service card to instantly populate your booking order with location detection and transparent rates.
+                    Nairobi's trusted engineering secretariat. Fast-track hardware servicing, laser-leveled OLED wall mounting, custom web portals, and practical 4-week computer packages &amp; AI training.
                 </p>
 
+                <!-- Floating Live Metric Chips -->
+                <div class="flex flex-wrap justify-center gap-3 pt-1 text-xs">
+                    <div class="px-3.5 py-1.5 rounded-xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-sm hover:shadow-md transition flex items-center gap-2 font-semibold text-slate-700">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>Avg. Callout Response: <strong class="text-slate-900 font-mono">45 Mins</strong></span>
+                    </div>
+                    <div class="px-3.5 py-1.5 rounded-xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-sm hover:shadow-md transition flex items-center gap-2 font-semibold text-slate-700">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                        <span>Coverage: <strong class="text-slate-900">All 14 Nairobi Zones</strong></span>
+                    </div>
+                    <div class="px-3.5 py-1.5 rounded-xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-sm hover:shadow-md transition flex items-center gap-2 font-semibold text-slate-700">
+                        <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                        <span>Warranty: <strong class="text-slate-900">30-Day Workmanship</strong></span>
+                    </div>
+                </div>
+
+                <!-- Primary Action CTAs -->
                 <div class="flex flex-wrap justify-center gap-4 pt-2">
                     <a href="#booking"
-                        class="px-8 py-3.5 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition shadow-lg shadow-emerald-600/20 hover:scale-[1.02]">
-                        Request Service / Generate Quote
+                        class="px-8 py-3.5 text-sm font-bold text-white bg-slate-950 hover:bg-emerald-600 rounded-2xl transition duration-300 shadow-lg shadow-slate-950/20 hover:scale-[1.02] flex items-center gap-2">
+                        <span>Book Service Callout</span>
+                        <span>&rarr;</span>
                     </a>
                     <a href="#estimator"
-                        class="px-8 py-3.5 text-sm font-bold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl transition shadow-xs hover:border-emerald-300">
-                        📊 Live Price &amp; Turnaround Calculator
+                        class="px-8 py-3.5 text-sm font-bold text-slate-800 bg-white hover:bg-emerald-50/40 border border-slate-200 rounded-2xl transition shadow-xs hover:border-emerald-400 flex items-center gap-2">
+                        <span>📊 Live Price &amp; Turnaround Calculator</span>
                     </a>
                 </div>
 
@@ -273,7 +296,7 @@
                             class="flex-1 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs uppercase text-slate-900 focus:outline-none focus:border-emerald-500 tracking-wider font-bold"
                             onkeydown="if(event.key==='Enter'){event.preventDefault();quickHeroTechTrack();}" />
                         <button type="button" onclick="quickHeroTechTrack()"
-                            class="px-3 py-1.5 bg-slate-900 hover:bg-emerald-600 text-white font-bold rounded-xl transition text-[11px] shrink-0">
+                            class="px-3.5 py-1.5 bg-slate-900 hover:bg-emerald-600 text-white font-bold rounded-xl transition text-[11px] shrink-0">
                             Check &rarr;
                         </button>
                     </div>
@@ -287,230 +310,531 @@
                     <a href="#bootcamp" class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold transition">🎓 4-Week Bootcamp</a>
                     <a href="#services" onclick="filterServicesCategory('tv_mounting')" class="px-3 py-1 rounded-full bg-slate-100 hover:bg-amber-100 hover:text-amber-800 text-slate-700 font-semibold transition">📺 TV Mounting</a>
                     <a href="#services" onclick="filterServicesCategory('web_engineering')" class="px-3 py-1 rounded-full bg-slate-100 hover:bg-purple-100 hover:text-purple-800 text-slate-700 font-semibold transition">🌐 Web Design</a>
-                    <a href="#services" onclick="filterServicesCategory('data_recovery')" class="px-3 py-1 rounded-full bg-slate-100 hover:bg-rose-100 hover:text-rose-800 text-slate-700 font-semibold transition">💾 Data Recovery</a>
+                    <a href="#services" onclick="filterServicesCategory('data_backup')" class="px-3 py-1 rounded-full bg-slate-100 hover:bg-rose-100 hover:text-rose-800 text-slate-700 font-semibold transition">💾 Data Recovery</a>
                 </div>
             </div>
         </section>
 
         <!-- SERVICES MATRIX -->
-        <section id="services" class="py-20 bg-white border-b border-slate-200/80">
+        <section id="services" class="py-24 bg-gradient-to-b from-white via-slate-50/50 to-white border-b border-slate-200/80 relative">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-10 space-y-3">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold uppercase tracking-wider">
-                        <span>⚡</span> Certified Field Engineers &amp; Academics
+                <!-- Section Header -->
+                <div class="text-center max-w-3xl mx-auto mb-12 space-y-4">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-xs font-mono font-bold uppercase tracking-wider shadow-2xs">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Certified Field Engineering • Nairobi &amp; Remote
                     </div>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Specialized Technical Solutions Matrix</h2>
-                    <p class="text-sm text-slate-600">Select any vector below to instantly configure your booking work order with real-time rate validation and turnaround estimations.</p>
+                    <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+                        Specialized Technical Solutions &amp; Engineering Matrix
+                    </h2>
+                    <p class="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
+                        Transparent upfront pricing, certified workmanship warranties, and rapid on-demand dispatch across Nairobi. Select any service to initialize your booking work order.
+                    </p>
                 </div>
 
-                <!-- Interactive Category Filter Tabs -->
-                <div class="flex flex-wrap justify-center items-center gap-2 mb-12">
-                    <button type="button" onclick="filterServicesCategory('all', this)"
-                        class="svc-tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-900 text-white shadow-sm">
-                        All Vectors (6)
-                    </button>
-                    <button type="button" onclick="filterServicesCategory('computer_repair', this)"
-                        class="svc-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-100 hover:bg-slate-200 text-slate-700">
-                        💻 Laptop &amp; PC Repairs
-                    </button>
-                    <button type="button" onclick="filterServicesCategory('tv_mounting', this)"
-                        class="svc-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-100 hover:bg-slate-200 text-slate-700">
-                        📺 TV Wall Mounting
-                    </button>
-                    <button type="button" onclick="filterServicesCategory('bootcamp_enrollment', this)"
-                        class="svc-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-100 hover:bg-slate-200 text-slate-700">
-                        🎓 Skills Bootcamp
-                    </button>
-                    <button type="button" onclick="filterServicesCategory('web_engineering', this)"
-                        class="svc-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-100 hover:bg-slate-200 text-slate-700">
-                        🌐 Web Portals
-                    </button>
-                    <button type="button" onclick="filterServicesCategory('data_backup', this)"
-                        class="svc-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-100 hover:bg-slate-200 text-slate-700">
-                        💾 Data Recovery
-                    </button>
-                    <button type="button" onclick="filterServicesCategory('document_processing', this)"
-                        class="svc-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-100 hover:bg-slate-200 text-slate-700">
-                        📄 Document &amp; Cyber
-                    </button>
+                <!-- Assurance Value Strip -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto mb-10">
+                    <div class="p-4 bg-white border border-slate-200/90 rounded-2xl shadow-2xs flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 text-lg shrink-0">🚀</div>
+                        <div>
+                            <div class="text-xs font-bold text-slate-900">Same-Day Dispatch</div>
+                            <div class="text-[10px] text-slate-500">Across all Nairobi estates</div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white border border-slate-200/90 rounded-2xl shadow-2xs flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 text-lg shrink-0">🛡️</div>
+                        <div>
+                            <div class="text-xs font-bold text-slate-900">30-Day Warranty</div>
+                            <div class="text-[10px] text-slate-500">Certified workmanship</div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white border border-slate-200/90 rounded-2xl shadow-2xs flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600 text-lg shrink-0">💳</div>
+                        <div>
+                            <div class="text-xs font-bold text-slate-900">Pay Upon Delivery</div>
+                            <div class="text-[10px] text-slate-500">M-PESA post-inspection</div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white border border-slate-200/90 rounded-2xl shadow-2xs flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-600 text-lg shrink-0">📋</div>
+                        <div>
+                            <div class="text-xs font-bold text-slate-900">Official Work Orders</div>
+                            <div class="text-[10px] text-slate-500">Instant PDF &amp; EPOS slips</div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Interactive Search & Category Filter Controls -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-4 sm:p-5 shadow-sm max-w-5xl mx-auto mb-12 space-y-4">
+                    <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
+                        <!-- Live Search Input -->
+                        <div class="relative w-full sm:w-80">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+                                🔍
+                            </span>
+                            <input type="text" id="serviceSearchInput" placeholder="Filter services (e.g., SSD, TV, Excel, Recovery)..."
+                                oninput="handleServiceLiveSearch(this.value)"
+                                class="w-full pl-9 pr-4 py-2.5 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-2xl text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition" />
+                        </div>
+
+                        <!-- Active Service Count Pill -->
+                        <div class="flex items-center gap-2 text-xs text-slate-500 shrink-0">
+                            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
+                            <span>Showing <strong id="visibleServicesCount" class="text-slate-900 font-mono font-bold">6</strong> of 6 Engineering Vectors</span>
+                        </div>
+                    </div>
+
+                    <!-- Filter Category Tabs -->
+                    <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100">
+                        <button type="button" onclick="filterServicesCategory('all', this)"
+                            class="svc-tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-900 text-white shadow-sm flex items-center gap-1.5">
+                            <span>✨</span> All Vectors
+                        </button>
+                        <button type="button" onclick="filterServicesCategory('computer_repair', this)"
+                            class="svc-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center gap-1.5">
+                            <span>💻</span> Laptop &amp; PC Repairs
+                        </button>
+                        <button type="button" onclick="filterServicesCategory('tv_mounting', this)"
+                            class="svc-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center gap-1.5">
+                            <span>📺</span> TV Wall Mounting
+                        </button>
+                        <button type="button" onclick="filterServicesCategory('bootcamp_enrollment', this)"
+                            class="svc-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center gap-1.5">
+                            <span>🎓</span> Skills Bootcamp
+                        </button>
+                        <button type="button" onclick="filterServicesCategory('web_engineering', this)"
+                            class="svc-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center gap-1.5">
+                            <span>🌐</span> Web Portals
+                        </button>
+                        <button type="button" onclick="filterServicesCategory('data_backup', this)"
+                            class="svc-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center gap-1.5">
+                            <span>💾</span> Data Recovery
+                        </button>
+                        <button type="button" onclick="filterServicesCategory('document_processing', this)"
+                            class="svc-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center gap-1.5">
+                            <span>📄</span> Cyber Desk
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 6-Vector Modern Engineering Grid -->
+                <div id="servicesCardGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
 
                     <!-- Vector 1: Laptop & Computer Repair -->
-                    <div data-category="computer_repair" onclick="selectServiceCard('computer_repair', 1500, 'Laptop & Computer Hardware Repair / OS Tune-up')"
-                        class="service-card p-6 bg-slate-50 border border-slate-200 rounded-3xl hover:border-emerald-500 hover:bg-white hover:shadow-xl cursor-pointer transition duration-300 space-y-4 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-start">
-                                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center border border-blue-100 group-hover:bg-blue-600 group-hover:text-white transition">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0H3"></path>
-                                    </svg>
+                    <div data-category="computer_repair" data-service-key="computer_repair" data-search="laptop pc computer repair screen keyboard battery thermal ssd ram windows mac os tuning fan clean diagnostic"
+                        onclick="selectServiceCard('computer_repair', 1500, 'Laptop & Computer Hardware Repair / OS Tune-up')"
+                        class="service-card group relative bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-xs hover:shadow-2xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between cursor-pointer overflow-hidden">
+                        <div class="h-1.5 w-full bg-gradient-to-r from-blue-500 to-indigo-600 absolute top-0 left-0"></div>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 bg-blue-50 text-blue-600 border border-blue-100 rounded-2xl flex items-center justify-center text-xl group-hover:bg-blue-600 group-hover:text-white transition duration-300 shadow-inner">
+                                    💻
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-blue-100 text-blue-800">⏱️ 2 - 4 Hours</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                                        ⏱️ 2 - 4 Hours
+                                    </span>
+                                </div>
                             </div>
-                            <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition">Laptop &amp; PC Hardware Diagnostics</h3>
-                            <ul class="text-xs text-slate-600 space-y-2 leading-relaxed">
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Screen, keyboard, charging port &amp; battery replacements</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>High-speed NVMe SSD &amp; RAM speed upgrades</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Windows 11 / macOS clean install &amp; OS optimization</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Thermal repasting, dust cleanup &amp; board diagnostics</span></li>
-                            </ul>
-                        </div>
-                        <div class="pt-4 border-t border-slate-200 flex justify-between items-center">
+
                             <div>
-                                <span class="text-[10px] text-slate-400 block font-semibold uppercase">Baseline Rate</span>
-                                <span class="text-sm font-mono font-bold text-slate-900">KES 1,500</span>
+                                <span class="text-[10px] uppercase font-bold tracking-widest text-blue-600 block mb-1">Hardware &amp; System Tuning</span>
+                                <h3 class="text-xl font-extrabold text-slate-900 group-hover:text-blue-600 transition">Laptop &amp; PC Diagnostics &amp; Repair</h3>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">Certified component-level troubleshooting, speed optimization, and hardware upgrades.</p>
                             </div>
-                            <span class="text-xs font-bold text-emerald-600 group-hover:underline flex items-center gap-1">Select &amp; Book &rarr;</span>
+
+                            <ul class="text-xs text-slate-600 space-y-2.5 pt-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>High-speed NVMe/SATA SSD upgrades &amp; RAM expansions</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Cracked LCD screens, keyboards, hinges &amp; battery refits</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Thermal paste renewal, heat-pipe servicing &amp; fan de-dusting</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Clean Windows 11 / macOS installs, drivers &amp; malware elimination</span>
+                                </li>
+                            </ul>
+
+                            <!-- Quick Scope Accordion Toggle -->
+                            <details class="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-xl border border-slate-200/80 cursor-pointer group-open:bg-blue-50/40">
+                                <summary class="font-bold text-slate-700 select-none hover:text-blue-600 flex items-center justify-between">
+                                    <span>🔍 What's Included in Diagnostic</span>
+                                    <span class="text-slate-400">▾</span>
+                                </summary>
+                                <div class="pt-2 text-[10px] space-y-1 text-slate-600 leading-normal">
+                                    <div>• SMART disk health test &amp; RAM memory integrity stress tests</div>
+                                    <div>• Thermal throttling profiling &amp; voltage rail tests</div>
+                                    <div>• Full internal clean-out with anti-static compressed air</div>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Diagnostic Baseline</span>
+                                <span class="text-base font-black font-mono text-slate-900">KES 1,500</span>
+                            </div>
+                            <button type="button" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-blue-600 text-white font-bold text-xs transition shadow-sm group-hover:scale-105 flex items-center gap-1">
+                                <span>Book Dispatch</span>
+                                <span>&rarr;</span>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Vector 2: Computer Bootcamp -->
-                    <div id="bootcamp-card" data-category="bootcamp_enrollment" onclick="selectServiceCard('bootcamp_enrollment', 4500, 'Computer Packages & AI Productivity Bootcamp (4 Weeks)')"
-                        class="service-card p-6 bg-gradient-to-b from-emerald-50/70 via-white to-slate-50 border-2 border-emerald-500/50 rounded-3xl shadow-lg cursor-pointer hover:shadow-2xl transition duration-300 space-y-4 flex flex-col justify-between relative overflow-hidden group">
-                        <div class="space-y-3 relative z-10">
-                            <div class="flex justify-between items-start">
-                                <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center border border-emerald-200 group-hover:bg-emerald-600 group-hover:text-white transition">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"></path>
-                                    </svg>
+                    <!-- Vector 2: Precision Smart TV Wall Mounting -->
+                    <div data-category="tv_mounting" data-service-key="tv_mounting" data-search="tv television wall mounting bracket swivel tilt oled led samsung lg tcl soundbar cable trunking raceway laser"
+                        onclick="selectServiceCard('tv_mounting', 2000, 'Smart TV Wall Mounting (Fixed, Tilt or Swivel Bracket)')"
+                        class="service-card group relative bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-xs hover:shadow-2xl hover:border-amber-400 transition-all duration-300 flex flex-col justify-between cursor-pointer overflow-hidden">
+                        <div class="h-1.5 w-full bg-gradient-to-r from-amber-500 to-orange-500 absolute top-0 left-0"></div>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 bg-amber-50 text-amber-600 border border-amber-100 rounded-2xl flex items-center justify-center text-xl group-hover:bg-amber-600 group-hover:text-white transition duration-300 shadow-inner">
+                                    📺
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-600 text-white">🎓 4-Week Cohort</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase bg-amber-500 text-slate-950 tracking-wider">
+                                        🔥 Fast Callout
+                                    </span>
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                                        ⚡ 45 Mins
+                                    </span>
+                                </div>
                             </div>
-                            <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition">Computer Packages &amp; AI Bootcamp</h3>
-                            <ul class="text-xs text-slate-700 space-y-2 leading-relaxed">
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-600 font-bold shrink-0">✓</span><span>Touch-typing speed &amp; accuracy mastery</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-600 font-bold shrink-0">✓</span><span>Advanced Microsoft Excel (Formulas, Pivot Tables, Dashboards)</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-600 font-bold shrink-0">✓</span><span>Modern AI productivity workflows (ChatGPT &amp; Google Workspace)</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-600 font-bold shrink-0">✓</span><span>1-on-1 practical coaching + Accredited Certificate</span></li>
-                            </ul>
-                        </div>
-                        <div class="pt-4 border-t border-emerald-100 flex justify-between items-center relative z-10">
+
                             <div>
-                                <span class="text-[10px] text-emerald-700 block font-semibold uppercase">Cohort Tuition</span>
-                                <span class="text-sm font-mono font-bold text-emerald-800">KES 4,500</span>
+                                <span class="text-[10px] uppercase font-bold tracking-widest text-amber-600 block mb-1">Precision Installation</span>
+                                <h3 class="text-xl font-extrabold text-slate-900 group-hover:text-amber-600 transition">Smart TV Wall Mounting &amp; Cabling</h3>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">Laser-leveled wall anchoring for 32" to 98"+ screens with concealed cabling.</p>
                             </div>
-                            <span class="text-xs font-bold text-emerald-600 group-hover:underline flex items-center gap-1">Enroll &amp; Book &rarr;</span>
+
+                            <ul class="text-xs text-slate-600 space-y-2.5 pt-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Fixed ultra-slim, tilting, and dual-arm heavy swivel brackets</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Digital laser-level verification for perfectly straight viewing angles</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Surface PVC trunking raceway or in-wall conduit concealment</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Soundbar, Apple TV, PlayStation 5 &amp; DSTV bracket integration</span>
+                                </li>
+                            </ul>
+
+                            <details class="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-xl border border-slate-200/80 cursor-pointer group-open:bg-amber-50/40">
+                                <summary class="font-bold text-slate-700 select-none hover:text-amber-600 flex items-center justify-between">
+                                    <span>🔍 Wall Compatibility &amp; Screws</span>
+                                    <span class="text-slate-400">▾</span>
+                                </summary>
+                                <div class="pt-2 text-[10px] space-y-1 text-slate-600 leading-normal">
+                                    <div>• Compatible with Stone, Concrete, Drywall &amp; Wooden studs</div>
+                                    <div>• Heavy-duty Fischer rawl bolts included with every installation</div>
+                                    <div>• Cable management ties and HDMI/Power testing included</div>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Mounting Labor From</span>
+                                <span class="text-base font-black font-mono text-slate-900">KES 2,000</span>
+                            </div>
+                            <button type="button" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-amber-600 text-white font-bold text-xs transition shadow-sm group-hover:scale-105 flex items-center gap-1">
+                                <span>Book Dispatch</span>
+                                <span>&rarr;</span>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Vector 3: Precision TV Wall Mounting -->
-                    <div data-category="tv_mounting" onclick="selectServiceCard('tv_mounting', 2000, 'Smart TV Wall Mounting (Fixed, Tilt or Swivel Bracket)')"
-                        class="service-card p-6 bg-slate-50 border border-slate-200 rounded-3xl hover:border-emerald-500 hover:bg-white hover:shadow-xl cursor-pointer transition duration-300 space-y-4 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-start">
-                                <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center border border-amber-100 group-hover:bg-amber-600 group-hover:text-white transition">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125z"></path>
-                                    </svg>
+                    <!-- Vector 3: 4-Week Practical Computer Packages & AI Bootcamp -->
+                    <div id="bootcamp-card" data-category="bootcamp_enrollment" data-service-key="bootcamp_enrollment" data-search="bootcamp computer packages typing excel word powerpoint ai chatgpt office training certificate skills"
+                        onclick="selectServiceCard('bootcamp_enrollment', 4500, 'Computer Packages & AI Productivity Bootcamp (4 Weeks)')"
+                        class="service-card group relative bg-gradient-to-b from-emerald-50/70 via-white to-emerald-50/20 border-2 border-emerald-500/80 rounded-3xl p-6 sm:p-7 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between cursor-pointer overflow-hidden">
+                        <div class="h-1.5 w-full bg-gradient-to-r from-emerald-500 to-teal-400 absolute top-0 left-0"></div>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-2xl flex items-center justify-center text-xl group-hover:bg-emerald-600 group-hover:text-white transition duration-300 shadow-inner">
+                                    🎓
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-amber-100 text-amber-800">⚡ 45 - 60 Mins</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-600 text-white shadow-xs">
+                                        ⭐ Next Cohort Open
+                                    </span>
+                                </div>
                             </div>
-                            <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition">Smart TV Wall Mounting &amp; Cabling</h3>
-                            <ul class="text-xs text-slate-600 space-y-2 leading-relaxed">
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Fixed, tilt, and heavy-duty swivel bracket anchoring</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Laser-leveled precision mounting (32" to 98"+ OLEDs)</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>In-wall / trunking cable casing concealment</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Soundbar, Apple TV &amp; DSTV bracket integration</span></li>
-                            </ul>
-                        </div>
-                        <div class="pt-4 border-t border-slate-200 flex justify-between items-center">
+
                             <div>
-                                <span class="text-[10px] text-slate-400 block font-semibold uppercase">Starting Rate</span>
-                                <span class="text-sm font-mono font-bold text-slate-900">KES 2,000</span>
+                                <span class="text-[10px] uppercase font-bold tracking-widest text-emerald-700 block mb-1">Accredited Career Training</span>
+                                <h3 class="text-xl font-extrabold text-slate-900 group-hover:text-emerald-700 transition">Computer Packages &amp; AI Bootcamp</h3>
+                                <p class="text-xs text-slate-600 mt-1 leading-relaxed">Practical 4-week workplace digital literacy &amp; AI workflows for school leavers and career starters.</p>
                             </div>
-                            <span class="text-xs font-bold text-emerald-600 group-hover:underline flex items-center gap-1">Select &amp; Book &rarr;</span>
+
+                            <ul class="text-xs text-slate-700 space-y-2.5 pt-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-200 text-emerald-900 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Touch-typing speed training (Target: 35+ WPM with 95% accuracy)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-200 text-emerald-900 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Advanced Microsoft Excel (Formulas, XLOOKUP, Pivot Tables, Dashboards)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-200 text-emerald-900 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Modern Generative AI productivity workflows (ChatGPT, Copilot &amp; Prompts)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-200 text-emerald-900 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Practical hands-on lab access + Official Certificate of Completion</span>
+                                </li>
+                            </ul>
+
+                            <details class="text-[11px] text-slate-600 bg-white/90 p-2.5 rounded-xl border border-emerald-200 cursor-pointer">
+                                <summary class="font-bold text-emerald-800 select-none hover:text-emerald-900 flex items-center justify-between">
+                                    <span>📅 Schedule: Weekdays &amp; Saturday Options</span>
+                                    <span class="text-emerald-600">▾</span>
+                                </summary>
+                                <div class="pt-2 text-[10px] space-y-1 text-slate-600 leading-normal">
+                                    <div>• Morning: 9:00 AM – 11:30 AM | Afternoon: 2:00 PM – 4:30 PM</div>
+                                    <div>• Weekend Cohorts: Saturdays 9:00 AM – 1:00 PM</div>
+                                    <div>• Includes 1-on-1 CV and Portfolio mentoring session</div>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="pt-5 mt-4 border-t border-emerald-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-emerald-700 block tracking-wider">All-Inclusive Tuition</span>
+                                <span class="text-base font-black font-mono text-emerald-800">KES 4,500</span>
+                            </div>
+                            <button type="button" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-md shadow-emerald-600/20 group-hover:scale-105 flex items-center gap-1">
+                                <span>Enroll Now</span>
+                                <span>&rarr;</span>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Vector 4: Web Design & Portals -->
-                    <div data-category="web_engineering" onclick="selectServiceCard('web_engineering', 15000, 'Custom Website Design, App Development or Maintenance')"
-                        class="service-card p-6 bg-slate-50 border border-slate-200 rounded-3xl hover:border-emerald-500 hover:bg-white hover:shadow-xl cursor-pointer transition duration-300 space-y-4 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-start">
-                                <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center border border-purple-100 group-hover:bg-purple-600 group-hover:text-white transition">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253"></path>
-                                    </svg>
+                    <!-- Vector 4: Web Portals & Custom Engineering -->
+                    <div data-category="web_engineering" data-service-key="web_engineering" data-search="web website development design portal saas supabase database react tailwind api domain hosting ssl"
+                        onclick="selectServiceCard('web_engineering', 15000, 'Custom Website Design, App Development or Maintenance')"
+                        class="service-card group relative bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-xs hover:shadow-2xl hover:border-purple-400 transition-all duration-300 flex flex-col justify-between cursor-pointer overflow-hidden">
+                        <div class="h-1.5 w-full bg-gradient-to-r from-purple-500 to-pink-500 absolute top-0 left-0"></div>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 bg-purple-50 text-purple-600 border border-purple-100 rounded-2xl flex items-center justify-center text-xl group-hover:bg-purple-600 group-hover:text-white transition duration-300 shadow-inner">
+                                    🌐
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-purple-100 text-purple-800">🚀 3 - 7 Days</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-purple-50 text-purple-700 border border-purple-200">
+                                        🚀 3 - 7 Days
+                                    </span>
+                                </div>
                             </div>
-                            <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition">Custom Web Portals &amp; Engineering</h3>
-                            <ul class="text-xs text-slate-600 space-y-2 leading-relaxed">
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Corporate landing pages, SaaS frontends &amp; portals</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Domain registration, cloud hosting &amp; SSL setup</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Database integration (Supabase, PostgreSQL, APIs)</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Website maintenance, security hardening &amp; SEO</span></li>
-                            </ul>
-                        </div>
-                        <div class="pt-4 border-t border-slate-200 flex justify-between items-center">
+
                             <div>
-                                <span class="text-[10px] text-slate-400 block font-semibold uppercase">Project Baseline</span>
-                                <span class="text-sm font-mono font-bold text-slate-900">KES 15,000</span>
+                                <span class="text-[10px] uppercase font-bold tracking-widest text-purple-600 block mb-1">Full-Stack Digital</span>
+                                <h3 class="text-xl font-extrabold text-slate-900 group-hover:text-purple-600 transition">Custom Web Portals &amp; Engineering</h3>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">High-performance corporate web portals, client dashboards, and cloud integrations.</p>
                             </div>
-                            <span class="text-xs font-bold text-emerald-600 group-hover:underline flex items-center gap-1">Select &amp; Book &rarr;</span>
+
+                            <ul class="text-xs text-slate-600 space-y-2.5 pt-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Bespoke responsive corporate websites &amp; interactive booking portals</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Cloud database integrations (Supabase PostgreSQL, Realtime &amp; Auth)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Domain setup, high-speed Cloudflare CDN, SSL &amp; custom email addresses</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>M-PESA Daraja STK Push &amp; automated notification webhooks</span>
+                                </li>
+                            </ul>
+
+                            <details class="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-xl border border-slate-200/80 cursor-pointer group-open:bg-purple-50/40">
+                                <summary class="font-bold text-slate-700 select-none hover:text-purple-600 flex items-center justify-between">
+                                    <span>🔍 Tech Stack &amp; Maintenance</span>
+                                    <span class="text-slate-400">▾</span>
+                                </summary>
+                                <div class="pt-2 text-[10px] space-y-1 text-slate-600 leading-normal">
+                                    <div>• HTML5 / Tailwind CSS / Modern ES6+ / Vue / React / Node.js</div>
+                                    <div>• 100% mobile-optimized and PageSpeed scores > 95/100</div>
+                                    <div>• Includes 30 days free post-launch support and security updates</div>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Project Package From</span>
+                                <span class="text-base font-black font-mono text-slate-900">KES 15,000</span>
+                            </div>
+                            <button type="button" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-purple-600 text-white font-bold text-xs transition shadow-sm group-hover:scale-105 flex items-center gap-1">
+                                <span>Get Quote</span>
+                                <span>&rarr;</span>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Vector 5: Data Recovery & Backups -->
-                    <div data-category="data_backup" onclick="selectServiceCard('data_backup', 2000, 'Hard Drive Data Recovery & Automated Cloud Backup')"
-                        class="service-card p-6 bg-slate-50 border border-slate-200 rounded-3xl hover:border-emerald-500 hover:bg-white hover:shadow-xl cursor-pointer transition duration-300 space-y-4 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-start">
-                                <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center border border-rose-100 group-hover:bg-rose-600 group-hover:text-white transition">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 5.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125m16.5 5.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"></path>
-                                    </svg>
+                    <!-- Vector 5: Hard Drive Data Recovery & Cloud Sync -->
+                    <div data-category="data_backup" data-service-key="data_backup" data-search="data recovery hard drive hdd ssd flash drive deleted files backup cloud onedrive google drive format restore"
+                        onclick="selectServiceCard('data_backup', 2000, 'Hard Drive Data Recovery & Automated Cloud Backup')"
+                        class="service-card group relative bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-xs hover:shadow-2xl hover:border-rose-400 transition-all duration-300 flex flex-col justify-between cursor-pointer overflow-hidden">
+                        <div class="h-1.5 w-full bg-gradient-to-r from-rose-500 to-red-600 absolute top-0 left-0"></div>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 bg-rose-50 text-rose-600 border border-rose-100 rounded-2xl flex items-center justify-center text-xl group-hover:bg-rose-600 group-hover:text-white transition duration-300 shadow-inner">
+                                    💾
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-rose-100 text-rose-800">🔒 12 - 24 Hours</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                                        🔒 12 - 24 Hours
+                                    </span>
+                                </div>
                             </div>
-                            <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition">Data Recovery &amp; Cloud Backups</h3>
-                            <ul class="text-xs text-slate-600 space-y-2 leading-relaxed">
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Crashed drive, formatted USB &amp; damaged SSD recovery</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Automated cloud sync (Google Drive, OneDrive, NAS)</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Safe system migration to new computers &amp; SSDs</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Confidential sanitization &amp; data wipe certificates</span></li>
-                            </ul>
-                        </div>
-                        <div class="pt-4 border-t border-slate-200 flex justify-between items-center">
+
                             <div>
-                                <span class="text-[10px] text-slate-400 block font-semibold uppercase">Standard Rate</span>
-                                <span class="text-sm font-mono font-bold text-slate-900">KES 2,000</span>
+                                <span class="text-[10px] uppercase font-bold tracking-widest text-rose-600 block mb-1">Forensic Data Services</span>
+                                <h3 class="text-xl font-extrabold text-slate-900 group-hover:text-rose-600 transition">Data Recovery &amp; Cloud Backups</h3>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">Emergency file salvage from crashed drives, corrupted partitions, and formatted media.</p>
                             </div>
-                            <span class="text-xs font-bold text-emerald-600 group-hover:underline flex items-center gap-1">Select &amp; Book &rarr;</span>
+
+                            <ul class="text-xs text-slate-600 space-y-2.5 pt-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Recovery from unbootable laptops, clicking HDDs, dead SSDs &amp; flash drives</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Corrupted partition table reconstruction &amp; deleted document salvaging</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Automated scheduled cloud backup configuration (Google Drive / OneDrive)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Strict non-disclosure confidentiality &amp; safe sanitization guarantees</span>
+                                </li>
+                            </ul>
+
+                            <details class="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-xl border border-slate-200/80 cursor-pointer group-open:bg-rose-50/40">
+                                <summary class="font-bold text-slate-700 select-none hover:text-rose-600 flex items-center justify-between">
+                                    <span>🔍 No Recovery, No Charge Guarantee</span>
+                                    <span class="text-slate-400">▾</span>
+                                </summary>
+                                <div class="pt-2 text-[10px] space-y-1 text-slate-600 leading-normal">
+                                    <div>• Free initial diagnostic scan to determine data recoverable percentage</div>
+                                    <div>• Extracted data securely delivered on encrypted flash or cloud link</div>
+                                    <div>• Zero risk policy: If data is 100% unrecoverable, labor is waived</div>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Diagnostic &amp; Labor From</span>
+                                <span class="text-base font-black font-mono text-slate-900">KES 2,000</span>
+                            </div>
+                            <button type="button" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-rose-600 text-white font-bold text-xs transition shadow-sm group-hover:scale-105 flex items-center gap-1">
+                                <span>Book Dispatch</span>
+                                <span>&rarr;</span>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Vector 6: Document Processing -->
-                    <div data-category="document_processing" onclick="selectServiceCard('document_processing', 500, 'Professional Document Typesetting, CV Branding & Cyber Filings')"
-                        class="service-card p-6 bg-slate-50 border border-slate-200 rounded-3xl hover:border-emerald-500 hover:bg-white hover:shadow-xl cursor-pointer transition duration-300 space-y-4 flex flex-col justify-between group">
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-start">
-                                <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center border border-indigo-100 group-hover:bg-indigo-600 group-hover:text-white transition">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.53-3h7.5m-7.5-3h7.5M6.75 21h10.5A2.25 2.25 0 0019.5 18.75V7.5a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 7.5v11.25A2.25 2.25 0 006.75 21z"></path>
-                                    </svg>
+                    <!-- Vector 6: Document Processing & Cyber Desk -->
+                    <div data-category="document_processing" data-service-key="document_processing" data-search="document typing cv resume ecitizen kra itax kra pin ntsa compliance pdf typeset scanning ocr format"
+                        onclick="selectServiceCard('document_processing', 500, 'Professional Document Typesetting, CV Branding & Cyber Filings')"
+                        class="service-card group relative bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-xs hover:shadow-2xl hover:border-indigo-400 transition-all duration-300 flex flex-col justify-between cursor-pointer overflow-hidden">
+                        <div class="h-1.5 w-full bg-gradient-to-r from-indigo-500 to-cyan-500 absolute top-0 left-0"></div>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 bg-indigo-50 text-indigo-600 border border-indigo-100 rounded-2xl flex items-center justify-center text-xl group-hover:bg-indigo-600 group-hover:text-white transition duration-300 shadow-inner">
+                                    📄
                                 </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-indigo-100 text-indigo-800">⚡ 30 - 60 Mins</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                                        ⚡ 30 Mins
+                                    </span>
+                                </div>
                             </div>
-                            <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition">Document Processing &amp; Cyber Desk</h3>
-                            <ul class="text-xs text-slate-600 space-y-2 leading-relaxed">
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Executive CV / Resume design &amp; ATS keyword tuning</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>Academic &amp; commercial project typesetting</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>PDF form creation, digital signing &amp; OCR conversion</span></li>
-                                <li class="flex items-start gap-1.5"><span class="text-emerald-500 font-bold shrink-0">✓</span><span>eCitizen, KRA iTax, NTSA &amp; compliance portal assistance</span></li>
-                            </ul>
-                        </div>
-                        <div class="pt-4 border-t border-slate-200 flex justify-between items-center">
+
                             <div>
-                                <span class="text-[10px] text-slate-400 block font-semibold uppercase">Starting Rate</span>
-                                <span class="text-sm font-mono font-bold text-slate-900">KES 500</span>
+                                <span class="text-[10px] uppercase font-bold tracking-widest text-indigo-600 block mb-1">Secretariat Office Services</span>
+                                <h3 class="text-xl font-extrabold text-slate-900 group-hover:text-indigo-600 transition">Document Processing &amp; Cyber Desk</h3>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">Typesetting, executive CV formatting, PDF workflows, and statutory portal filings.</p>
                             </div>
-                            <span class="text-xs font-bold text-emerald-600 group-hover:underline flex items-center gap-1">Select &amp; Book &rarr;</span>
+
+                            <ul class="text-xs text-slate-600 space-y-2.5 pt-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Executive CV &amp; Resume branding (ATS keyword optimization)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>High-speed optical scanning, OCR conversions &amp; PDF encryption</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>eCitizen, KRA iTax, NTSA Timms &amp; CA portal statutory assistance</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">✓</span>
+                                    <span>Academic thesis typesetting, legal formatting &amp; proofreading</span>
+                                </li>
+                            </ul>
+
+                            <details class="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-xl border border-slate-200/80 cursor-pointer group-open:bg-indigo-50/40">
+                                <summary class="font-bold text-slate-700 select-none hover:text-indigo-600 flex items-center justify-between">
+                                    <span>🔍 Turnaround &amp; Digital Delivery</span>
+                                    <span class="text-slate-400">▾</span>
+                                </summary>
+                                <div class="pt-2 text-[10px] space-y-1 text-slate-600 leading-normal">
+                                    <div>• Instant turnaround via WhatsApp or secure download link</div>
+                                    <div>• Print-ready PDF &amp; editable Word (.docx) formats provided</div>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="pt-5 mt-4 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Service Desk Starting At</span>
+                                <span class="text-base font-black font-mono text-slate-900">KES 500</span>
+                            </div>
+                            <button type="button" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-indigo-600 text-white font-bold text-xs transition shadow-sm group-hover:scale-105 flex items-center gap-1">
+                                <span>Book Dispatch</span>
+                                <span>&rarr;</span>
+                            </button>
                         </div>
                     </div>
 
+                </div>
+
+                <!-- No Results Search Fallback (Hidden by default) -->
+                <div id="noServicesFound" class="hidden text-center py-16 bg-white border border-slate-200 rounded-3xl p-8 max-w-md mx-auto">
+                    <div class="text-4xl mb-3">🔍</div>
+                    <h3 class="text-base font-bold text-slate-900 mb-1">No Matching Vectors Found</h3>
+                    <p class="text-xs text-slate-500 mb-4">Try searching for other terms like "laptop", "TV", "mounting", "excel", or "recovery".</p>
+                    <button type="button" onclick="clearServiceSearch()" class="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-emerald-600 transition">
+                        Reset All Filters
+                    </button>
                 </div>
             </div>
         </section>
@@ -546,65 +870,69 @@
                     </div>
                 </div>
 
-                <!-- 4-Week Syllabus Grid -->
-                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 4-Week Syllabus Grid with Progressive Visual Depth -->
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
                     <!-- Week 1 -->
-                    <div class="bg-slate-800/60 border border-slate-700/70 rounded-2xl p-6 space-y-4 hover:border-emerald-500/50 transition">
+                    <div class="group bg-slate-800/80 backdrop-blur-md border border-slate-700/80 rounded-2xl p-6 space-y-4 hover:border-emerald-500/70 hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300 relative overflow-hidden">
+                        <div class="h-1 w-full bg-gradient-to-r from-emerald-500 to-teal-400 absolute top-0 left-0"></div>
                         <div class="flex justify-between items-center">
-                            <span class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs font-mono font-bold">Week 01</span>
-                            <span class="text-xs text-slate-400">Foundations</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 text-xs font-mono font-bold border border-emerald-500/25">Week 01</span>
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Foundations</span>
                         </div>
-                        <h3 class="text-base font-bold text-white">Touch-Typing &amp; OS Fundamentals</h3>
+                        <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition">Touch-Typing &amp; OS Fundamentals</h3>
                         <p class="text-xs text-slate-400 leading-relaxed">
                             Master 10-finger touch typing speed (WPM benchmarks), Windows/macOS file management, shortcuts, cloud storage sync, and cybersecurity hygiene.
                         </p>
-                        <div class="pt-3 border-t border-slate-700/50 text-[11px] font-mono text-emerald-400">
-                            ✓ Benchmark: 35+ WPM typing
+                        <div class="pt-3 border-t border-slate-700/60 text-[11px] font-mono text-emerald-400 flex items-center gap-1.5">
+                            <span>✓</span> Benchmark: 35+ WPM typing
                         </div>
                     </div>
 
                     <!-- Week 2 -->
-                    <div class="bg-slate-800/60 border border-slate-700/70 rounded-2xl p-6 space-y-4 hover:border-emerald-500/50 transition">
+                    <div class="group bg-slate-800/80 backdrop-blur-md border border-slate-700/80 rounded-2xl p-6 space-y-4 hover:border-blue-500/70 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 relative overflow-hidden">
+                        <div class="h-1 w-full bg-gradient-to-r from-blue-500 to-sky-400 absolute top-0 left-0"></div>
                         <div class="flex justify-between items-center">
-                            <span class="px-2.5 py-1 rounded-lg bg-blue-500/10 text-blue-400 text-xs font-mono font-bold">Week 02</span>
-                            <span class="text-xs text-slate-400">Data Mastery</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-blue-500/15 text-blue-400 text-xs font-mono font-bold border border-blue-500/25">Week 02</span>
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Data Mastery</span>
                         </div>
-                        <h3 class="text-base font-bold text-white">Advanced Microsoft Excel</h3>
+                        <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition">Advanced Microsoft Excel</h3>
                         <p class="text-xs text-slate-400 leading-relaxed">
                             Formulas (SUMIFS, XLOOKUP, IF/AND), automated Pivot Tables, interactive dashboards, data sorting, budgeting sheets, and payroll templates.
                         </p>
-                        <div class="pt-3 border-t border-slate-700/50 text-[11px] font-mono text-blue-400">
-                            ✓ Real-world financial models
+                        <div class="pt-3 border-t border-slate-700/60 text-[11px] font-mono text-blue-400 flex items-center gap-1.5">
+                            <span>✓</span> Real-world financial models
                         </div>
                     </div>
 
                     <!-- Week 3 -->
-                    <div class="bg-slate-800/60 border border-slate-700/70 rounded-2xl p-6 space-y-4 hover:border-emerald-500/50 transition">
+                    <div class="group bg-slate-800/80 backdrop-blur-md border border-slate-700/80 rounded-2xl p-6 space-y-4 hover:border-amber-500/70 hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-500/10 transition-all duration-300 relative overflow-hidden">
+                        <div class="h-1 w-full bg-gradient-to-r from-amber-500 to-orange-400 absolute top-0 left-0"></div>
                         <div class="flex justify-between items-center">
-                            <span class="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 text-xs font-mono font-bold">Week 03</span>
-                            <span class="text-xs text-slate-400">Publishing</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-400 text-xs font-mono font-bold border border-amber-500/25">Week 03</span>
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Publishing</span>
                         </div>
-                        <h3 class="text-base font-bold text-white">Word &amp; PowerPoint Presentations</h3>
+                        <h3 class="text-base font-bold text-white group-hover:text-amber-400 transition">Word &amp; PowerPoint Presentations</h3>
                         <p class="text-xs text-slate-400 leading-relaxed">
                             Executive document design, mail merge, commercial proposals, and engaging pitch deck slides with animations and infographic charts.
                         </p>
-                        <div class="pt-3 border-t border-slate-700/50 text-[11px] font-mono text-amber-400">
-                            ✓ Professional CV &amp; Pitch Deck
+                        <div class="pt-3 border-t border-slate-700/60 text-[11px] font-mono text-amber-400 flex items-center gap-1.5">
+                            <span>✓</span> Professional CV &amp; Pitch Deck
                         </div>
                     </div>
 
                     <!-- Week 4 -->
-                    <div class="bg-slate-800/60 border border-slate-700/70 rounded-2xl p-6 space-y-4 hover:border-emerald-500/50 transition">
+                    <div class="group bg-slate-800/80 backdrop-blur-md border border-slate-700/80 rounded-2xl p-6 space-y-4 hover:border-purple-500/70 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 relative overflow-hidden">
+                        <div class="h-1 w-full bg-gradient-to-r from-purple-500 to-pink-400 absolute top-0 left-0"></div>
                         <div class="flex justify-between items-center">
-                            <span class="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-400 text-xs font-mono font-bold">Week 04</span>
-                            <span class="text-xs text-slate-400">Next-Gen</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-purple-500/15 text-purple-400 text-xs font-mono font-bold border border-purple-500/25">Week 04</span>
+                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Next-Gen</span>
                         </div>
-                        <h3 class="text-base font-bold text-white">Applied AI &amp; Cloud Workflows</h3>
+                        <h3 class="text-base font-bold text-white group-hover:text-purple-400 transition">Applied AI &amp; Cloud Workflows</h3>
                         <p class="text-xs text-slate-400 leading-relaxed">
                             Prompt engineering with ChatGPT &amp; Gemini, Google Workspace collaboration, digital resume optimization, and statutory eCitizen / KRA filings.
                         </p>
-                        <div class="pt-3 border-t border-slate-700/50 text-[11px] font-mono text-purple-400">
-                            ✓ Accredited Certificate Award
+                        <div class="pt-3 border-t border-slate-700/60 text-[11px] font-mono text-purple-400 flex items-center gap-1.5">
+                            <span>✓</span> Accredited Certificate Award
                         </div>
                     </div>
                 </div>
@@ -644,39 +972,87 @@
         </section>
 
         <!-- INTERACTIVE RATE ESTIMATOR -->
-        <section id="estimator" class="py-20 bg-slate-100 border-b border-slate-200">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 shadow-xl space-y-8">
-                    <div class="text-center space-y-1">
-                        <span class="text-xs font-mono font-bold text-emerald-600 uppercase tracking-widest">TRANSPARENT PRICING</span>
-                        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Interactive Service & Turnaround Calculator</h2>
-                        <p class="text-xs text-slate-500">Click a package below to view instant cost estimates and auto-select.</p>
+        <section id="estimator" class="py-24 bg-gradient-to-b from-slate-100 to-white border-b border-slate-200">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 shadow-xl space-y-8 relative overflow-hidden">
+                    <div class="text-center space-y-2 max-w-2xl mx-auto">
+                        <span class="text-xs font-mono font-bold text-emerald-700 uppercase tracking-widest bg-emerald-50 px-3.5 py-1 rounded-full border border-emerald-200 inline-block shadow-2xs">
+                            TRANSPARENT PRICING &amp; SLA BENCHMARKS
+                        </span>
+                        <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Interactive Service &amp; Turnaround Estimator</h2>
+                        <p class="text-xs sm:text-sm text-slate-500 leading-relaxed">
+                            Select an engineering service below for an instant transparent diagnostic quote, turnaround SLA, and automatic booking configuration.
+                        </p>
                     </div>
 
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-                        <button type="button" onclick="calculateQuote('repair', this); selectServiceCard('computer_repair', 1500, 'Laptop & Computer Hardware Repair / OS Tune-up', false)" class="calc-btn p-3 bg-emerald-50 border-2 border-emerald-500 text-emerald-800 rounded-2xl text-xs font-bold transition shadow-sm">
-                            💻 Laptop Repair
+                    <!-- 4 Interactive Preset Buttons -->
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 text-center">
+                        <button type="button" onclick="calculateQuote('repair', this); selectServiceCard('computer_repair', 1500, 'Laptop & Computer Hardware Repair / OS Tune-up', false)" 
+                            class="calc-btn group p-4 bg-emerald-50 border-2 border-emerald-500 text-emerald-800 rounded-2xl text-xs font-bold transition shadow-sm flex flex-col items-center justify-between gap-2">
+                            <span class="text-2xl">💻</span>
+                            <span class="font-extrabold text-slate-900 group-hover:text-emerald-700">Laptop Repair</span>
+                            <span class="text-[10px] font-mono font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md">From KES 1,500</span>
                         </button>
-                        <button type="button" onclick="calculateQuote('tv', this); selectServiceCard('tv_mounting', 2000, 'Smart TV Wall Mounting (Fixed, Tilt or Swivel Bracket)', false)" class="calc-btn p-3 bg-slate-50 border border-slate-200 text-slate-700 hover:border-emerald-300 rounded-2xl text-xs font-bold transition">
-                            📺 TV Wall Mount
+                        <button type="button" onclick="calculateQuote('tv', this); selectServiceCard('tv_mounting', 2000, 'Smart TV Wall Mounting (Fixed, Tilt or Swivel Bracket)', false)" 
+                            class="calc-btn group p-4 bg-slate-50 border border-slate-200 text-slate-700 hover:border-emerald-300 rounded-2xl text-xs font-bold transition flex flex-col items-center justify-between gap-2">
+                            <span class="text-2xl">📺</span>
+                            <span class="font-extrabold text-slate-900 group-hover:text-emerald-700">TV Wall Mount</span>
+                            <span class="text-[10px] font-mono font-bold text-slate-600 bg-slate-200/80 px-2 py-0.5 rounded-md">From KES 2,000</span>
                         </button>
-                        <button type="button" onclick="calculateQuote('bootcamp', this); selectServiceCard('bootcamp_enrollment', 4500, 'Computer Packages & AI Productivity Bootcamp (4 Weeks)', false)" class="calc-btn p-3 bg-slate-50 border border-slate-200 text-slate-700 hover:border-emerald-300 rounded-2xl text-xs font-bold transition">
-                            🎓 Skills Bootcamp
+                        <button type="button" onclick="calculateQuote('bootcamp', this); selectServiceCard('bootcamp_enrollment', 4500, 'Computer Packages & AI Productivity Bootcamp (4 Weeks)', false)" 
+                            class="calc-btn group p-4 bg-slate-50 border border-slate-200 text-slate-700 hover:border-emerald-300 rounded-2xl text-xs font-bold transition flex flex-col items-center justify-between gap-2">
+                            <span class="text-2xl">🎓</span>
+                            <span class="font-extrabold text-slate-900 group-hover:text-emerald-700">Skills Bootcamp</span>
+                            <span class="text-[10px] font-mono font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md">KES 4,500 Total</span>
                         </button>
-                        <button type="button" onclick="calculateQuote('backup', this); selectServiceCard('data_backup', 2000, 'Hard Drive Data Recovery & Automated Cloud Backup', false)" class="calc-btn p-3 bg-slate-50 border border-slate-200 text-slate-700 hover:border-emerald-300 rounded-2xl text-xs font-bold transition">
-                            💾 Data Recovery
+                        <button type="button" onclick="calculateQuote('backup', this); selectServiceCard('data_backup', 2000, 'Hard Drive Data Recovery & Automated Cloud Backup', false)" 
+                            class="calc-btn group p-4 bg-slate-50 border border-slate-200 text-slate-700 hover:border-emerald-300 rounded-2xl text-xs font-bold transition flex flex-col items-center justify-between gap-2">
+                            <span class="text-2xl">💾</span>
+                            <span class="font-extrabold text-slate-900 group-hover:text-emerald-700">Data Recovery</span>
+                            <span class="text-[10px] font-mono font-bold text-slate-600 bg-slate-200/80 px-2 py-0.5 rounded-md">From KES 2,000</span>
                         </button>
                     </div>
 
-                    <div id="calcResultCard" class="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-center gap-6">
-                        <div class="space-y-1.5 text-center sm:text-left">
-                            <span id="calcServiceName" class="text-sm font-bold text-slate-900 block">Laptop Diagnostic & Optimization</span>
-                            <p id="calcServiceDesc" class="text-xs text-slate-600 max-w-md">Includes complete hardware health scan, thermal paste renewal, dust cleaning, and OS speedup.</p>
-                            <span id="calcTurnaround" class="inline-block text-[11px] font-mono text-emerald-700 font-semibold">⏱️ Est. Turnaround: 2 - 4 Hours</span>
+                    <!-- Dynamic Quote Result Card & Interactive Configurator -->
+                    <div id="calcResultCard" class="bg-gradient-to-br from-slate-50 to-emerald-50/20 border border-slate-200 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row justify-between items-start gap-6">
+                        <div class="space-y-4 text-left flex-1 w-full">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span id="calcServiceName" class="text-base sm:text-lg font-black text-slate-900">Laptop Diagnostic &amp; Optimization</span>
+                                <span class="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase bg-emerald-100 text-emerald-800 border border-emerald-200">
+                                    30-Day Warranty Included
+                                </span>
+                            </div>
+                            <p id="calcServiceDesc" class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl">
+                                Complete hardware health scan, internal thermal paste renewal, dust cleaning, and OS speedup.
+                            </p>
+
+                            <!-- Interactive Add-ons & Spec Options (Dynamic Container) -->
+                            <div id="calcAddonsBox" class="p-3.5 bg-white/90 border border-slate-200/90 rounded-2xl space-y-2.5">
+                                <span class="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider block">Customize Service Scope / Add-ons:</span>
+                                <div id="calcOptionPills" class="flex flex-wrap gap-2 text-xs">
+                                    <!-- Rendered dynamically via JS based on selected active category -->
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap items-center gap-4 pt-1">
+                                <span id="calcTurnaround" class="inline-flex items-center gap-1.5 text-xs font-mono text-emerald-800 font-bold bg-white px-3 py-1 rounded-lg border border-emerald-200 shadow-2xs">
+                                    ⏱️ Est. Turnaround: 2 - 4 Hours
+                                </span>
+                                <span class="text-xs text-slate-500 flex items-center gap-1">
+                                    <span>📍</span> All Nairobi Estates Dispatched
+                                </span>
+                            </div>
                         </div>
-                        <div class="text-center sm:text-right shrink-0 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                            <span class="text-[10px] uppercase font-mono text-slate-400 block">Estimated Baseline</span>
-                            <span id="calcPrice" class="text-2xl font-black font-mono text-emerald-600">KES 1,500</span>
+
+                        <div class="text-center md:text-right shrink-0 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm w-full md:w-auto space-y-3">
+                            <div>
+                                <span class="text-[10px] uppercase font-mono font-bold text-slate-400 block tracking-wider">Estimated Total Fee</span>
+                                <span id="calcPrice" class="text-3xl font-black font-mono text-emerald-600">KES 1,500</span>
+                            </div>
+                            <button type="button" onclick="applyConfiguratorToBooking()" class="w-full inline-flex items-center justify-center gap-1.5 px-5 py-3 bg-slate-900 hover:bg-emerald-600 text-white font-bold text-xs rounded-xl transition duration-200 shadow-md hover:scale-[1.02]">
+                                <span>Apply to Booking Form</span>
+                                <span>&rarr;</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -777,6 +1153,18 @@
                                             <option value="custom_other">✏️ Other (Specify Below)</option>
                                         </select>
 
+                                        <!-- Quick Nairobi Estate Selection Pills -->
+                                        <div class="flex flex-wrap gap-1.5 pt-2">
+                                            <button type="button" onclick="setQuickEstate('Westlands')" class="estate-pill px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-emerald-100 text-slate-700 hover:text-emerald-800 text-[10px] font-semibold transition">Westlands</button>
+                                            <button type="button" onclick="setQuickEstate('Kilimani')" class="estate-pill px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-emerald-100 text-slate-700 hover:text-emerald-800 text-[10px] font-semibold transition">Kilimani</button>
+                                            <button type="button" onclick="setQuickEstate('Karen')" class="estate-pill px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-emerald-100 text-slate-700 hover:text-emerald-800 text-[10px] font-semibold transition">Karen</button>
+                                            <button type="button" onclick="setQuickEstate('Nairobi CBD')" class="estate-pill px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-emerald-100 text-slate-700 hover:text-emerald-800 text-[10px] font-semibold transition">CBD</button>
+                                            <button type="button" onclick="setQuickEstate('South B')" class="estate-pill px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-emerald-100 text-slate-700 hover:text-emerald-800 text-[10px] font-semibold transition">South B</button>
+                                            <button type="button" onclick="setQuickEstate('Roysambu')" class="estate-pill px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-emerald-100 text-slate-700 hover:text-emerald-800 text-[10px] font-semibold transition">Roysambu</button>
+                                            <button type="button" onclick="setQuickEstate('Ruaka')" class="estate-pill px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-emerald-100 text-slate-700 hover:text-emerald-800 text-[10px] font-semibold transition">Ruaka</button>
+                                            <button type="button" onclick="setQuickEstate('Lavington')" class="estate-pill px-2 py-0.5 rounded-lg bg-slate-100 hover:bg-emerald-100 text-slate-700 hover:text-emerald-800 text-[10px] font-semibold transition">Lavington</button>
+                                        </div>
+
                                         <input type="text" id="proCustomLocationInput" placeholder="Specify Building / Street / Town..."
                                             class="hidden mt-2 w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white outline-none transition">
                                     </div>
@@ -802,6 +1190,16 @@
                                 </div>
                                 <textarea id="proCustNotes" rows="3" placeholder="e.g. 55-inch Samsung OLED wall mount with concealed trunking, or HP Pavilion laptop SSD 512GB upgrade + RAM..."
                                     class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:bg-white focus:ring-2 focus:ring-emerald-500 outline-none transition"></textarea>
+
+                                <!-- Quick Scope Suggestion Tags -->
+                                <div class="flex flex-wrap items-center gap-1.5 text-[11px] pt-1">
+                                    <span class="text-slate-400 font-semibold text-[10px] uppercase">Quick Add:</span>
+                                    <button type="button" onclick="appendScopeTag('Cracked Screen / Display Panel Replacement')" class="px-2 py-0.5 bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 rounded-md border border-slate-200 transition">+ Screen Repair</button>
+                                    <button type="button" onclick="appendScopeTag('55-inch OLED Wall Mounting with Concealed PVC Trunking')" class="px-2 py-0.5 bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 rounded-md border border-slate-200 transition">+ 55\" OLED Mount</button>
+                                    <button type="button" onclick="appendScopeTag('Internal Thermal Paste Servicing + Fan Cleaning')" class="px-2 py-0.5 bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 rounded-md border border-slate-200 transition">+ Overheating Service</button>
+                                    <button type="button" onclick="appendScopeTag('SSD 512GB Fast Drive Upgrade + RAM 16GB')" class="px-2 py-0.5 bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 rounded-md border border-slate-200 transition">+ SSD Upgrade</button>
+                                    <button type="button" onclick="appendScopeTag('Hard Drive Data Extraction & Cloud Backup')" class="px-2 py-0.5 bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 rounded-md border border-slate-200 transition">+ Data Recovery</button>
+                                </div>
                             </div>
 
                             <button type="submit" id="proSubmitBtn"
@@ -847,6 +1245,31 @@
                                 </div>
                             </div>
 
+                            <!-- M-PESA Payment Settlement Callout -->
+                            <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3.5 space-y-2 text-xs">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] font-mono font-bold text-emerald-800 uppercase tracking-wider flex items-center gap-1.5">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                        Lipa na M-PESA Receiver
+                                    </span>
+                                    <span class="text-[9px] bg-emerald-100 text-emerald-800 font-mono font-bold px-1.5 py-0.5 rounded">Verified</span>
+                                </div>
+                                <div class="flex items-center justify-between bg-white p-2.5 rounded-xl border border-emerald-200/80 shadow-2xs">
+                                    <div>
+                                        <span class="text-[10px] text-slate-400 block font-mono">Buy Goods Till Number:</span>
+                                        <span class="text-base font-black font-mono text-slate-900 tracking-wider">4676122</span>
+                                    </div>
+                                    <button type="button" onclick="navigator.clipboard.writeText('4676122'); showToast({title:'Copied', message:'Till 4676122 copied to clipboard.', type:'success'});"
+                                        class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-[11px] font-bold rounded-lg transition shadow-2xs flex items-center gap-1">
+                                        📋 Copy
+                                    </button>
+                                </div>
+                                <div class="text-[10px] text-slate-500 flex justify-between items-center">
+                                    <span>Or Paybill: <strong>247247</strong></span>
+                                    <span>Acc: <strong>194489</strong></span>
+                                </div>
+                            </div>
+
                             <!-- Trust Assurance Points -->
                             <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4 space-y-2.5 text-xs text-slate-600">
                                 <div class="flex items-center gap-2">
@@ -863,14 +1286,14 @@
                                 </div>
                             </div>
 
-                            <!-- Instant WhatsApp Follow-up -->
-                            <div class="pt-1 text-center">
-                                <a href="https://wa.me/254723489194?text=Hello%20Wankilb%20ProTech,%20I%20have%20an%20inquiry%20regarding%20a%20technical%20service%20callout."
-                                    target="_blank" rel="noopener noreferrer"
-                                    class="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-bold transition">
+                            <!-- Instant 1-Click WhatsApp Booking -->
+                            <div class="pt-1 text-center space-y-2">
+                                <button type="button" onclick="openDirectWhatsAppDispatch()"
+                                    class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-extrabold transition shadow-md hover:scale-[1.01]">
                                     <span>💬</span>
-                                    <span>Dispatch Desk WhatsApp: +254 723 489 194</span>
-                                </a>
+                                    <span>Instant 1-Click WhatsApp Dispatch</span>
+                                </button>
+                                <span class="text-[10px] text-slate-400 block font-mono">Direct chat with Nairobi dispatch engineer</span>
                             </div>
                         </div>
                     </div>
@@ -1037,18 +1460,36 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 text-xs">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
-            <div class="space-y-1">
-                <span class="font-bold text-white block">Wankilb ProTech &amp; Skills Solutions</span>
-                <p class="text-slate-400">
-                    Nairobi, Kenya • Call: <a href="tel:+254723489194" class="text-slate-300 hover:text-white transition">+254 723 489 194</a> • 
-                    <a href="https://wa.me/254723489194" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 font-semibold transition">💬 WhatsApp: +254 723 489 194</a> • 
+    <footer class="bg-slate-950 text-slate-400 py-14 border-t border-slate-800 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+                <div class="flex items-center space-x-3.5">
+                    <div class="w-10 h-10 rounded-2xl overflow-hidden shadow-xs ring-1 ring-white/10 shrink-0">
+                        <img src="assets/logo-icon.svg" alt="Wankilb ProTech Logo" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-white text-base block tracking-tight">WANKILB <span class="text-emerald-400">PROTECH</span> &amp; SKILLS</span>
+                        <p class="text-[11px] text-slate-400">On-Demand Computer Hardware • Precision TV Mounting • Web Engineering • Skills Bootcamp</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold">
+                    <a href="#services" class="hover:text-white transition">Services Matrix</a>
+                    <a href="#bootcamp" class="hover:text-emerald-400 text-emerald-300 transition">🎓 AI Bootcamp</a>
+                    <a href="#booking" class="hover:text-white transition">Book Callout</a>
+                    <a href="#tracking" class="hover:text-white transition">Track Ticket</a>
+                    <a href="index.html" class="hover:text-brand-300 text-brand-400 transition">✈️ Spectrum Regulatory Practice</a>
+                    <a href="client.html" class="hover:text-white transition">Client Portal</a>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row justify-between items-center gap-3 text-[11px] text-slate-500 text-center sm:text-left">
+                <p>
+                    Nairobi, Kenya • Phone: <a href="tel:+254723489194" class="text-slate-300 hover:text-white transition">+254 723 489 194</a> • 
+                    <a href="https://wa.me/254723489194" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 font-semibold transition">💬 WhatsApp Dispatch</a> • 
                     Email: <a href="mailto:kilbdynamicsltd@gmail.com" class="text-slate-300 hover:text-white transition">kilbdynamicsltd@gmail.com</a>
                 </p>
-            </div>
-            <div>
-                <p>&copy; 2024 - 2026 Wankilb ProTech. All rights reserved.</p>
+                <p>&copy; 2024 - 2026 Wankilb ProTech &amp; AeroTeleConsult Kenya. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -1148,6 +1589,18 @@
                         </tbody>
                     </table>
 
+                    <!-- M-PESA Settlement Channels -->
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3 text-xs text-slate-800 flex flex-wrap items-center justify-between gap-2">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold flex items-center justify-center text-[11px]">M</span>
+                            <span class="font-bold">M-PESA Settlement:</span>
+                            <span class="bg-white px-2 py-0.5 rounded-md border border-emerald-300">Buy Goods Till: <strong class="font-mono text-emerald-800 font-bold">4676122</strong></span>
+                            <span>or</span>
+                            <span class="text-slate-600 font-mono text-[11px]">Paybill: <strong>247247</strong> (Acc: <strong>194489</strong>)</span>
+                        </div>
+                        <span class="text-[10px] text-slate-500 font-mono">Instant Verification</span>
+                    </div>
+
                     <div class="text-[10px] text-slate-400 border-t border-slate-200 pt-3 flex justify-between">
                         <span>Certified Workmanship Warranty & Quality Guarantee</span>
                         <span>Wankilb ProTech Kenya</span>
@@ -1177,6 +1630,13 @@
                         <div id="eposService" class="font-bold pl-2"></div>
                         <div id="eposPrice" class="font-mono font-bold text-emerald-800 pl-2"></div>
                         <div id="eposNotes" class="text-[10px] pl-2 text-slate-700"></div>
+                    </div>
+
+                    <div class="border-t border-dashed border-black my-1"></div>
+                    <div class="text-[9px] text-left">
+                        <div><strong>PAY VIA M-PESA:</strong></div>
+                        <div>Buy Goods Till: <strong>4676122</strong></div>
+                        <div>Paybill: 247247 | Acc: 194489</div>
                     </div>
 
                     <div class="border-t border-dashed border-black my-2"></div>
@@ -1226,13 +1686,21 @@
             document_processing: { price: 500, label: "KES 500" }
         };
 
-        // Click-to-Auto-Select Function
+        // Click-to-Auto-Select Function with Visual Active Ring State
         window.selectServiceCard = function(serviceKey, price, serviceName, shouldScroll = true) {
             const selectEl = document.getElementById('proServiceTrack');
             if (selectEl) {
                 selectEl.value = serviceKey;
                 handleServiceDropdownChange();
             }
+
+            // Visual active card ring
+            document.querySelectorAll('.service-card').forEach(c => {
+                c.classList.remove('ring-4', 'ring-emerald-500/40', 'border-emerald-500', 'bg-emerald-50/20');
+                if (c.getAttribute('data-service-key') === serviceKey || c.getAttribute('data-category') === serviceKey) {
+                    c.classList.add('ring-4', 'ring-emerald-500/40', 'border-emerald-500', 'bg-emerald-50/20');
+                }
+            });
 
             if (shouldScroll) {
                 const bookingSection = document.getElementById('booking');
@@ -1369,47 +1837,227 @@
             );
         }
 
-        // Rate Calculator Presets
+        // Interactive Rate Calculator Presets & Add-ons
         const quotePresets = {
             repair: {
+                baseKey: "computer_repair",
                 title: "Laptop Hardware Diagnostic & Optimization",
                 desc: "Full motherboard health check, cooling fan thermal cleaning, dust removal, and OS speedup.",
                 turnaround: "⏱️ Est. Turnaround: 2 - 4 Hours",
+                basePrice: 1500,
                 price: "KES 1,500"
             },
             tv: {
+                baseKey: "tv_mounting",
                 title: "Precision Smart TV Wall Mounting",
                 desc: "Includes laser leveling, heavy-duty wall anchoring (32\"-75\"), and cable concealment.",
                 turnaround: "⏱️ Est. Turnaround: 45 - 60 Minutes",
+                basePrice: 2000,
                 price: "KES 2,000"
             },
             bootcamp: {
+                baseKey: "bootcamp_enrollment",
                 title: "Computer Packages & AI Bootcamp (4 Weeks)",
                 desc: "Touch-typing, Advanced Excel/Word/PowerPoint, ChatGPT workflows, and Certificate of Completion.",
                 turnaround: "⏱️ Schedule: Weekday or Weekend Cohorts",
+                basePrice: 4500,
                 price: "KES 4,500"
             },
             backup: {
+                baseKey: "data_backup",
                 title: "Hard Drive Data Recovery & Cloud Sync",
                 desc: "File extraction from crashed drives, partition recovery, and automated Google Drive/OneDrive sync.",
                 turnaround: "⏱️ Est. Turnaround: 24 Hours",
+                basePrice: 2000,
                 price: "KES 2,000"
             }
         };
 
+        const configuratorAddons = {
+            repair: [
+                { id: "rep_diag", label: "Diagnostic Baseline", price: 0, checked: true },
+                { id: "rep_paste", label: "+ Arctic MX-4 Thermal Paste (+KES 500)", price: 500, checked: false },
+                { id: "rep_screen", label: "+ Screen Replacement (+KES 1,500)", price: 1500, checked: false },
+                { id: "rep_ssd", label: "+ SSD 512GB Fast Drive (+KES 3,000)", price: 3000, checked: false }
+            ],
+            tv: [
+                { id: "tv_std", label: "32\" - 43\" Anchor", price: 0, checked: true },
+                { id: "tv_med", label: "50\" - 65\" Mount (+KES 800)", price: 800, checked: false },
+                { id: "tv_large", label: "70\" - 85\"+ Heavy Mount (+KES 1,500)", price: 1500, checked: false },
+                { id: "tv_tilt", label: "+ Heavy Tilting Bracket (+KES 2,000)", price: 2000, checked: false },
+                { id: "tv_trunk", label: "+ PVC Concealed Trunking (+KES 800)", price: 800, checked: false }
+            ],
+            bootcamp: [
+                { id: "bc_am", label: "Morning Cohort (8am - 10am)", price: 0, checked: true },
+                { id: "bc_pm", label: "Evening Cohort (5pm - 7pm)", price: 0, checked: false },
+                { id: "bc_wknd", label: "Weekend Saturday (9am - 1pm)", price: 0, checked: false }
+            ],
+            backup: [
+                { id: "bk_std", label: "Logical Drive File Extraction", price: 0, checked: true },
+                { id: "bk_bad", label: "+ Failing Mechanical Drive Scan (+KES 1,500)", price: 1500, checked: false },
+                { id: "bk_sync", label: "+ Google Drive / OneDrive Sync (+KES 1,000)", price: 1000, checked: false }
+            ]
+        };
+
+        let currentActivePreset = 'repair';
+        let currentCalculatedPrice = 1500;
+        let selectedAddonLabels = [];
+
+        function renderConfiguratorOptions(type) {
+            const container = document.getElementById('calcOptionPills');
+            if (!container) return;
+            container.innerHTML = '';
+            const list = configuratorAddons[type] || [];
+
+            list.forEach(item => {
+                const pill = document.createElement('button');
+                pill.type = 'button';
+                pill.id = 'addon_' + item.id;
+                const isSelected = item.checked;
+                pill.className = isSelected 
+                    ? "px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-600 text-white transition shadow-sm border border-emerald-600 flex items-center gap-1.5"
+                    : "px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition border border-slate-200 flex items-center gap-1.5";
+                pill.innerHTML = `<span>${isSelected ? '✓' : '+'}</span> <span>${item.label}</span>`;
+                pill.onclick = () => toggleAddonOption(type, item.id);
+                container.appendChild(pill);
+            });
+            recalcActiveTotal(type);
+        }
+
+        function toggleAddonOption(type, addonId) {
+            const list = configuratorAddons[type] || [];
+            const item = list.find(x => x.id === addonId);
+            if (!item) return;
+
+            // Exclusive for TV screen sizes or bootcamp cohorts
+            if (type === 'tv' && (addonId === 'tv_std' || addonId === 'tv_med' || addonId === 'tv_large')) {
+                list.forEach(x => { if (x.id === 'tv_std' || x.id === 'tv_med' || x.id === 'tv_large') x.checked = false; });
+                item.checked = true;
+            } else if (type === 'bootcamp') {
+                list.forEach(x => x.checked = false);
+                item.checked = true;
+            } else {
+                item.checked = !item.checked;
+            }
+
+            renderConfiguratorOptions(type);
+        }
+
+        function recalcActiveTotal(type) {
+            const baseData = quotePresets[type] || quotePresets.repair;
+            let total = baseData.basePrice;
+            selectedAddonLabels = [];
+
+            const list = configuratorAddons[type] || [];
+            list.forEach(x => {
+                if (x.checked) {
+                    total += x.price;
+                    selectedAddonLabels.push(x.label.replace(/\(\+KES [0-9,]+\)/g, '').trim());
+                }
+            });
+
+            currentCalculatedPrice = total;
+            const priceEl = document.getElementById('calcPrice');
+            if (priceEl) priceEl.innerText = 'KES ' + total.toLocaleString();
+        }
+
         function calculateQuote(type, btnEl) {
+            currentActivePreset = type;
             const data = quotePresets[type] || quotePresets.repair;
             document.getElementById('calcServiceName').innerText = data.title;
             document.getElementById('calcServiceDesc').innerText = data.desc;
             document.getElementById('calcTurnaround').innerText = data.turnaround;
-            document.getElementById('calcPrice').innerText = data.price;
 
             document.querySelectorAll('.calc-btn').forEach(btn => {
-                btn.className = "calc-btn p-3 bg-slate-50 border border-slate-200 text-slate-700 hover:border-emerald-300 rounded-2xl text-xs font-bold transition";
+                btn.className = "calc-btn group p-4 bg-slate-50 border border-slate-200 text-slate-700 hover:border-emerald-300 rounded-2xl text-xs font-bold transition flex flex-col items-center justify-between gap-2";
             });
             if (btnEl) {
-                btnEl.className = "calc-btn p-3 bg-emerald-50 border-2 border-emerald-500 text-emerald-800 rounded-2xl text-xs font-bold transition shadow-sm";
+                btnEl.className = "calc-btn group p-4 bg-emerald-50 border-2 border-emerald-500 text-emerald-800 rounded-2xl text-xs font-bold transition shadow-sm flex flex-col items-center justify-between gap-2";
             }
+            renderConfiguratorOptions(type);
+        }
+
+        // Apply Configuration to Booking Form
+        function applyConfiguratorToBooking() {
+            const data = quotePresets[currentActivePreset] || quotePresets.repair;
+            selectServiceCard(data.baseKey, currentCalculatedPrice, data.title, false);
+
+            // Populate customer scope notes with configured items
+            const notesEl = document.getElementById('proCustNotes');
+            if (notesEl && selectedAddonLabels.length > 0) {
+                const addText = `[Configured Options: ${selectedAddonLabels.join(' • ')}]`;
+                if (!notesEl.value.includes(addText)) {
+                    notesEl.value = (notesEl.value ? (notesEl.value + '\n') : '') + addText;
+                }
+            }
+
+            // Update live summary badges
+            const hint = document.getElementById('serviceRateHint');
+            const badge = document.getElementById('badgeRateText');
+            const summaryPrice = document.getElementById('summaryServicePrice');
+            const summaryTotal = document.getElementById('summaryTotal');
+            const formatted = 'KES ' + currentCalculatedPrice.toLocaleString();
+
+            if (hint) hint.innerText = 'Estimated: ' + formatted;
+            if (badge) badge.innerText = formatted;
+            if (summaryPrice) summaryPrice.innerText = formatted;
+            if (summaryTotal) summaryTotal.innerText = formatted;
+
+            const bookingSec = document.getElementById('booking');
+            if (bookingSec) {
+                bookingSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            showToast({
+                title: 'Package Applied!',
+                message: `${data.title} configured at ${formatted}. Complete your details below.`
+            });
+        }
+
+        // Quick Estate Selector Helper
+        function setQuickEstate(estateName) {
+            const dropdown = document.getElementById('proEstateDropdown');
+            if (!dropdown) return;
+            dropdown.value = estateName;
+            handleEstateSelection();
+
+            document.querySelectorAll('.estate-pill').forEach(p => {
+                p.classList.remove('bg-emerald-600', 'text-white');
+                if (p.innerText.trim() === estateName || (estateName === 'Nairobi CBD' && p.innerText.trim() === 'CBD')) {
+                    p.classList.add('bg-emerald-600', 'text-white');
+                }
+            });
+            showToast({ title: 'Location Set', message: `Zone set to ${estateName}` });
+        }
+
+        // Quick Scope Append Helper
+        function appendScopeTag(tagText) {
+            const notesEl = document.getElementById('proCustNotes');
+            if (!notesEl) return;
+            if (!notesEl.value.includes(tagText)) {
+                notesEl.value = (notesEl.value ? (notesEl.value + ', ') : '') + tagText;
+                notesEl.focus();
+                showToast({ title: 'Scope Added', message: tagText });
+            }
+        }
+
+        // 1-Click WhatsApp Direct Dispatch
+        function openDirectWhatsAppDispatch() {
+            const serviceName = document.getElementById('summaryServiceName')?.innerText || 'Technical Callout';
+            const location = document.getElementById('summaryLocation')?.innerText || 'Nairobi';
+            const price = document.getElementById('summaryTotal')?.innerText || 'KES 1,500';
+            const clientName = document.getElementById('proCustName')?.value.trim() || 'Client';
+            const notes = document.getElementById('proCustNotes')?.value.trim() || 'Standard technical inquiry';
+
+            const message = 
+                `Hello Wankilb ProTech Dispatch,\nI would like to book an engineering callout:\n` +
+                `• Service: ${serviceName}\n` +
+                `• Location / Estate: ${location}\n` +
+                `• Estimated Total: ${price}\n` +
+                `• Client Name: ${clientName}\n` +
+                `• Scope Details: ${notes}\n\n` +
+                `Please verify field engineer dispatch schedule.`;
+
+            window.open(`https://wa.me/254723489194?text=${encodeURIComponent(message)}`, '_blank');
         }
 
         // Toast System
@@ -2024,12 +2672,12 @@ Notes: ${data.notes || 'Standard callout'}`;
                 let yTerms = yTable + 24;
                 doc.setFillColor(250, 250, 250);
                 doc.setDrawColor(226, 232, 240);
-                doc.roundedRect(15, yTerms, 180, 26, 2, 2, 'FD');
+                doc.roundedRect(15, yTerms, 180, 31, 2, 2, 'FD');
 
                 doc.setFont('helvetica', 'bold');
                 doc.setFontSize(7.5);
                 doc.setTextColor(15, 23, 42);
-                doc.text('TERMS OF SERVICE & QUALITY ASSURANCE:', 20, yTerms + 6);
+                doc.text('TERMS OF SERVICE & PAYMENT SETTLEMENT:', 20, yTerms + 6);
 
                 doc.setFont('helvetica', 'normal');
                 doc.setFontSize(7);
@@ -2037,9 +2685,12 @@ Notes: ${data.notes || 'Standard callout'}`;
                 doc.text('1. All hardware repairs and mounting installations come with a 30-day workmanship warranty.', 20, yTerms + 11);
                 doc.text('2. Computer Packages & AI Bootcamp tuition includes certificate of completion and practical lab access.', 20, yTerms + 16);
                 doc.text('3. Data recovery and backup services follow strict confidentiality and NDAs.', 20, yTerms + 21);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(5, 150, 105);
+                doc.text('4. M-PESA Payment: Buy Goods Till: 4676122  |  Paybill: 247247 (Acc: 194489 / Ticket Ref)', 20, yTerms + 26);
 
                 // 7. Signature & Authorization Section
-                let ySign = yTerms + 32;
+                let ySign = yTerms + 37;
                 doc.setDrawColor(203, 213, 225);
                 doc.line(20, ySign + 14, 80, ySign + 14);
                 doc.line(130, ySign + 14, 190, ySign + 14);
@@ -2120,26 +2771,78 @@ Notes: ${data.notes || 'Standard callout'}`;
 
         // ── Service Category Filter Chips & Tabs ─────────────────────────────
         function filterServicesCategory(cat, btnEl) {
+            const searchInput = document.getElementById('serviceSearchInput');
+            if (searchInput) searchInput.value = '';
+
             const cards = document.querySelectorAll('.service-card');
+            let visibleCount = 0;
+
             cards.forEach(c => {
                 if (cat === 'all') {
                     c.style.display = '';
+                    visibleCount++;
                 } else {
                     const dataCat = c.getAttribute('data-category') || '';
                     const oc = c.getAttribute('onclick') || '';
                     if (dataCat === cat || oc.includes(cat) || c.id === cat) {
                         c.style.display = '';
+                        visibleCount++;
                     } else {
                         c.style.display = 'none';
                     }
                 }
             });
 
+            const countEl = document.getElementById('visibleServicesCount');
+            if (countEl) countEl.innerText = visibleCount;
+
+            const noFound = document.getElementById('noServicesFound');
+            if (noFound) noFound.classList.toggle('hidden', visibleCount > 0);
+
             if (btnEl) {
                 document.querySelectorAll('.svc-tab-btn').forEach(b => {
-                    b.className = "svc-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-100 hover:bg-slate-200 text-slate-700";
+                    b.className = "svc-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center gap-1.5";
                 });
-                btnEl.className = "svc-tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-900 text-white shadow-sm";
+                btnEl.className = "svc-tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-900 text-white shadow-sm flex items-center gap-1.5";
+            }
+        }
+
+        // ── Live Service Search ──────────────────────────────────────────────
+        function handleServiceLiveSearch(query) {
+            const q = (query || '').toLowerCase().trim();
+            const cards = document.querySelectorAll('.service-card');
+            let visibleCount = 0;
+
+            cards.forEach(c => {
+                const searchData = (c.getAttribute('data-search') || '').toLowerCase();
+                const textContent = c.innerText.toLowerCase();
+                const matches = !q || searchData.includes(q) || textContent.includes(q);
+
+                if (matches) {
+                    c.style.display = '';
+                    visibleCount++;
+                } else {
+                    c.style.display = 'none';
+                }
+            });
+
+            const countEl = document.getElementById('visibleServicesCount');
+            if (countEl) countEl.innerText = visibleCount;
+
+            const noFound = document.getElementById('noServicesFound');
+            if (noFound) noFound.classList.toggle('hidden', visibleCount > 0);
+        }
+
+        function clearServiceSearch() {
+            const searchInput = document.getElementById('serviceSearchInput');
+            if (searchInput) searchInput.value = '';
+            filterServicesCategory('all');
+            const firstTab = document.querySelector('.svc-tab-btn');
+            if (firstTab) {
+                document.querySelectorAll('.svc-tab-btn').forEach(b => {
+                    b.className = "svc-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center gap-1.5";
+                });
+                firstTab.className = "svc-tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition duration-200 bg-slate-900 text-white shadow-sm flex items-center gap-1.5";
             }
         }
 
@@ -2176,6 +2879,11 @@ Notes: ${data.notes || 'Standard callout'}`;
                 }
             });
         }
+
+        // Initialize Configurator Default State
+        window.addEventListener('DOMContentLoaded', () => {
+            renderConfiguratorOptions('repair');
+        });
     </script>
 </body>
 

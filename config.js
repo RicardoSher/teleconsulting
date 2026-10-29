@@ -1,13 +1,10 @@
 /**
  * Centralized Configuration for AeroTeleConsult & Wankilb ProTech Suite
  * Update environment variables and shared settings here.
- * v2.0 — Enhanced with client portal, notifications, chat & invoicing.
+ * v2.1 — Enhanced with database resilience, phone/ticket sanitizers & offline detection.
  */
 window.APP_CONFIG = {
     // ── Supabase Database & Auth Configuration ──────────────────────────────
-    // ⚠️  SUPABASE_ANON_KEY must be the "anon public" JWT from:
-    //     Supabase Dashboard → Settings → API → Project API Keys
-    //     It starts with: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     SUPABASE_URL: window.ENV_SUPABASE_URL || localStorage.getItem('SP_URL') || "https://tfetuykairghymxmknxc.supabase.co",
     SUPABASE_ANON_KEY: window.ENV_SUPABASE_ANON_KEY || localStorage.getItem('SP_KEY') || "sb_publishable_9ITJB3dba8vSDsZzcF3psw_YPIdstSx",
 
@@ -45,6 +42,18 @@ window.APP_CONFIG = {
         amateur:   { label: "Amateur Radio Operator Permit",                 price: 25000  },
     },
 
+    // ── Official Payment & Settlement Credentials ──────────────────────────
+    PAYMENT: {
+        METHOD:               "Lipa na M-PESA (Buy Goods / Paybill)",
+        TILL_NUMBER:          "4676122",
+        PAYBILL_NUMBER:       "247247",
+        ACCOUNT_NUMBER:       "194489",
+        BUY_GOODS_NAME:       "Wankilb ProTech / AeroTeleConsult",
+        INSTRUCTIONS_TILL:    "Lipa na M-PESA > Buy Goods and Services > Till Number: 4676122",
+        INSTRUCTIONS_PAYBILL: "Lipa na M-PESA > Pay Bill > Business No: 247247 > Account No: 194489 (or your Ticket Reference ATC-XXXXXX)",
+        INSTRUCTIONS:         "Lipa na M-PESA > Buy Goods Till: 4676122 (or Paybill 247247, Account: 194489)"
+    },
+
     // ── Authorized Secretariat Admins Whitelist ─────────────────────────────
     AUTHORIZED_ADMINS: [
         "info@aeroteleconsult.co.ke",
@@ -53,7 +62,39 @@ window.APP_CONFIG = {
         "kiuradavis@gmail.com",
         "kilbdynamics@gmail.com",
         "kilbdynamicsltd@gmail.com"
-    ]
+    ],
+
+    // ── Utility Helpers ─────────────────────────────────────────────────────
+    /**
+     * Sanitizes and normalizes a Kenyan phone number into standard international format (+254 7XX XXX XXX)
+     */
+    normalizePhone: function(phone) {
+        if (!phone) return '';
+        const cleaned = phone.replace(/[^\d+]/g, '');
+        if (cleaned.startsWith('0')) {
+            return '+254 ' + cleaned.substring(1).replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3').trim();
+        } else if (cleaned.startsWith('254')) {
+            return '+254 ' + cleaned.substring(3).replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3').trim();
+        } else if (cleaned.startsWith('+254')) {
+            return '+254 ' + cleaned.substring(4).replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3').trim();
+        }
+        return phone;
+    },
+
+    /**
+     * Generates a client-safe tracking ticket code if DB default is unavailable
+     */
+    generateTicketCode: function(prefix) {
+        prefix = prefix || 'ATC';
+        return prefix + '-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    },
+
+    /**
+     * Formats currency in KES
+     */
+    formatCurrency: function(amount) {
+        return 'KES ' + Number(amount || 0).toLocaleString('en-KE');
+    }
 };
 
 // ── Global Supabase Client Initializer Helper ───────────────────────────────
@@ -81,3 +122,30 @@ window.getDb = function() {
     }
     return window._supabaseInstance;
 };
+
+// ── Network Connectivity Monitor ───────────────────────────────────────────
+(function setupNetworkMonitor() {
+    window.addEventListener('offline', function() {
+        console.warn("[Network] Connection lost. Caching local activities.");
+        if (typeof showToast === 'function') {
+            showToast({
+                title: 'Offline Mode',
+                message: 'You are currently offline. Check your internet connection.',
+                type: 'error',
+                duration: 5000
+            });
+        }
+    });
+
+    window.addEventListener('online', function() {
+        console.log("[Network] Connection restored.");
+        if (typeof showToast === 'function') {
+            showToast({
+                title: 'Online',
+                message: 'Internet connection re-established.',
+                type: 'success',
+                duration: 3500
+            });
+        }
+    });
+})();
