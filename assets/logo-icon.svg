@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%" fill="none">
+    <defs>
+        <!-- Background Gradients -->
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0f172a"/>
+            <stop offset="50%" stop-color="#0c192e"/>
+            <stop offset="100%" stop-color="#020617"/>
+        </linearGradient>
+
+        <!-- Dynamic Cyan to Royal Blue Arc Gradient -->
+        <linearGradient id="aeroArc1" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#0284c7" stop-opacity="0.2"/>
+            <stop offset="50%" stop-color="#0ea5e9"/>
+            <stop offset="100%" stop-color="#38bdf8"/>
+        </linearGradient>
+
+        <linearGradient id="aeroArc2" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#0369a1"/>
+            <stop offset="70%" stop-color="#0ea5e9"/>
+            <stop offset="100%" stop-color="#7dd3fc"/>
+        </linearGradient>
+
+        <!-- Supersonic Wing Gradient -->
+        <linearGradient id="wingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="40%" stop-color="#f0f9ff"/>
+            <stop offset="100%" stop-color="#bae6fd"/>
+        </linearGradient>
+
+        <!-- Wing Shadow Accent -->
+        <linearGradient id="wingShadow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0284c7"/>
+            <stop offset="100%" stop-color="#0369a1"/>
+        </linearGradient>
+
+        <!-- Glowing Emerald Radar Lock Accent -->
+        <radialGradient id="emeraldPulse" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#34d399"/>
+            <stop offset="60%" stop-color="#10b981"/>
+            <stop offset="100%" stop-color="#059669" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- Soft Drop Shadow Filter -->
+        <filter id="glowFilter" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <filter id="wingShadowFilter" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0284c7" flood-opacity="0.45"/>
+        </filter>
+    </defs>
+
+    <!-- Outer Squircle Container with Precision Tech Border -->
+    <rect x="6" y="6" width="108" height="108" rx="26" fill="url(#bgGradient)"/>
+    <rect x="6" y="6" width="108" height="108" rx="26" stroke="url(#aeroArc1)" stroke-width="2" stroke-opacity="0.7"/>
+
+    <!-- Concentric RF Spectrum Waves / Radar Arcs -->
+    <!-- Arc 3 (Outer) -->
+    <path d="M 28 84 A 42 42 0 0 1 92 84" stroke="url(#aeroArc1)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="4 6" opacity="0.45"/>
+    
+    <!-- Arc 2 (Mid-Spectrum) -->
+    <path d="M 36 78 A 32 32 0 0 1 84 78" stroke="url(#aeroArc2)" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+    
+    <!-- Arc 1 (Inner Resonator) -->
+    <path d="M 45 73 A 20 20 0 0 1 75 73" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" filter="url(#glowFilter)"/>
+
+    <!-- Radar Sweep Coordinates Crosshair Markers -->
+    <line x1="60" y1="20" x2="60" y2="28" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+    <line x1="20" y1="60" x2="28" y2="60" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+    <line x1="92" y1="60" x2="100" y2="60" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+
+    <!-- Aerodynamic Swept Delta Aircraft Wing (Ascending Vector) -->
+    <g filter="url(#wingShadowFilter)">
+        <!-- Left Wing Surface -->
+        <path d="M 60 24 L 38 68 L 56 62 L 60 52 Z" fill="url(#wingShadow)"/>
+        <!-- Right Main High-Lift Delta Wing -->
+        <path d="M 60 24 L 60 52 L 64 62 L 82 68 Z" fill="url(#wingGradient)"/>
+        <!-- Central Fuselage Spine -->
+        <path d="M 60 22 L 62 54 L 60 58 L 58 54 Z" fill="#ffffff"/>
+    </g>
+
+    <!-- Transceiver Center Emerald Beacon Point -->
+    <circle cx="60" cy="74" r="7" fill="url(#emeraldPulse)" filter="url(#glowFilter)"/>
+    <circle cx="60" cy="74" r="3.5" fill="#10b981"/>
+    <circle cx="60" cy="74" r="1.5" fill="#ffffff"/>
+
+    <!-- Orbital Trajectory Ring Ellipse -->
+    <ellipse cx="60" cy="62" rx="42" ry="14" stroke="#7dd3fc" stroke-width="1.25" stroke-dasharray="2 5" transform="rotate(-28 60 62)" opacity="0.65"/>
+    <circle cx="88" cy="48" r="2.5" fill="#38bdf8" filter="url(#glowFilter)"/>
+</svg>
