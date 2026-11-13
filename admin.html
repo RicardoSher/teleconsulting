@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-950">
+<html lang="en" class="h-full bg-slate-950 scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AeroTeleConsult & ProTech | Secretariat Operations Command Console</title>
 
+    <!-- ══ SEO: Block search indexing on admin pages ══════════════════════ -->
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+    <meta name="theme-color" content="#1d4ed8">
+
     <link rel="icon" type="image/svg+xml" href="assets/logo-icon.svg">
+    <link rel="alternate icon" type="image/jpeg" href="fav.jpg">
+    <link rel="apple-touch-icon" href="fav.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -102,6 +108,20 @@
             border: 1px dashed #94a3b8 !important;
             margin: 0 auto !important;
         }
+
+        /* ── UI/UX Polish ─────────────────────────────────────────────── */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.35); border-radius: 999px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(100,116,139,0.6); }
+
+        :focus-visible {
+            outline: 2px solid #2563eb;
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+        button:active { transform: scale(0.97); }
+        ::selection { background: #2563eb; color: #fff; }
     </style>
 </head>
 
@@ -117,7 +137,7 @@
         <div class="max-w-md w-full bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 shadow-2xl relative z-10 space-y-6">
             <div class="text-center space-y-2">
                 <div class="inline-flex w-14 h-14 rounded-2xl overflow-hidden shadow-lg ring-1 ring-white/10 mb-2">
-                    <img src="assets/logo-icon.svg" alt="AeroTeleConsult Logo" class="w-full h-full object-cover">
+                    <img src="assets/logo-icon.svg" alt="AeroTeleConsult Logo" loading="lazy" decoding="async" class="w-full h-full object-cover">
                 </div>
                 <h2 class="text-xl font-bold text-white tracking-tight">Operations Command Console</h2>
                 <p class="text-xs text-slate-400">Authorized Secretariat & Tech Officers Authentication</p>
@@ -158,7 +178,7 @@
         <header class="bg-slate-950 border-b border-slate-800 px-6 py-4 flex flex-wrap items-center justify-between gap-4 shrink-0 shadow-sm">
             <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-2xl overflow-hidden shadow-sm ring-1 ring-white/10 shrink-0">
-                    <img src="assets/logo-icon.svg" alt="AeroTeleConsult Logo" class="w-full h-full object-cover">
+                    <img src="assets/logo-icon.svg" alt="AeroTeleConsult Logo" loading="lazy" decoding="async" class="w-full h-full object-cover">
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
@@ -176,7 +196,7 @@
                     class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-mono bg-slate-900 border border-slate-800 text-slate-300 hover:border-brand-500 cursor-pointer transition">
                 </div>
 
-                <button id="exportCsvBtn" onclick="exportDataToCsv()"
+                <button type="button" id="exportCsvBtn" onclick="exportDataToCsv()"
                     class="px-3 py-1.5 text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-xl border border-slate-800 transition flex items-center gap-1.5 shadow-sm">
                     📊 Export CSV
                 </button>
@@ -487,7 +507,7 @@
                         </button>
                     </div>
 
-                    <button onclick="closeAdminReceiptModal()" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-xl hover:bg-slate-100 transition">
+                    <button type="button" onclick="closeAdminReceiptModal()" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-xl hover:bg-slate-100 transition">
                         ✕
                     </button>
                 </div>
@@ -938,7 +958,7 @@
                 <tr class="hover:bg-slate-800/40 transition">
                     <td class="px-5 py-3.5 font-mono text-amber-400 font-bold whitespace-nowrap">
                         <span>${ticket}</span>
-                        <button onclick="copyAdminTicket('${ticket}')" class="text-slate-500 hover:text-amber-300 ml-1.5 transition text-xs" title="Copy Ticket">📋</button>
+                        <button type="button" onclick="copyAdminTicket('${ticket}')" class="text-slate-500 hover:text-amber-300 ml-1.5 transition text-xs" title="Copy Ticket">📋</button>
                     </td>
                     <td class="px-5 py-3.5">
                         <div class="font-semibold text-slate-100">${company}</div>
@@ -957,7 +977,7 @@
                             class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 rounded-lg text-xs font-semibold transition" title="Open Client Portal in New Tab">
                             🌐 Portal
                         </a>
-                        <button onclick="openUpdateModal('${rowId}')" class="px-3 py-1 bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white border border-brand-500/30 rounded-lg text-xs font-semibold transition">
+                        <button type="button" onclick="openUpdateModal('${rowId}')" class="px-3 py-1 bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white border border-brand-500/30 rounded-lg text-xs font-semibold transition">
                             Manage
                         </button>
                     </td>
@@ -1007,10 +1027,10 @@
                     <td class="px-5 py-3.5 text-slate-400 text-[11px]">${timeline}</td>
                     <td class="px-5 py-3.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">${currentStatus}</span></td>
                     <td class="px-5 py-3.5 text-right space-x-1.5">
-                        <button onclick="openAdminReceiptModal('${rowId}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-semibold transition" title="View & Print 1-Page Receipt">
+                        <button type="button" onclick="openAdminReceiptModal('${rowId}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-semibold transition" title="View & Print 1-Page Receipt">
                             🖨️ Receipt
                         </button>
-                        <button onclick="openServiceModal('${rowId}')" class="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/30 rounded-lg text-xs font-semibold transition">
+                        <button type="button" onclick="openServiceModal('${rowId}')" class="px-2.5 py-1 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/30 rounded-lg text-xs font-semibold transition">
                             Manage
                         </button>
                     </td>
@@ -1598,7 +1618,7 @@
                                     <div class="text-[10px] text-slate-500 font-mono">${date}${size ? ' · '+size : ''}</div>
                                 </div>
                             </div>
-                            ${doc.storage_path ? `<button onclick="adminDownloadDoc('${doc.storage_path}','${doc.filename}')" class="ml-2 px-2 py-1 text-[10px] font-semibold bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white rounded-lg transition flex-shrink-0">Download</button>` : ''}
+                            ${doc.storage_path ? `<button type="button" onclick="adminDownloadDoc('${doc.storage_path}','${doc.filename}')" class="ml-2 px-2 py-1 text-[10px] font-semibold bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white rounded-lg transition flex-shrink-0">Download</button>` : ''}
                         </div>`;
                 }).join('');
             } catch(e) { console.warn(e); }
@@ -1705,10 +1725,10 @@
                         <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${badgeClass}">${currentStatus.replace('_',' ')}</span>
                     </td>
                     <td class="px-5 py-3.5 text-right space-x-1.5">
-                        <button onclick="openClientHub('${rowId}')" class="px-2.5 py-1 bg-emerald-600/15 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/25 rounded-lg text-xs font-semibold transition" title="Open Chat & Documents">
+                        <button type="button" onclick="openClientHub('${rowId}')" class="px-2.5 py-1 bg-emerald-600/15 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/25 rounded-lg text-xs font-semibold transition" title="Open Chat & Documents">
                             💬 Chat
                         </button>
-                        <button onclick="openUpdateModal('${rowId}')" class="px-2.5 py-1 bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white border border-brand-500/30 rounded-lg text-xs font-semibold transition">
+                        <button type="button" onclick="openUpdateModal('${rowId}')" class="px-2.5 py-1 bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white border border-brand-500/30 rounded-lg text-xs font-semibold transition">
                             Manage
                         </button>
                     </td>
@@ -1752,17 +1772,17 @@
                         class="px-3 py-1.5 text-xs font-semibold bg-brand-600/15 hover:bg-brand-600 text-brand-300 hover:text-white border border-brand-500/25 rounded-xl transition flex items-center gap-1.5">
                         🔗 Client Portal
                     </a>
-                    <button onclick="closeClientHub()" class="p-1.5 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition">✕</button>
+                    <button type="button" onclick="closeClientHub()" class="p-1.5 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition">✕</button>
                 </div>
             </div>
 
             <!-- Hub Body: Chat + Documents tabs -->
             <div class="flex border-b border-slate-800 flex-shrink-0">
-                <button onclick="switchHubTab('chat')" id="hubTabChat"
+                <button type="button" onclick="switchHubTab('chat')" id="hubTabChat"
                     class="flex-1 py-2.5 text-xs font-semibold text-white bg-slate-800 border-b-2 border-emerald-500 transition">
                     💬 Messages
                 </button>
-                <button onclick="switchHubTab('docs')" id="hubTabDocs"
+                <button type="button" onclick="switchHubTab('docs')" id="hubTabDocs"
                     class="flex-1 py-2.5 text-xs font-semibold text-slate-400 hover:text-white transition border-b-2 border-transparent">
                     📎 Documents
                 </button>
@@ -1777,7 +1797,7 @@
                     <input id="hubMessageInput" type="text" placeholder="Type your message to the client..."
                         class="flex-grow px-3.5 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
                         onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendHubMessage();}">
-                    <button id="hubSendBtn" onclick="sendHubMessage()"
+                    <button type="button" id="hubSendBtn" onclick="sendHubMessage()"
                         class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex-shrink-0 disabled:opacity-50">
                         Send
                     </button>
@@ -1788,7 +1808,7 @@
             <div id="hubPanelDocs" class="hidden flex-1 overflow-y-auto p-4 space-y-2" style="max-height:calc(90vh - 200px);">
                 <div class="flex items-center justify-between mb-3">
                     <span class="text-xs font-semibold text-slate-300">Uploaded Documents</span>
-                    <button onclick="loadHubDocuments()" class="text-xs text-brand-400 hover:text-brand-300 transition">↺ Refresh</button>
+                    <button type="button" onclick="loadHubDocuments()" class="text-xs text-brand-400 hover:text-brand-300 transition">↺ Refresh</button>
                 </div>
                 <div id="hubDocsList">
                     <p class="text-slate-500 text-xs font-mono text-center py-4">No documents uploaded yet.</p>

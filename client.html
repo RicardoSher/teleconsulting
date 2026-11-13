@@ -8,7 +8,23 @@
 
     <meta name="description" content="Secure executive client portal for AeroTeleConsult. Real-time regulatory tracking, aircraft station licensing, telecom compliance, technical dossiers, and direct engineering secretariat liaison.">
 
+    <!-- �??�?? SEO: Primary Meta �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? -->
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#0284c7">
+    <link rel="canonical" href="https://aeroteleconsult.co.ke/client.html">
+
+    <!-- �??�?? SEO: Open Graph (for direct link sharing) �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AeroTeleConsult Kenya">
+    <meta property="og:title" content="Client Portal | AeroTeleConsult Kenya">
+    <meta property="og:description" content="Secure executive client portal for real-time regulatory tracking and direct secretariat liaison.">
+    <meta property="og:url" content="https://aeroteleconsult.co.ke/client.html">
+    <meta property="og:image" content="https://aeroteleconsult.co.ke/assets/aeroteleconsult_logo_light.jpg">
+    <meta property="og:locale" content="en_KE">
+
     <link rel="icon" type="image/svg+xml" href="assets/logo-icon.svg">
+    <link rel="alternate icon" type="image/jpeg" href="fav.jpg">
+    <link rel="apple-touch-icon" href="fav.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,7 +63,7 @@
     <script src="config.js"></script>
 
     <style>
-        /* ── Animations ──────────────────────────────────────────────── */
+        /* �??��??� Animations �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??� */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(16px); }
             to   { opacity: 1; transform: translateY(0); }
@@ -83,7 +99,7 @@
         .toast-exit        { animation: slideOutRight 0.28s cubic-bezier(0.16,1,0.3,1) forwards; }
         .wave-pulse        { animation: pulseGlow 2.4s ease-in-out infinite; }
 
-        /* ── Sidebar nav item ────────────────────────────────────────── */
+        /* �??��??� Sidebar nav item �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??� */
         .nav-item {
             transition: background 0.18s, color 0.18s, border-color 0.18s;
         }
@@ -97,7 +113,7 @@
             color: #cbd5e1;
         }
 
-        /* ── Status pills ────────────────────────────────────────────── */
+        /* �??��??� Status pills �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??� */
         .status-pill-under_review,
         .status-pill-pending    { background: rgba(245,158,11,0.12); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
         .status-pill-processing,
@@ -109,17 +125,17 @@
         .status-pill-rejected   { background: rgba(239,68,68,0.12);  color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
         .status-pill-action_required { background: rgba(244,63,94,0.15); color: #fb7185; border: 1px solid rgba(244,63,94,0.35); }
 
-        /* ── Chat bubbles ────────────────────────────────────────────── */
+        /* �??��??� Chat bubbles �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??� */
         .chat-bubble-client { background: #0369a1; border-radius: 18px 18px 4px 18px; }
         .chat-bubble-admin  { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px 18px 18px 4px; }
 
-        /* ── Custom scrollbars ───────────────────────────────────────── */
+        /* �??��??� Custom scrollbars �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??� */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.22); border-radius: 999px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(148,163,184,0.4); }
 
-        /* ── Loading Spinner ─────────────────────────────────────────── */
+        /* �??��??� Loading Spinner �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??� */
         .spinner {
             width: 18px; height: 18px;
             border: 2px solid rgba(255,255,255,0.15);
@@ -129,7 +145,7 @@
             display: inline-block;
         }
 
-        /* ── Hover Lift Cards ────────────────────────────────────────── */
+        /* �??��??� Hover Lift Cards �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??� */
         .lift-card {
             transition: transform 0.22s cubic-bezier(0.16,1,0.3,1), box-shadow 0.22s, border-color 0.22s;
         }
@@ -139,7 +155,7 @@
             border-color: rgba(14,165,233,0.35);
         }
 
-        /* ── Order Stepper Connector Lines ───────────────────────────── */
+        /* �??��??� Order Stepper Connector Lines �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??� */
         .stepper-line {
             height: 2px;
             flex: 1;
@@ -151,7 +167,7 @@
             background: linear-gradient(90deg, #0ea5e9, #38bdf8);
         }
 
-        /* ── Form inputs ─────────────────────────────────────────────── */
+        /* �??��??� Form inputs �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??� */
         .portal-input {
             transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
         }
@@ -162,7 +178,7 @@
             background: rgba(15,23,42,0.95);
         }
 
-        /* ── Print Media for Official Order Receipt & EPOS ───────────── */
+        /* �??��??� Print Media for Official Order Receipt & EPOS �??��??��??��??��??��??��??��??��??��??��??��??��??� */
         @media print {
             body * { visibility: hidden !important; }
             #orderReceiptModal, #orderReceiptModal * { visibility: visible !important; }
@@ -188,15 +204,24 @@
             border: 1px dashed #94a3b8 !important;
             margin: 0 auto !important;
         }
+
+        /* �??��??� Accessibility & Micro-interactions �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??� */
+        :focus-visible {
+            outline: 2px solid #0ea5e9;
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+        button:active { transform: scale(0.97); }
+        ::selection { background: #0ea5e9; color: #fff; }
     </style>
 </head>
 
 <body class="h-full bg-slate-950 text-slate-200 font-sans antialiased selection:bg-brand-500 selection:text-white">
 
-    <!-- ══════════════════════ TOAST NOTIFICATION CONTAINER ══════════════ -->
+    <!-- �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? TOAST NOTIFICATION CONTAINER �??�??�??�??�??�??�??�??�??�??�??�??�??�?? -->
     <div id="toastContainer" class="fixed top-5 right-5 z-[9999] flex flex-col gap-2 w-80 pointer-events-none"></div>
 
-    <!-- ══════════════════════ AUTHENTICATION GATE ═══════════════════════ -->
+    <!-- �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? AUTHENTICATION GATE �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? -->
     <div id="authGate" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950 overflow-y-auto">
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_75%_65%_at_50%_-15%,rgba(14,165,233,0.18),transparent)] pointer-events-none"></div>
         <div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(14,165,233,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(14,165,233,0.04)_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] pointer-events-none"></div>
@@ -207,7 +232,7 @@
             <div class="text-center mb-8 animate-fadeInUp">
                 <a href="index.html" class="inline-flex items-center gap-3.5 group">
                     <div class="w-12 h-12 rounded-2xl overflow-hidden shadow-lg ring-1 ring-white/10 group-hover:scale-105 transition-transform duration-200 shrink-0">
-                        <img src="assets/logo-icon.svg" alt="AeroTeleConsult Kenya Logo" class="w-full h-full object-cover">
+                        <img src="assets/logo-icon.svg" alt="AeroTeleConsult Kenya Logo" loading="lazy" decoding="async" class="w-full h-full object-cover">
                     </div>
                     <div class="text-left">
                         <div class="flex items-center gap-1.5">
@@ -224,17 +249,17 @@
 
                 <!-- Auth Selector Tabs -->
                 <div class="flex rounded-2xl bg-slate-950/70 border border-slate-800 p-1 mb-6">
-                    <button id="tabLoginBtn" onclick="switchAuthTab('login')"
+                    <button type="button" id="tabLoginBtn" onclick="switchAuthTab('login')"
                         class="flex-1 py-2.5 text-xs font-bold rounded-xl transition tab-btn active text-white bg-brand-600/90 shadow-sm">
                         Sign In
                     </button>
-                    <button id="tabSignupBtn" onclick="switchAuthTab('signup')"
+                    <button type="button" id="tabSignupBtn" onclick="switchAuthTab('signup')"
                         class="flex-1 py-2.5 text-xs font-bold rounded-xl transition tab-btn text-slate-400 hover:text-slate-200">
                         Register Account
                     </button>
                 </div>
 
-                <!-- ── Sign In Form ── -->
+                <!-- �??��??� Sign In Form �??��??� -->
                 <form id="loginForm" class="space-y-4" onsubmit="handleLogin(event)">
                     <div>
                         <label class="block text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-1.5">Official Email</label>
@@ -262,7 +287,7 @@
                     </button>
                 </form>
 
-                <!-- ── Register Form ── -->
+                <!-- �??��??� Register Form �??��??� -->
                 <form id="signupForm" class="space-y-4 hidden" onsubmit="handleSignup(event)">
                     <div class="grid grid-cols-2 gap-3">
                         <div>
@@ -320,12 +345,24 @@
                     <span>Authenticate via Google Account</span>
                 </button>
 
-                <!-- One-Click Instant Executive Preview -->
-                <button type="button" onclick="enterInstantDemoMode()"
-                    class="w-full mt-3 py-2.5 flex items-center justify-center gap-2 bg-brand-600/10 hover:bg-brand-600/20 border border-brand-500/30 hover:border-brand-500/50 rounded-xl text-xs font-bold text-brand-300 transition shadow-xs group">
-                    <span class="w-2 h-2 rounded-full bg-brand-400 group-hover:animate-ping"></span>
-                    <span>⚡ Instant Executive Console Preview (Demo Mode)</span>
-                </button>
+                <!-- Quick Ticket Tracker (no login needed) -->
+                <div class="mt-4 pt-4 border-t border-slate-800/60">
+                    <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-2 text-center">Already have a ticket? Track it instantly</p>
+                    <div class="flex gap-2">
+                        <input type="text" id="guestTrackInput" placeholder="ATC-XXXXXX"
+                            maxlength="15"
+                            class="flex-1 px-3 py-2.5 bg-slate-950 border border-slate-800 hover:border-slate-700 focus:border-brand-500 focus:outline-none rounded-xl text-xs text-amber-400 placeholder-slate-600 font-mono uppercase tracking-widest transition"
+                            onkeydown="if(event.key==='Enter') guestTrackTicket()">
+                        <button type="button" onclick="guestTrackTicket()"
+                            class="px-4 py-2.5 bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7 7 0 105.65 5.65a7 7 0 0011.3 11.3z"/></svg>
+                            Track
+                        </button>
+                    </div>
+                    <!-- Guest result panel -->
+                    <div id="guestTrackResult" class="hidden mt-3 p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-2 text-xs">
+                    </div>
+                </div>
 
                 <!-- Footer Navigation -->
                 <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500">
@@ -340,12 +377,12 @@
         </div>
     </div>
 
-    <!-- ══════════════════════ AUTHENTICATED EXECUTIVE DASHBOARD ═════════ -->
+    <!-- �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? AUTHENTICATED EXECUTIVE DASHBOARD �??�??�??�??�??�??�??�??�?? -->
     <div id="dashboard" class="hidden h-full flex flex-col">
 
         <!-- Mobile Top Navbar -->
         <header class="lg:hidden flex items-center justify-between px-4 h-14 border-b border-slate-800 bg-slate-950/90 backdrop-blur-md sticky top-0 z-30 shrink-0">
-            <button onclick="toggleMobileSidebar()" class="p-2 text-slate-400 hover:text-white rounded-xl transition">
+            <button type="button" onclick="toggleMobileSidebar()" class="p-2 text-slate-400 hover:text-white rounded-xl transition">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
             <div class="flex items-center gap-2">
@@ -354,14 +391,14 @@
                 </div>
                 <span class="text-sm font-bold text-white tracking-tight">Client Portal</span>
             </div>
-            <button onclick="handleLogout()" class="p-2 text-slate-500 hover:text-rose-400 rounded-xl transition" title="Sign out">
+            <button type="button" onclick="handleLogout()" class="p-2 text-slate-500 hover:text-rose-400 rounded-xl transition" title="Sign out">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
             </button>
         </header>
 
         <div class="flex flex-1 overflow-hidden">
 
-            <!-- ── DESKTOP & MOBILE SIDEBAR ── -->
+            <!-- �??��??� DESKTOP & MOBILE SIDEBAR �??��??� -->
             <aside id="sidebar"
                 class="fixed inset-y-0 left-0 z-40 w-64 flex flex-col border-r border-slate-800/90 bg-slate-900/95 backdrop-blur-2xl shadow-2xl
                        transform -translate-x-full lg:translate-x-0 lg:relative lg:inset-auto transition-transform duration-300">
@@ -369,7 +406,7 @@
                 <!-- Sidebar header brand -->
                 <div class="flex items-center gap-3 px-5 h-16 border-b border-slate-800 shrink-0">
                     <div class="w-9 h-9 rounded-xl overflow-hidden shrink-0 shadow-sm ring-1 ring-white/10">
-                        <img src="assets/logo-icon.svg" alt="AeroTeleConsult Logo" class="w-full h-full object-cover">
+                        <img src="assets/logo-icon.svg" alt="AeroTeleConsult Logo" loading="lazy" decoding="async" class="w-full h-full object-cover">
                     </div>
                     <div class="min-w-0">
                         <p class="text-sm font-bold text-white tracking-tight truncate">Aero<span class="text-brand-400">TeleConsult</span></p>
@@ -379,28 +416,28 @@
 
                 <!-- Nav navigation links -->
                 <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
-                    <button onclick="switchView('overview')" class="nav-item active w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 border-l-2 border-transparent" data-view="overview">
+                    <button type="button" onclick="switchView('overview')" class="nav-item active w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 border-l-2 border-transparent" data-view="overview">
                         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                         <span>Overview</span>
                     </button>
-                    <button onclick="switchView('tickets')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 border-l-2 border-transparent" data-view="tickets">
+                    <button type="button" onclick="switchView('tickets')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 border-l-2 border-transparent" data-view="tickets">
                         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                         <span>My Applications & Orders</span>
                         <span id="ticketBadge" class="hidden ml-auto text-[10px] font-bold bg-brand-600/30 text-brand-300 border border-brand-500/40 rounded-full px-2 py-0.5"></span>
                     </button>
-                    <button onclick="switchView('process')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 border-l-2 border-transparent" data-view="process">
+                    <button type="button" onclick="switchView('process')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 border-l-2 border-transparent" data-view="process">
                         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                         <span>Regulatory Pipeline Map</span>
                     </button>
-                    <button onclick="switchView('documents')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 border-l-2 border-transparent" data-view="documents">
+                    <button type="button" onclick="switchView('documents')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 border-l-2 border-transparent" data-view="documents">
                         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
                         <span>Technical Dossiers</span>
                     </button>
-                    <button onclick="switchView('invoices')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 border-l-2 border-transparent" data-view="invoices">
+                    <button type="button" onclick="switchView('invoices')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 border-l-2 border-transparent" data-view="invoices">
                         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/></svg>
                         <span>Proforma Invoices & Fees</span>
                     </button>
-                    <button onclick="switchView('chat')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 border-l-2 border-transparent" data-view="chat">
+                    <button type="button" onclick="switchView('chat')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 border-l-2 border-transparent" data-view="chat">
                         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                         <span>Secretariat Officer Chat</span>
                         <span id="chatUnreadBadge" class="hidden ml-auto w-2 h-2 rounded-full bg-brand-400 animate-ping"></span>
@@ -425,7 +462,7 @@
                             <p id="sidebarUserName" class="text-xs font-semibold text-white truncate">Client</p>
                             <p id="sidebarUserEmail" class="text-[10px] text-slate-500 font-mono truncate"></p>
                         </div>
-                        <button onclick="handleLogout()" class="p-1.5 text-slate-500 hover:text-rose-400 rounded-lg transition shrink-0" title="Sign out">
+                        <button type="button" onclick="handleLogout()" class="p-1.5 text-slate-500 hover:text-rose-400 rounded-lg transition shrink-0" title="Sign out">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                         </button>
                     </div>
@@ -435,10 +472,10 @@
             <!-- Mobile Backdrop -->
             <div id="sidebarBackdrop" onclick="toggleMobileSidebar()" class="hidden fixed inset-0 z-30 bg-slate-950/80 backdrop-blur-sm lg:hidden"></div>
 
-            <!-- ── MAIN CONTENT CONTAINER ── -->
+            <!-- �??��??� MAIN CONTENT CONTAINER �??��??� -->
             <main class="flex-1 overflow-y-auto bg-slate-950/90">
 
-                <!-- ══════════════════════ VIEW 1: OVERVIEW ══════════════════════ -->
+                <!-- �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? VIEW 1: OVERVIEW �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? -->
                 <div id="view-overview" class="view-panel p-5 sm:p-8 space-y-7 animate-fadeInUp">
 
                     <!-- Header Banner -->
@@ -520,7 +557,7 @@
                                 <h2 class="text-sm font-bold text-white tracking-tight">Active Applications & Work Orders</h2>
                                 <p class="text-[11px] text-slate-400">Click any order to inspect statutory parameters and live milestones.</p>
                             </div>
-                            <button onclick="switchView('tickets')" class="text-xs font-bold text-brand-400 hover:text-brand-300 transition flex items-center gap-1">
+                            <button type="button" onclick="switchView('tickets')" class="text-xs font-bold text-brand-400 hover:text-brand-300 transition flex items-center gap-1">
                                 Full Catalog &rarr;
                             </button>
                         </div>
@@ -534,7 +571,7 @@
 
                     <!-- Quick Command Action Cards -->
                     <div class="grid sm:grid-cols-3 gap-4">
-                        <button onclick="switchView('process')"
+                        <button type="button" onclick="switchView('process')"
                             class="group bg-slate-900/80 border border-slate-800 hover:border-brand-500/40 rounded-2xl p-5 text-left transition lift-card">
                             <div class="w-10 h-10 rounded-xl bg-brand-600/15 border border-brand-500/25 flex items-center justify-center mb-3 group-hover:bg-brand-600/25 transition text-brand-400">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
@@ -543,7 +580,7 @@
                             <p class="text-xs text-slate-400 leading-relaxed">View how your filing moves through CA/KCAA technical checkpoints and board review.</p>
                         </button>
 
-                        <button onclick="switchView('chat')"
+                        <button type="button" onclick="switchView('chat')"
                             class="group bg-slate-900/80 border border-slate-800 hover:border-emerald-500/40 rounded-2xl p-5 text-left transition lift-card">
                             <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-3 group-hover:bg-emerald-500/20 transition text-emerald-400">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
@@ -552,7 +589,7 @@
                             <p class="text-xs text-slate-400 leading-relaxed">Direct encrypted channel with your assigned RF spectrum compliance engineer.</p>
                         </button>
 
-                        <button onclick="switchView('documents')"
+                        <button type="button" onclick="switchView('documents')"
                             class="group bg-slate-900/80 border border-slate-800 hover:border-violet-500/40 rounded-2xl p-5 text-left transition lift-card">
                             <div class="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-3 group-hover:bg-violet-500/20 transition text-violet-400">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
@@ -563,7 +600,7 @@
                     </div>
                 </div>
 
-                <!-- ══════════════════════ VIEW 2: MY APPLICATIONS & ORDERS ════ -->
+                <!-- �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? VIEW 2: MY APPLICATIONS & ORDERS �??�??�??�?? -->
                 <div id="view-tickets" class="view-panel hidden p-5 sm:p-8 space-y-6 animate-fadeInUp">
                     <div class="flex flex-wrap items-center justify-between gap-4">
                         <div>
@@ -584,10 +621,10 @@
                                 class="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 font-mono focus:outline-none focus:border-brand-500">
                         </div>
                         <div class="flex items-center gap-1.5 overflow-x-auto text-[11px] font-semibold">
-                            <button onclick="setOrderFilter('all')" id="filterBtn-all" class="px-3 py-1.5 rounded-xl bg-brand-600 text-white font-bold transition">All Orders</button>
-                            <button onclick="setOrderFilter('active')" id="filterBtn-active" class="px-3 py-1.5 rounded-xl bg-slate-950 text-slate-400 hover:text-white transition">Under Review</button>
-                            <button onclick="setOrderFilter('approved')" id="filterBtn-approved" class="px-3 py-1.5 rounded-xl bg-slate-950 text-slate-400 hover:text-white transition">Approved / Issued</button>
-                            <button onclick="setOrderFilter('services')" id="filterBtn-services" class="px-3 py-1.5 rounded-xl bg-slate-950 text-slate-400 hover:text-white transition">Tech Services</button>
+                            <button type="button" onclick="setOrderFilter('all')" id="filterBtn-all" class="px-3 py-1.5 rounded-xl bg-brand-600 text-white font-bold transition">All Orders</button>
+                            <button type="button" onclick="setOrderFilter('active')" id="filterBtn-active" class="px-3 py-1.5 rounded-xl bg-slate-950 text-slate-400 hover:text-white transition">Under Review</button>
+                            <button type="button" onclick="setOrderFilter('approved')" id="filterBtn-approved" class="px-3 py-1.5 rounded-xl bg-slate-950 text-slate-400 hover:text-white transition">Approved / Issued</button>
+                            <button type="button" onclick="setOrderFilter('services')" id="filterBtn-services" class="px-3 py-1.5 rounded-xl bg-slate-950 text-slate-400 hover:text-white transition">Tech Services</button>
                         </div>
                     </div>
 
@@ -600,7 +637,7 @@
                     </div>
                 </div>
 
-                <!-- ══════════════════════ VIEW 3: PIPELINE ARCHITECTURE (HOW IT WORKS) ══ -->
+                <!-- �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? VIEW 3: PIPELINE ARCHITECTURE (HOW IT WORKS) �??�?? -->
                 <div id="view-process" class="view-panel hidden p-5 sm:p-8 space-y-8 animate-fadeInUp">
                     <!-- Title Banner -->
                     <div class="max-w-4xl mx-auto text-center space-y-3">
@@ -741,7 +778,7 @@
                     </div>
                 </div>
 
-                <!-- ══════════════════════ VIEW 4: TECHNICAL DOSSIERS & FILES ════ -->
+                <!-- �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? VIEW 4: TECHNICAL DOSSIERS & FILES �??�??�??�?? -->
                 <div id="view-documents" class="view-panel hidden p-5 sm:p-8 space-y-6 animate-fadeInUp">
                     <div class="flex flex-wrap items-center justify-between gap-4">
                         <div>
@@ -780,7 +817,7 @@
                     </div>
                 </div>
 
-                <!-- ══════════════════════ VIEW 5: INVOICES & STATUTORY FEES ═════ -->
+                <!-- �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? VIEW 5: INVOICES & STATUTORY FEES �??�??�??�??�?? -->
                 <div id="view-invoices" class="view-panel hidden p-5 sm:p-8 space-y-6 animate-fadeInUp">
                     <div class="flex flex-wrap items-center justify-between gap-4">
                         <div>
@@ -887,7 +924,7 @@
                     </div>
                 </div>
 
-                <!-- ══════════════════════ VIEW 6: CHAT WITH SECRETARIAT ═════════ -->
+                <!-- �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? VIEW 6: CHAT WITH SECRETARIAT �??�??�??�??�??�??�??�??�?? -->
                 <div id="view-chat" class="view-panel hidden flex flex-col animate-fadeInUp" style="height: calc(100vh - 56px);">
                     <!-- Chat Header -->
                     <div class="flex items-center gap-4 px-6 py-4 border-b border-slate-800 bg-slate-900/80 backdrop-blur-md shrink-0">
@@ -940,7 +977,7 @@
         </div>
     </div>
 
-    <!-- ══════════════════════ MODAL: ORDER & APPLICATION DOSSIER (THE PRO TOUCH) ════ -->
+    <!-- �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? MODAL: ORDER & APPLICATION DOSSIER (THE PRO TOUCH) �??�??�??�?? -->
     <div id="orderDossierModal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center hidden p-4 overflow-y-auto">
         <div class="bg-slate-900 border border-slate-800 text-slate-100 rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl relative my-8 animate-popIn space-y-6">
             
@@ -964,7 +1001,7 @@
                     <p id="dossierSubTitle" class="text-xs text-slate-400"></p>
                 </div>
 
-                <button onclick="closeOrderDossierModal()" class="p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition">
+                <button type="button" onclick="closeOrderDossierModal()" class="p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition">
                     ✕
                 </button>
             </div>
@@ -1036,7 +1073,7 @@
         </div>
     </div>
 
-    <!-- ══════════════════════ MODAL: OFFICIAL ORDER RECEIPT & EPOS (PRINTABLE) ════ -->
+    <!-- �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? MODAL: OFFICIAL ORDER RECEIPT & EPOS (PRINTABLE) �??�??�??�?? -->
     <div id="orderReceiptModal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center hidden p-4 overflow-y-auto">
         <div class="bg-white text-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-6 relative border border-slate-200 my-8">
             
@@ -1060,7 +1097,7 @@
                     </div>
 
                     <button type="button" onclick="window.print()" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition flex items-center gap-1">
-                        🖨️ Print
+                        🖨�?? Print
                     </button>
                     <button type="button" onclick="downloadCurrentOrderPDF()" class="px-3 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition flex items-center gap-1 shadow-sm">
                         📥 Download PDF
@@ -1177,7 +1214,7 @@
         </div>
     </div>
 
-    <!-- ══════════════════════ MODAL: EMAIL VERIFICATION NOTICE ══════════ -->
+    <!-- �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? MODAL: EMAIL VERIFICATION NOTICE �??�??�??�??�??�??�??�??�??�?? -->
     <div id="verifyEmailNotice" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950 hidden">
         <div class="max-w-md w-full bg-slate-900 border border-slate-800 rounded-3xl p-8 text-center shadow-2xl animate-popIn">
             <div class="w-16 h-16 mx-auto rounded-full bg-brand-600/15 border border-brand-500/25 flex items-center justify-center mb-5">
@@ -1185,18 +1222,18 @@
             </div>
             <h2 class="text-lg font-extrabold text-white mb-2">Check Your Email</h2>
             <p class="text-xs text-slate-400 leading-relaxed mb-6">We've sent an activation link to <span id="verifyEmailAddress" class="text-brand-400 font-semibold font-mono"></span>. Click it to confirm your credentials.</p>
-            <button onclick="document.getElementById('verifyEmailNotice').classList.add('hidden')"
+            <button type="button" onclick="document.getElementById('verifyEmailNotice').classList.add('hidden')"
                 class="w-full py-3 text-xs font-bold text-white bg-brand-600 hover:bg-brand-500 rounded-xl transition">
                 Return to Login Gate
             </button>
         </div>
     </div>
 
-    <!-- ══════════════════════ CORE APPLICATION SCRIPT ═══════════════════ -->
+    <!-- �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? CORE APPLICATION SCRIPT �??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�??�?? -->
     <script>
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     // GLOBAL APPLICATION STATE
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     let db, currentUser;
     let allApplications = [];
     let allServiceOrders = [];
@@ -1273,9 +1310,9 @@
         }
     };
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     // INITIALIZATION
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     document.addEventListener('DOMContentLoaded', async () => {
         db = window.getDb();
         if (!db) {
@@ -1291,27 +1328,56 @@
         if (ticketParam) {
             const signupTicket = document.getElementById('signupTicket');
             if (signupTicket) signupTicket.value = ticketParam.toUpperCase();
+            // Also pre-fill the guest tracker
+            const guestInput = document.getElementById('guestTrackInput');
+            if (guestInput) { guestInput.value = ticketParam.toUpperCase(); guestTrackTicket(); }
             switchAuthTab('signup');
         }
 
         // Auth state changes
         if (db && db.auth) {
+            // dashboardReady prevents double-init:
+            //  - onAuthStateChange fires INITIAL_SESSION synchronously on page load
+            //  - updateUser() (ticket linking) fires USER_UPDATED — must be ignored
+            //  - Google OAuth callback fires SIGNED_IN via onAuthStateChange
+            // We rely solely on onAuthStateChange for init; getSession() is kept
+            // only as a fallback for environments where the listener fires late.
+            let dashboardReady = false;
+
             db.auth.onAuthStateChange(async (event, session) => {
-                if (session && session.user) {
+                // Sign-out or session gone → back to auth gate
+                if (event === 'SIGNED_OUT' || !session || !session.user) {
+                    dashboardReady = false;
+                    currentUser = null;
+                    allApplications = [];
+                    allServiceOrders = [];
+                    showAuthGate();
+                    return;
+                }
+                // These events fire after updateUser() or token refresh — ignore once loaded
+                if (event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') return;
+
+                // INITIAL_SESSION or SIGNED_IN — init once only
+                if (!dashboardReady) {
+                    dashboardReady = true;
                     currentUser = session.user;
                     await initDashboard();
-                } else {
-                    showAuthGate();
                 }
             });
 
-            const { data: { session } } = await db.auth.getSession();
-            if (session && session.user) {
-                currentUser = session.user;
+            // Fallback: if INITIAL_SESSION event didn't fire (some browsers/configs),
+            // getSession() catches us. If dashboardReady already true, skip.
+            const { data: { session: existingSession } } = await db.auth.getSession();
+            if (!existingSession || !existingSession.user) {
+                // No session at all — show auth gate immediately
+                if (!dashboardReady) showAuthGate();
+            } else if (!dashboardReady) {
+                // Listener fired late — init from here as fallback
+                dashboardReady = true;
+                currentUser = existingSession.user;
                 await initDashboard();
-            } else {
-                showAuthGate();
             }
+            // If dashboardReady is already true, onAuthStateChange handled it — do nothing
         } else {
             showAuthGate();
         }
@@ -1338,6 +1404,31 @@
         document.getElementById('sidebarUserEmail').textContent = currentUser.email || '';
         document.getElementById('avatarCircle').textContent = name.charAt(0).toUpperCase();
 
+        // ── Handle OAuth return: link any pending ticket to this account ──────
+        // If the user typed a ticket code before clicking 'Sign in with Google',
+        // we saved it in localStorage before the OAuth redirect. Now consume + verify it.
+        try {
+            const pendingTicket = localStorage.getItem('ATC_OAUTH_PENDING_TICKET');
+            if (pendingTicket) {
+                localStorage.removeItem('ATC_OAUTH_PENDING_TICKET');  // consume immediately
+                // Verify this ticket actually belongs to this email before linking
+                const { data: ticketRow } = await db
+                    .from(window.APP_CONFIG.TABLE_SUBMISSIONS)
+                    .select('tracking_ticket,ticket_code,email')
+                    .or(`tracking_ticket.eq.${pendingTicket},ticket_code.eq.${pendingTicket}`)
+                    .eq('email', currentUser.email)   // ownership check — must match
+                    .maybeSingle();
+                if (ticketRow) {
+                    // Confirmed — link it to user metadata for future logins
+                    await db.auth.updateUser({ data: { ticket_ref: pendingTicket } });
+                    showToast({ title: 'Ticket Linked', message: `${pendingTicket} linked to your account.`, type: 'success' });
+                } else {
+                    // Ticket doesn't match this Google account's email — refuse silently
+                    console.warn(`OAuth ticket ${pendingTicket} not found for ${currentUser.email} — not linked.`);
+                }
+            }
+        } catch (e) { console.warn('OAuth ticket link error:', e); }
+
         // Load data in parallel
         await Promise.all([
             loadAllDossiers(),
@@ -1346,11 +1437,24 @@
         ]);
 
         initChat();
+
+        // If arrived via ?ticket= deep-link, switch to tickets view
+        const urlTicket = new URLSearchParams(window.location.search).get('ticket');
+        if (urlTicket) {
+            setTimeout(() => {
+                switchView('tickets');
+                // Highlight matching ticket if rendered
+                setTimeout(() => {
+                    const card = document.querySelector(`[data-ticket="${urlTicket.toUpperCase()}"]`);
+                    if (card) { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); card.classList.add('ring-2','ring-brand-400'); }
+                }, 600);
+            }, 300);
+        }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     // AUTHENTICATION TAB & HANDLERS
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     function switchAuthTab(tab) {
         const isLogin = tab === 'login';
         document.getElementById('loginForm').classList.toggle('hidden', !isLogin);
@@ -1457,9 +1561,9 @@
     function showAuthError(id, msg)  { const el = document.getElementById(id); el.textContent = msg; el.classList.remove('hidden'); }
     function hideAuthError(id)       { document.getElementById(id).classList.add('hidden'); }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     // NAVIGATION & VIEW SWITCHING
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     function switchView(view) {
         document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden'));
         document.querySelectorAll('.nav-item').forEach(n => {
@@ -1490,9 +1594,88 @@
         bd.classList.toggle('hidden');
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
+    // ── Guest Ticket Tracker (no auth required) ──────────────────────────────
+    async function guestTrackTicket() {
+        const input  = document.getElementById('guestTrackInput');
+        const result = document.getElementById('guestTrackResult');
+        if (!input || !result) return;
+
+        const code = input.value.trim().toUpperCase();
+        if (!code) { input.focus(); return; }
+        if (!code.startsWith('ATC-') && !code.startsWith('WP-')) {
+            result.classList.remove('hidden');
+            result.innerHTML = `<p class="text-rose-400 font-semibold">⚠ Invalid format — ticket codes start with <span class="font-mono">ATC-</span> or <span class="font-mono">WP-</span></p>`;
+            return;
+        }
+
+        result.classList.remove('hidden');
+        result.innerHTML = `<p class="text-slate-400 animate-pulse">🔍 Looking up <span class="font-mono text-amber-400">${code}</span>…</p>`;
+
+        try {
+            const db = window.getDb();
+            // Search regulatory submissions
+            const { data: subData } = await db
+                .from(window.APP_CONFIG.TABLE_SUBMISSIONS)
+                .select('tracking_ticket,ticket_code,company_name,full_name,sector_track,status,status_notes,assigned_officer,created_at')
+                .or(`tracking_ticket.eq.${code},ticket_code.eq.${code}`)
+                .maybeSingle();
+
+            // Search work orders
+            const { data: ordData } = await db
+                .from(window.APP_CONFIG.TABLE_WORK_ORDERS || 'tech_service_orders')
+                .select('order_id,ticket_code,company_name,full_name,service_type,status,status_notes,created_at')
+                .or(`order_id.eq.${code},ticket_code.eq.${code}`)
+                .maybeSingle();
+
+            const item = subData || ordData;
+
+            if (!item) {
+                result.innerHTML = `
+                    <p class="text-slate-300 font-semibold">Ticket not found</p>
+                    <p class="text-slate-500 mt-1">No record for <span class="font-mono text-amber-400">${code}</span>. Double-check the reference or <a href="mailto:kilbdynamicsltd@gmail.com" class="text-brand-400 underline">contact us</a>.</p>`;
+                return;
+            }
+
+            // Status badge colours
+            const STATUS_MAP = {
+                submitted:    { label: 'Submitted',     color: 'bg-blue-500/20 text-blue-300 border-blue-500/30' },
+                under_review: { label: 'Under Review',  color: 'bg-amber-500/20 text-amber-300 border-amber-500/30' },
+                review:       { label: 'Under Review',  color: 'bg-amber-500/20 text-amber-300 border-amber-500/30' },
+                processing:   { label: 'Processing',    color: 'bg-brand-500/20 text-brand-300 border-brand-500/30' },
+                board_review: { label: 'Board Review',  color: 'bg-purple-500/20 text-purple-300 border-purple-500/30' },
+                pending:      { label: 'Pending',       color: 'bg-slate-500/20 text-slate-300 border-slate-500/30' },
+                approved:     { label: 'Approved ✓',   color: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' },
+                completed:    { label: 'Completed ✓',  color: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' },
+                rejected:     { label: 'Rejected',      color: 'bg-rose-500/20 text-rose-300 border-rose-500/30' },
+            };
+            const st  = item.status || 'pending';
+            const stv = STATUS_MAP[st] || { label: st, color: 'bg-slate-500/20 text-slate-300 border-slate-500/30' };
+            const name = item.company_name || item.full_name || '—';
+            const officer = item.assigned_officer || 'Secretariat Desk';
+            const note  = item.status_notes || 'No additional notes at this time.';
+            const date  = item.created_at ? new Date(item.created_at).toLocaleDateString('en-KE', { day:'numeric', month:'short', year:'numeric' }) : '—';
+
+            result.innerHTML = `
+                <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+                    <span class="font-mono text-amber-400 font-bold tracking-wider">${code}</span>
+                    <span class="px-2.5 py-1 rounded-lg border text-[10px] font-bold uppercase tracking-wider ${stv.color}">${stv.label}</span>
+                </div>
+                <div class="space-y-1.5 text-slate-400">
+                    <div class="flex gap-2"><span class="text-slate-500 w-20 shrink-0">Applicant</span><span class="text-slate-200 font-semibold">${name}</span></div>
+                    <div class="flex gap-2"><span class="text-slate-500 w-20 shrink-0">Filed</span><span>${date}</span></div>
+                    <div class="flex gap-2"><span class="text-slate-500 w-20 shrink-0">Handler</span><span>${officer}</span></div>
+                </div>
+                ${note ? `<p class="mt-3 pt-3 border-t border-slate-800 text-slate-400 leading-relaxed">${note}</p>` : ''}
+                <p class="mt-3 text-[10px] text-slate-600">For detailed updates, documents &amp; chat — <button onclick="switchAuthTab('login')" class="text-brand-400 underline font-semibold">sign in</button> or <button onclick="switchAuthTab('signup')" class="text-brand-400 underline font-semibold">register</button> with this ticket.</p>`;
+        } catch (err) {
+            result.innerHTML = `<p class="text-rose-400">Connection error. Please try again.</p>`;
+            console.error('Guest track error:', err);
+        }
+    }
+
     // DATA LOADING: APPLICATIONS & ORDERS (THE PRO TOUCH)
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     async function loadAllDossiers() {
         try {
             // 1. Fetch regulatory submissions
@@ -1505,13 +1688,14 @@
 
             if (!subErr && subData) subs = subData;
 
-            // 2. Also query any ticket associated in user metadata
+            // 2. Also fetch any ticket in user metadata — ONLY if it also matches user's email
             const metaTicket = currentUser.user_metadata?.ticket_ref;
             if (metaTicket && !subs.some(s => (s.tracking_ticket || s.ticket_code) === metaTicket)) {
                 const { data: metaData } = await db
                     .from(window.APP_CONFIG.TABLE_SUBMISSIONS)
                     .select('*')
-                    .or(`tracking_ticket.eq.${metaTicket},ticket_code.eq.${metaTicket}`);
+                    .or(`tracking_ticket.eq.${metaTicket},ticket_code.eq.${metaTicket}`)
+                    .eq('email', currentUser.email);   // ← enforce email ownership
                 if (metaData && metaData.length) subs = [...subs, ...metaData];
             }
 
@@ -1526,53 +1710,8 @@
                 if (ordData) orders = ordData;
             } catch(e) {}
 
-            // Fallback high-fidelity demonstration dossiers if account has no active filings
-            if (subs.length === 0 && orders.length === 0) {
-                subs = [
-                    {
-                        tracking_ticket: "ATC-89F2A1",
-                        company_name: "Phoenix Aviation Executive Charters",
-                        full_name: "Captain John Mwangi (Chief Pilot)",
-                        email: currentUser.email || "ops@phoenixaviation.co.ke",
-                        phone: "+254 723 489 194",
-                        sector_track: "aviation",
-                        aircraft_tail: "5Y-PAE",
-                        aircraft_model: "Beechcraft King Air 350 (Avionics Refit)",
-                        status: "board_review",
-                        status_notes: "Technical co-channel interference simulation verified with CA Spectrum Planning Directorate. Form SR-304 KCAA airworthiness sign-off synchronized. Awaiting formal board gazettement signature.",
-                        assigned_officer: "Eng. David Kiura (Director of Frequency Compliance)",
-                        created_at: new Date(Date.now() - 4 * 86400000).toISOString()
-                    },
-                    {
-                        tracking_ticket: "ATC-71B3E0",
-                        company_name: "SafariNet Fiber & Carrier Network",
-                        full_name: "Amina Hassan (CTO)",
-                        email: currentUser.email || "ops@safari.net",
-                        phone: "+254 712 345 678",
-                        sector_track: "telecom",
-                        target_framework: "nfp_tier2",
-                        estimated_capex: 45000000,
-                        status: "processing",
-                        status_notes: "Statutory equity documentation verified for 30% local ownership. Radio spectrum coordinate modeling submitted for international border coordination check.",
-                        assigned_officer: "Secretariat Telecom Desk / CA Secretariat",
-                        created_at: new Date(Date.now() - 7 * 86400000).toISOString()
-                    },
-                    {
-                        tracking_ticket: "ATC-94C012",
-                        company_name: "East Africa Radio Amateur Station",
-                        full_name: "Dr. Peter Omondi",
-                        email: currentUser.email || "p.omondi@amateur.org",
-                        phone: "+254 700 112 233",
-                        sector_track: "amateur",
-                        amateur_class: "class_a",
-                        amateur_suffix: "KAA",
-                        status: "approved",
-                        status_notes: "Communications Authority licensing committee affirmed authorization. Call sign 5Z4/KAA reserved. Formal physical license certificate printed and ready for collection.",
-                        assigned_officer: "Secretariat Radio Section",
-                        created_at: new Date(Date.now() - 12 * 86400000).toISOString()
-                    }
-                ];
-            }
+            // No filings found — real empty state (fake demo data removed for security)
+            // renderApplicationsCatalog() will render an empty-state card.
 
             allApplications = subs;
             allServiceOrders = orders;
@@ -1615,7 +1754,7 @@
             aviation: {
                 label: 'Aeronautical Station',
                 badge: 'bg-brand-500/15 border-brand-500/30 text-brand-300',
-                icon: '✈️',
+                icon: '✈�??',
                 desc: item.aircraft_tail ? `Aircraft: ${item.aircraft_tail} (${item.aircraft_model || 'Fleet'})` : 'VHF/HF Air Station Licensing'
             },
             telecom: {
@@ -1633,13 +1772,13 @@
             amateur: {
                 label: 'Amateur Radio Permit',
                 badge: 'bg-amber-500/15 border-amber-500/30 text-amber-300',
-                icon: '🎙️',
+                icon: '🎙�??',
                 desc: `Class: ${(item.amateur_class || 'A').toUpperCase()} • Call: ${item.amateur_suffix || 'TBD'}`
             },
             hardware_repair: {
                 label: 'ProTech Hardware Order',
                 badge: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-300',
-                icon: '🛠️',
+                icon: '🛠�??',
                 desc: item.device_model ? `Device: ${item.device_model}` : 'Hardware Diagnostics & Repair'
             },
             tv_mounting: {
@@ -1673,9 +1812,9 @@
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     // RENDER: OVERVIEW ORDERS LIST
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     function renderOverviewOrders() {
         const container = document.getElementById('overviewTicketList');
         const list = [...allApplications, ...allServiceOrders].slice(0, 4);
@@ -1694,9 +1833,9 @@
         container.innerHTML = list.map(item => renderOrderCardHTML(item)).join('');
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     // RENDER: FULL APPLICATIONS & ORDERS CATALOG (WITH PRO TOUCH)
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     function renderApplicationsCatalog() {
         const container = document.getElementById('ticketListContainer');
         const query = (document.getElementById('orderSearchInput')?.value || '').toLowerCase().trim();
@@ -1718,11 +1857,34 @@
         }
 
         if (!list.length) {
-            container.innerHTML = `
+            const noRealData = allApplications.length === 0 && allServiceOrders.length === 0;
+            const hasQuery   = !!query;
+            container.innerHTML = (noRealData && !hasQuery) ? `
+                <div class="px-6 py-16 text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-slate-800/60 border border-slate-700 flex items-center justify-center mx-auto mb-5 text-3xl">📋</div>
+                    <p class="text-sm font-bold text-slate-300 mb-2">No applications on file</p>
+                    <p class="text-xs text-slate-500 max-w-xs mx-auto mb-5 leading-relaxed">
+                        Your account is linked to <span class="text-slate-300 font-semibold">${currentUser.email}</span>.
+                        No regulatory submissions or service orders have been filed with this email yet.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-2 justify-center">
+                        <a href="index.html#intake" class="inline-flex items-center gap-2 px-4 py-2.5 bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold rounded-xl transition">
+                            ✈ Submit Regulatory Filing
+                        </a>
+                        <a href="services.html" class="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition">
+                            ⚡ Tech Service Order
+                        </a>
+                    </div>
+                    <p class="mt-5 text-[10px] text-slate-600">
+                        Filed under a different email?
+                        <button onclick="handleLogout()" class="text-brand-400 hover:underline font-semibold">Sign in with that email</button>
+                        or contact <a href="mailto:kilbdynamicsltd@gmail.com" class="text-brand-400 hover:underline">secretariat</a>.
+                    </p>
+                </div>` : `
                 <div class="px-6 py-14 text-center text-slate-500 text-xs">
-                    <p class="text-sm font-semibold text-slate-400 mb-1">No matching dossiers found</p>
-                    <p class="text-slate-500 max-w-sm mx-auto mb-4">Try clearing your search query or submit a new regulatory filing.</p>
-                    <button onclick="document.getElementById('orderSearchInput').value='';setOrderFilter('all')" class="text-xs text-brand-400 hover:underline font-bold">
+                    <p class="text-sm font-semibold text-slate-400 mb-1">No matching dossiers</p>
+                    <p class="text-slate-500 max-w-sm mx-auto mb-4">Try clearing your search or switching filter tabs.</p>
+                    <button type="button" onclick="document.getElementById('orderSearchInput').value='';setOrderFilter('all')" class="text-xs text-brand-400 hover:underline font-bold">
                         Clear Filters
                     </button>
                 </div>`;
@@ -1790,7 +1952,7 @@
                 <div class="flex items-center gap-2 shrink-0">
                     <button type="button" onclick="inspectOrderDossier('${ticket}')"
                         class="px-3 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-sm flex items-center gap-1">
-                        🔍 Inspect Dossier
+                        �???? Inspect Dossier
                     </button>
                     <button type="button" onclick="showOrderReceipt('${ticket}')"
                         class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-xs transition">
@@ -1821,9 +1983,9 @@
         renderApplicationsCatalog();
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     // MODAL: INSPECT ORDER DOSSIER (THE PRO TOUCH)
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     function inspectOrderDossier(ticketCode) {
         const item = [...allApplications, ...allServiceOrders].find(x => getTicketCode(x) === ticketCode);
         if (!item) return;
@@ -2041,9 +2203,9 @@
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     // MODAL: OFFICIAL STATUTORY ORDER RECEIPT & EPOS (PRINTABLE)
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     function showOrderReceipt(ticketCode) {
         const item = [...allApplications, ...allServiceOrders].find(x => getTicketCode(x) === ticketCode);
         if (!item) return;
@@ -2094,9 +2256,9 @@
             : 'px-3 py-1 rounded-lg bg-white shadow-sm text-slate-900 font-bold transition font-mono';
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     // HOW IT WORKS: INTERACTIVE PROCESS STAGE SELECTOR
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     function selectProcessStage(stageNum) {
         const info = PROCESS_STAGES[stageNum];
         if (!info) return;
@@ -2147,16 +2309,16 @@
 
                 <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-2">
                     <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-                        <span>🛡️</span> Risk Elimination Guarantee
+                        <span>🛡�??</span> Risk Elimination Guarantee
                     </h4>
                     <p class="text-xs text-slate-400 leading-relaxed">${info.riskMitigation}</p>
                 </div>
             </div>`;
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     // TECHNICAL DOSSIERS & DOCUMENTS
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     async function loadDocuments() {
         const container = document.getElementById('documentList');
         try {
@@ -2224,9 +2386,9 @@
         loadDocuments();
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     // PROFORMA INVOICES & STATUTORY STATEMENTS
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     async function loadInvoices() {
         const container = document.getElementById('invoiceList');
         const PRICING = window.APP_CONFIG.PRICING || {};
@@ -2296,9 +2458,9 @@
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     // REALTIME CHAT CHANNEL WITH SECRETARIAT
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     function initChat() {
         loadChatStream();
         if (db && db.channel) {
@@ -2418,9 +2580,9 @@
         if (badge) badge.classList.add('hidden');
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     // TOAST NOTIFICATION SYSTEM
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     function showToast({ title, message, type = 'success', duration = 4500 }) {
         const container = document.getElementById('toastContainer');
         if (!container) return;
@@ -2455,31 +2617,17 @@
         return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
     
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     // INSTANT EXECUTIVE CONSOLE DEMO MODE
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     function enterInstantDemoMode() {
-        window.isDemoMode = true;
-        currentUser = {
-            id: 'demo-exec-user-id',
-            email: 'captain.mwangi@phoenixaviation.co.ke',
-            user_metadata: {
-                full_name: 'Captain John Mwangi (Executive Air Charters)',
-                ticket_ref: 'ATC-89F2A1'
-            }
-        };
-        initDashboard();
-        showToast({
-            title: 'Executive Console Active',
-            message: 'Signed in as Captain John Mwangi (Demo Session). Full interactive dossiers enabled.',
-            type: 'success',
-            duration: 6000
-        });
+        // Demo mode disabled — login required
+        showToast({ title: 'Authentication Required', message: 'Please sign in with your registered email to access the portal.', type: 'info' });
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     // JSDPF OFFICIAL RECEIPT GENERATOR
-    // ─────────────────────────────────────────────────────────────────────────
+    // �??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??��??�
     function downloadCurrentOrderPDF() {
         const ticket = document.getElementById('rcptTicketDisplay')?.textContent || 'ATC-RECEIPT';
         const client = document.getElementById('rcptClientDisplay')?.textContent || 'AeroTeleConsult Client';

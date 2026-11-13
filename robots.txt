@@ -1,0 +1,21 @@
+# AeroTeleConsult Kenya & Wankilb ProTech — robots.txt
+# Generated: 2026-11-13
+
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /services.html
+Allow: /assets/
+
+# Block admin, portal and legacy pages from crawlers
+Disallow: /admin.html
+Disallow: /admin001.html
+Disallow: /client.html
+Disallow: /config.js
+Disallow: /supabase/
+Disallow: /supabaseClient.js
+
+# Block crawler access to SQL migration files
+Disallow: /*.sql
+
+Sitemap: https://aeroteleconsult.co.ke/sitemap.xml
